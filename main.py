@@ -101,7 +101,8 @@ def create_html(data):
     # Detayları JS için JSON'a çevir
     data_json = json.dumps({item['symbol']: item['details'] for item in data})
     
-    html = f"""
+    # Hata veren uzun metni küçük parçalara bölerek güvenli hale getiriyoruz
+    html_header = f"""
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -179,10 +180,9 @@ def create_html(data):
             <div id="coin-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
     """
     
+    html_content = ""
     for item in data:
-        # Puan çubuğu genişliğini ve pozisyonunu hesapla (-3 -> 0, +3 -> 100)
-        # Score bar calculation: -3 is 0%, +3 is 100%
-        # Width represents absolute intensity, margin-left represents direction
+        # Puan çubuğu genişliğini ve pozisyonunu hesapla
         intensity = abs(item['score']) / 3 * 50 
         
         if item['score'] >= 0:
@@ -190,7 +190,7 @@ def create_html(data):
         else:
             bar_style = f"width: {intensity}%; left: {50 - intensity}%; background-color: {item['bar_color']};"
             
-        html += f"""
+        html_content += f"""
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: {item['bg_color']}; border: 1px solid {item['border_color']};"
              data-symbol="{item['symbol']}" data-score="{item['score']}">
@@ -217,7 +217,7 @@ def create_html(data):
         </div>
         """
             
-    html += f"""
+    html_footer = f"""
             </div>
             
             <div id="details-modal" class="hidden fixed inset-0 modal z-50 flex items-center justify-center p-4">
@@ -302,4 +302,39 @@ def create_html(data):
                     renderGrid();
                 }}
                 
-                // Modal
+                // Modal Functions
+                function showDetails(symbol) {{
+                    const details = data[symbol];
+                    document.getElementById('modal-title').innerText = symbol + ' Score Details';
+                    let content = '';
+                    for (const [key, value] of Object.entries(details)) {{
+                        const color = value > 0 ? 'text-green-400' : (value < 0 ? 'text-red-400' : 'text-slate-400');
+                        content += `<div class='flex justify-between'><span>${{key}}</span><span class='${{color}} font-bold'>${{value}}</span></div>`;
+                    }}
+                    document.getElementById('modal-content').innerHTML = content;
+                    document.getElementById('details-modal').classList.remove('hidden');
+                }}
+                
+                function closeDetails() {{
+                    document.getElementById('details-modal').classList.hidden = true;
+                    document.getElementById('details-modal').classList.add('hidden');
+                }}
+            </script>
+            
+            <footer class="mt-20 p-8 text-slate-600 text-sm text-center">
+                <p class="text-xs uppercase tracking-widest">© 2026 BASED VECTOR ALPHA TERMINAL</p>
+            </footer>
+        </div>
+    </body>
+    </html>
+    """
+    
+    # Tüm parçaları birleştir
+    final_html = html_header + html_content + html_footer
+    
+    with open("index.html", "w", encoding="utf-8") as f:
+        f.write(final_html)
+
+if __name__ == "__main__":
+    market_data = analyze_market()
+    create_html(market_data)
