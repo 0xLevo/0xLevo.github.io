@@ -3,6 +3,7 @@ import pandas as pd
 import pandas_ta as ta
 import time
 from datetime import datetime
+import json # Hata almamak için eklenmiştir
 
 # --- CMC TOP 100 LIST ---
 CMC_TOP_100 = ['BTC', 'ETH', 'USDT', 'BNB', 'SOL', 'XRP', 'USDC', 'ADA', 'AVAX', 'DOGE', 'DOT', 'TRX', 'LINK', 'MATIC', 'TON', 'SHIB', 'LTC', 'DAI', 'BCH', 'ATOM', 'UNI', 'LEO', 'NEAR', 'OKB', 'INJ', 'OP', 'ICP', 'FIL', 'LDO', 'TIA', 'STX', 'APT', 'ARB', 'RNDR', 'VET', 'KAS', 'ETC', 'MNT', 'CRO', 'ALGO', 'RUNE', 'EGLD', 'SEI', 'SUI', 'AAVE', 'ORDI', 'BEAM', 'FLOW', 'MINA', 'FTM', 'SAND', 'THETA', 'MANA', 'AXS', 'CHZ', 'GALA', 'EOS', 'IOTA', 'KCS', 'GRT', 'NEO', 'SNX', 'DYDX', 'CRV', 'MKR', 'WOO', 'LUNC', 'KAVA', 'IMX', 'HBAR', 'QNT', 'BTT', 'JASMY', 'WIF', 'BONK', 'PYTH', 'FLOKI', 'XLM', 'XMR', 'PEPE', 'AR', 'STRK', 'LRC', 'ZEC', 'KLAY', 'BSV', 'PENDLE', 'FET', 'AGIX', 'OCEAN', 'JUP', 'METIS', 'XAI', 'ALT', 'MANTA', 'RON', 'ENS', 'ANKR', 'MASK']
@@ -86,7 +87,6 @@ def create_html(data):
     now = datetime.now().strftime('%Y-%m-%d %H:%M')
     
     # Detayları JS için JSON'a çevir
-    import json
     data_json = json.dumps({item['symbol']: item['details'] for item in data})
     
     html = f"""
@@ -272,4 +272,5 @@ def create_html(data):
         f.write(html)
 
 if __name__ == "__main__":
-    market_
+    market_data = analyze_market()
+    create_html(market_data)
