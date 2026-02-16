@@ -4,2111 +4,990 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>BasedVector | Alpha Terminal</title>
+        <title>BasedVector | Professional Terminal</title>
         <script src="https://cdn.tailwindcss.com"></script>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
         <style>
-            body { font-family: 'Inter', sans-serif; background-color: #020617; color: #f8fafc; }
-            .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); }
-            .card-hover:hover { border-color: rgba(255,255,255,0.2); background: rgba(30, 41, 59, 0.5); }
+            body { background-color: #0f172a; color: #f1f5f9; font-family: sans-serif; }
+            .glass { background: rgba(30, 41, 59, 0.5); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.05); }
+            .sig-badge { font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; font-weight: 700; }
         </style>
     </head>
-    <body class="p-4 md:p-10">
-        <div class="max-w-6xl mx-auto">
-            <header class="flex flex-col md:flex-row justify-between items-center mb-10 gap-4">
-                <div>
-                    <h1 class="text-4xl font-800 tracking-tighter italic">BASEDVECTOR<span class="text-blue-500">.COM</span></h1>
-                    <p class="text-slate-500 font-medium">Real-time Market Alpha Terminal</p>
-                </div>
-                <div class="glass px-4 py-2 rounded-full text-sm font-semibold text-slate-400">
-                    Last Scan: <span class="text-blue-400">16 Feb, 22:33 UTC</span>
+    <body class="p-4 md:p-6">
+        <div class="max-w-7xl mx-auto">
+            <header class="flex justify-between items-center mb-8 pb-4 border-b border-slate-700">
+                <h1 class="text-3xl font-extrabold tracking-tighter">BASED<span class="text-blue-500">VECTOR</span></h1>
+                <div class="text-right text-xs">
+                    <p class="text-slate-400">Market Data: MEXC</p>
+                    <p class="font-mono text-blue-400">2026-02-16 22:37 UTC</p>
                 </div>
             </header>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
     
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">USDC</h3>
-                        <p class="text-blue-400 font-mono text-sm">$1.0005</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">
-                        BUY
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">50.3</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bullish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">TRX</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.2853</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">
-                        BUY
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">68.0</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bullish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">USDE</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.9995</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">
-                        BUY
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">52.2</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bullish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">IP</h3>
-                        <p class="text-blue-400 font-mono text-sm">$1.178</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">
-                        BUY
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">54.3</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bullish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">MUBARAK</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.020299</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">
-                        BUY
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">64.0</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bullish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">ANB</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.01933</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">
-                        BUY
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">54.6</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bullish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">NEURAART</h3>
-                        <p class="text-blue-400 font-mono text-sm">$1.5567e-05</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">
-                        BUY
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">41.5</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bullish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">LUNA</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.06685</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">
-                        BUY
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">55.4</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bullish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">UMA</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.5441</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">
-                        BUY
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">57.9</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bullish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">ALEO</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.08559</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">
-                        BUY
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">54.0</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bullish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">SOMNUS</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.0538</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">
-                        BUY
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-green-400">23.8</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        Oversold • MACD Bullish • Below EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">STORJ</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.11014</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">
-                        BUY
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">58.1</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bullish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">DUSK</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.10867</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">
-                        BUY
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">52.5</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bullish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">PPTAI</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.003438</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">
-                        BUY
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-green-400">23.7</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        Oversold • MACD Bullish • Below EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">HNT</h3>
-                        <p class="text-blue-400 font-mono text-sm">$1.42</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">
-                        BUY
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">69.0</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bullish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">BDX</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.08063</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">
-                        BUY
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">52.2</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bullish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">MOODENG</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.0636</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">
-                        BUY
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">63.1</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bullish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">MAGIC</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.07506</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">
-                        BUY
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">66.5</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bullish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">FHE</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.04175</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">
-                        BUY
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">39.5</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        Low RSI • MACD Bullish • Below EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">MBG</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.2928</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">
-                        BUY
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">39.7</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        Low RSI • MACD Bullish • Below EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">THENT</h3>
-                        <p class="text-blue-400 font-mono text-sm">$5.48e-05</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">
-                        BUY
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">34.9</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        Low RSI • MACD Bullish • Below EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">SZNP</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.1112</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">
-                        BUY
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">39.5</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        Low RSI • MACD Bullish • Below EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">SOL</h3>
-                        <p class="text-blue-400 font-mono text-sm">$85.86</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">50.9</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">XRP</h3>
-                        <p class="text-blue-400 font-mono text-sm">$1.4849</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">52.7</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">PEPE</h3>
-                        <p class="text-blue-400 font-mono text-sm">$4.478e-06</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">58.5</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">BNB</h3>
-                        <p class="text-blue-400 font-mono text-sm">$625.75</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">52.2</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">SUI</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.9899</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">53.9</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">TAO</h3>
-                        <p class="text-blue-400 font-mono text-sm">$199.03</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">65.5</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">ZEC</h3>
-                        <p class="text-blue-400 font-mono text-sm">$292.08</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">55.3</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">LTC</h3>
-                        <p class="text-blue-400 font-mono text-sm">$55.04</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">52.0</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">ADA</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.2849</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">54.9</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">BCH</h3>
-                        <p class="text-blue-400 font-mono text-sm">$572.8</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">65.4</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">INIT</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.12644</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-red-400">78.8</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        Overbought • MACD Bullish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">HYPE</h3>
-                        <p class="text-blue-400 font-mono text-sm">$30.76</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">49.4</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">NEAR</h3>
-                        <p class="text-blue-400 font-mono text-sm">$1.0565</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">54.0</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">UNI</h3>
-                        <p class="text-blue-400 font-mono text-sm">$3.564</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">53.7</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">ASTER</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.7339</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">57.4</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">ENA</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.1232</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">52.7</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">HBAR</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.10143</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">56.3</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">AAVE</h3>
-                        <p class="text-blue-400 font-mono text-sm">$126.92</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">58.3</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">XLM</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.1696</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">52.6</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">SHIB</h3>
-                        <p class="text-blue-400 font-mono text-sm">$6.575e-06</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">53.1</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">LINK</h3>
-                        <p class="text-blue-400 font-mono text-sm">$8.912</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">53.3</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">TON</h3>
-                        <p class="text-blue-400 font-mono text-sm">$1.451</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">51.7</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">WBT</h3>
-                        <p class="text-blue-400 font-mono text-sm">$51.603</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">52.9</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">DASH</h3>
-                        <p class="text-blue-400 font-mono text-sm">$38.23</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">54.1</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">PENGU</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.007288</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">56.6</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">STABLE</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.029989</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-red-400">71.7</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        Overbought • MACD Bullish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">WLD</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.405</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">50.8</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">LIT</h3>
-                        <p class="text-blue-400 font-mono text-sm">$1.702</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">59.0</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">PIPPIN</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.679366</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">58.6</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">AVAX</h3>
-                        <p class="text-blue-400 font-mono text-sm">$9.266</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">50.9</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">POPCAT</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.05492</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">53.6</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">DOT</h3>
-                        <p class="text-blue-400 font-mono text-sm">$1.375</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">54.7</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">ATOM</h3>
-                        <p class="text-blue-400 font-mono text-sm">$2.307</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-red-400">73.7</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        Overbought • MACD Bullish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">CHZ</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.04148</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">52.2</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">RPL</h3>
-                        <p class="text-blue-400 font-mono text-sm">$2.789</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-red-400">77.9</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        Overbought • MACD Bullish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">SPACE</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.011328</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">59.8</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">ULTIMA</h3>
-                        <p class="text-blue-400 font-mono text-sm">$5612.92</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-red-400">77.5</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        Overbought • MACD Bullish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">ETC</h3>
-                        <p class="text-blue-400 font-mono text-sm">$8.85</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">56.2</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">MNT</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.6438</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">51.5</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">ARB</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.1152</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">49.6</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">OG</h3>
-                        <p class="text-blue-400 font-mono text-sm">$3.395</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-green-400">24.2</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        Oversold • MACD Bearish • Below EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">ALLO</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.08782</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">53.8</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">ETHFI</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.4825</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">54.5</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">OM</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.06208</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">60.6</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">WXT</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.020133</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">52.4</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">OGN</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.02636</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-red-400">70.1</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        Overbought • MACD Bullish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">FIL</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.978</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">54.1</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">IDOL</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.02103</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">49.6</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">AIV</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.207</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-green-400">19.7</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        Oversold • MACD Bearish • Below EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">0G</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.6492</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">54.1</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">STEEM</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.05277</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">50.0</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">ZANO</h3>
-                        <p class="text-blue-400 font-mono text-sm">$9.125</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-red-400">71.2</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        Overbought • MACD Bullish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">WIF</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.2361</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">
-                        NEUTRAL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">54.9</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">USD1</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.9994</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #f9731622; color: #f97316; border: 1px solid #f9731644;">
-                        SELL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">34.9</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        Low RSI • MACD Bearish • Below EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">DAI</h3>
-                        <p class="text-blue-400 font-mono text-sm">$1.0001</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #f9731622; color: #f97316; border: 1px solid #f9731644;">
-                        SELL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">39.5</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        Low RSI • MACD Bearish • Below EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">VERDAX</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.04194</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #f9731622; color: #f97316; border: 1px solid #f9731644;">
-                        SELL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">36.7</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        Low RSI • MACD Bearish • Below EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">XUSD</h3>
-                        <p class="text-blue-400 font-mono text-sm">$1.0004</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #f9731622; color: #f97316; border: 1px solid #f9731644;">
-                        SELL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">33.5</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        Low RSI • MACD Bearish • Below EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">RIVER</h3>
-                        <p class="text-blue-400 font-mono text-sm">$13.0484</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #f9731622; color: #f97316; border: 1px solid #f9731644;">
-                        SELL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">38.2</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        Low RSI • MACD Bearish • Below EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">BTC</h3>
-                        <p class="text-blue-400 font-mono text-sm">$68600</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #f9731622; color: #f97316; border: 1px solid #f9731644;">
-                        SELL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">48.0</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Below EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">ETH</h3>
-                        <p class="text-blue-400 font-mono text-sm">$1990.88</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #f9731622; color: #f97316; border: 1px solid #f9731644;">
-                        SELL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">46.0</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Below EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">DOGE</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.10045</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #f9731622; color: #f97316; border: 1px solid #f9731644;">
-                        SELL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">47.1</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Below EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">GOLD(XAUT)</h3>
-                        <p class="text-blue-400 font-mono text-sm">$4971.2</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #f9731622; color: #f97316; border: 1px solid #f9731644;">
-                        SELL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">44.8</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Below EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">EUR</h3>
-                        <p class="text-blue-400 font-mono text-sm">$1.1853</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #f9731622; color: #f97316; border: 1px solid #f9731644;">
-                        SELL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">44.3</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Below EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">WLFI</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.1007</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #f9731622; color: #f97316; border: 1px solid #f9731644;">
-                        SELL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">42.7</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Below EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">GOLD(PAXG)</h3>
-                        <p class="text-blue-400 font-mono text-sm">$5003.84</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #f9731622; color: #f97316; border: 1px solid #f9731644;">
-                        SELL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">45.4</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Below EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">AIX</h3>
-                        <p class="text-blue-400 font-mono text-sm">$3.42946</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #f9731622; color: #f97316; border: 1px solid #f9731644;">
-                        SELL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-red-400">72.8</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        Overbought • MACD Bearish • Above EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">TRUMP</h3>
-                        <p class="text-blue-400 font-mono text-sm">$3.382</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #f9731622; color: #f97316; border: 1px solid #f9731644;">
-                        SELL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">44.3</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Below EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">FDUSD</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.9994</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #f9731622; color: #f97316; border: 1px solid #f9731644;">
-                        SELL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">48.5</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Below EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">MX</h3>
-                        <p class="text-blue-400 font-mono text-sm">$1.8048</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #f9731622; color: #f97316; border: 1px solid #f9731644;">
-                        SELL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">46.7</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Below EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">WBTC</h3>
-                        <p class="text-blue-400 font-mono text-sm">$68412.1</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #f9731622; color: #f97316; border: 1px solid #f9731644;">
-                        SELL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">47.7</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Below EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">H</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.19018</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #f9731622; color: #f97316; border: 1px solid #f9731644;">
-                        SELL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">44.7</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Below EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">ICP</h3>
-                        <p class="text-blue-400 font-mono text-sm">$2.407</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #f9731622; color: #f97316; border: 1px solid #f9731644;">
-                        SELL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">48.4</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Below EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">POWERAI</h3>
-                        <p class="text-blue-400 font-mono text-sm">$1.4709</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #f9731622; color: #f97316; border: 1px solid #f9731644;">
-                        SELL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">42.3</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Below EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">XMR</h3>
-                        <p class="text-blue-400 font-mono text-sm">$326.25</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #f9731622; color: #f97316; border: 1px solid #f9731644;">
-                        SELL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">40.6</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Below EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">ZRO</h3>
-                        <p class="text-blue-400 font-mono text-sm">$1.723</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #f9731622; color: #f97316; border: 1px solid #f9731644;">
-                        SELL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">42.6</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Below EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">APT</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.929</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #f9731622; color: #f97316; border: 1px solid #f9731644;">
-                        SELL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">44.2</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Below EMA20
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass p-5 rounded-2xl card-hover transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-2xl font-800 tracking-tight">ALGO</h3>
-                        <p class="text-blue-400 font-mono text-sm">$0.09465</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background: #f9731622; color: #f97316; border: 1px solid #f9731644;">
-                        SELL
-                    </span>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500">RSI (14)</span>
-                        <span class="font-semibold text-slate-300">47.0</span>
-                    </div>
-                    <div class="pt-2 border-t border-white/5 text-[10px] text-slate-500 uppercase font-bold tracking-widest">
-                        MACD Bearish • Below EMA20
-                    </div>
-                </div>
-            </div>
-            
-            </div>
-            <footer class="mt-20 text-center text-slate-600 text-xs border-t border-white/5 pt-10">
-                &copy; 2026 BASEDVECTOR. All data provided by MEXC Global. Trading involves risk.
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">BNB</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$626.35</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">51.7</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">SOL</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$86.09</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">51.4</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">XRP</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$1.4866</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">51.9</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">USDC</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$1.0005</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">50.6</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">ADA</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.2853</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">54.6</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">AVAX</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$9.28</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">50.8</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">DOT</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$1.379</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">54.8</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">LINK</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$8.91</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">53.0</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">TON</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$1.45</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">49.4</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">SHIB</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$6.58e-06</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">52.6</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">LTC</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$55.19</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">53.0</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">UNI</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$3.569</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">54.4</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">NEAR</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$1.058</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">53.6</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">OKB</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$79.778</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">53.0</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">INJ</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$3.168</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">50.2</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">OP</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.1906</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">50.4</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">FIL</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.978</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">53.2</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">LDO</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.3458</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">49.2</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">TIA</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.3459</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">54.0</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">ARB</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.1153</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">49.3</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">VET</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.008324</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">50.0</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">KAS</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.032113</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">47.6</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">ETC</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$8.84</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">55.2</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">MNT</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.6435</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">51.7</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">CRO</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.08019</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">49.3</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">SEI</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.07562</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">49.6</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">SUI</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.9906</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">53.3</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">AAVE</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$126.85</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">58.1</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">SAND</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.08834</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">50.6</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">CHZ</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.04142</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">51.6</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">GALA</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.004153</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">51.1</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">IOTA</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.07025</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">53.5</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">KCS</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$8.4874</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">53.7</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">GRT</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.02818</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">52.9</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">NEO</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$2.858</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">52.2</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">SNX</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.2961</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">49.5</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">DYDX</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.1093</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">52.9</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">CRV</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.2542</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">50.8</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">WOO</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.01746</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">52.1</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">LUNC</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$3.515e-05</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">54.4</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">IMX</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.171</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">55.3</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">HBAR</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.10154</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">56.0</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">JASMY</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.006002</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">50.5</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">WIF</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.2362</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">54.1</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">BONK</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$6.569e-06</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">51.2</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">FLOKI</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$3.222e-05</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">51.4</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">XLM</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.1695</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">51.9</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">PEPE</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$4.48e-06</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">58.3</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">AR</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$2.039</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">52.4</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">STRK</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.04933</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">49.5</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">LRC</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.03454</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">45.1</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">ZEC</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$291.28</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">54.7</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">BSV</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$17.32</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">58.0</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">PENDLE</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$1.246</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">50.7</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">FET</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.1733</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">53.6</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">JUP</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.1623</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">53.8</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">METIS</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$3.658</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">48.1</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">XAI</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.01071</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">53.1</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">MANTA</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.07998</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">53.5</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">ENS</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$6.824</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">60.0</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">ANKR</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.004671</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">52.2</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">MASK</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.4745</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">50.7</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">TRX</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.2852</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">68.0</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">DAI</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$1.0001</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">39.1</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">BCH</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$572.4</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">66.0</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">FLOW</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.04072</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">38.7</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">PYTH</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.05691</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">62.6</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">BTC</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$68689</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">46.9</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">ETH</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$1991.8</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">46.1</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">DOGE</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.10055</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">47.0</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">ATOM</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$2.315</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">73.3</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">ICP</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$2.41</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">47.3</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">STX</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.2675</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">46.9</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">APT</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.93</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">43.7</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">ALGO</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.09469</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">45.7</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">RUNE</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.4053</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">47.4</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">EGLD</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$4.833</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">45.5</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">ORDI</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$2.81</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">45.5</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">BEAM</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.02417</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">45.9</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">MINA</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.06664</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">45.5</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">MANA</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.10276</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">48.7</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">AXS</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$1.3728</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">41.7</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">KAVA</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.05513</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">48.3</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">QNT</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$70.2</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">47.4</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">BTT</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$3.457e-07</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">47.2</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">XMR</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$327.76</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">41.1</span></span>
+            </div>
+        </div>
+        
+        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm">RON</span>
+                <span class="sig-badge" style="background: #64748b22; color: #64748b; border: 1px solid #64748b44;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-300 mb-2">$0.10013</p>
+            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
+                <span class="text-slate-400">RSI: <span class="font-bold text-white">44.5</span></span>
+            </div>
+        </div>
+        
+            </div>
+            <div class="mt-16 p-6 glass rounded-lg text-slate-400 text-xs text-center">
+                <h3 class="font-bold text-slate-100 mb-2">⚠️ Yasal Sorumluluk Reddi (Disclaimer)</h3>
+                <p>BasedVector.com sitesinde paylaşılan tüm analizler, grafikler ve sinyaller <strong>sadece bilgilendirme amaçlıdır</strong>. Bu bilgiler yatırım tavsiyesi veya finansal danışmanlık kapsamında değildir. Kripto para piyasaları yüksek risk içerir ve sermayenizin tamamını kaybedebilirsiniz. Yapacağınız işlemlerden tamamen siz sorumlusunuz. BasedVector hiçbir sorumluluk kabul etmez.</p>
+            </div>
+            <footer class="mt-8 text-center text-slate-700 text-[10px] uppercase tracking-widest">
+                AUTOMATED ALPHA TERMINAL
             </footer>
         </div>
     </body>
