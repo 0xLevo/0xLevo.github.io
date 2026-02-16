@@ -14,6 +14,33 @@
             .star-btn { font-size: 1.2rem; cursor: pointer; color: rgba(255,255,255,0.3); z-index: 10; position: relative;}
             .star-btn.active { color: #eab308; }
             .modal { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px); }
+            
+            /* Score Bar Styles */
+            .score-bar-container {
+                width: 100%;
+                height: 8px;
+                background-color: #1f2937;
+                border-radius: 4px;
+                position: relative;
+                margin-top: 8px;
+                overflow: hidden;
+            }
+            .score-bar-fill {
+                height: 100%;
+                border-radius: 4px;
+                transition: width 0.5s ease-out;
+                position: absolute;
+                top: 0;
+            }
+            .score-bar-center {
+                position: absolute;
+                top: 0;
+                left: 50%;
+                width: 2px;
+                height: 100%;
+                background-color: #4b5563;
+                transform: translateX(-50%);
+            }
         </style>
     </head>
     <body class="p-4 md:p-8">
@@ -30,7 +57,7 @@
                     </h1>
                     <div class="text-right text-sm">
                         <p class="text-slate-400">Data Source: MEXC Global</p>
-                        <p class="font-mono text-blue-400">2026-02-16 23:31 UTC</p>
+                        <p class="font-mono text-blue-400">2026-02-16 23:50 UTC</p>
                     </div>
                 </div>
                 
@@ -50,7 +77,7 @@
     
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(185, 28, 28, 0.25); border: 1px solid rgba(185, 28, 28, 0.6);"
-             data-symbol="BTC" data-score="-2.0">
+             data-symbol="BTC" data-score="-2.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'BTC')" class="star-btn">★</button>
@@ -59,8 +86,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('BTC')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$68653</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">-2.0/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$68880</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 38.33333333333333%; left: 11.666666666666671%; background-color: #b91c1c;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">-2.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -75,8 +111,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('ETH')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1996.5</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.0/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1998.1</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 0.0%; left: 50%; background-color: #64748b;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.0</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -91,8 +136,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('BNB')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$626.15</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.0/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$626.71</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 0.0%; left: 50%; background-color: #64748b;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.0</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -107,8 +161,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('SOL')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$86.31</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.0/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$86.41</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 0.0%; left: 50%; background-color: #64748b;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.0</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -124,7 +187,16 @@
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('XRP')">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.4876</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -140,7 +212,16 @@
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('USDC')">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.0004</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">1.3/3</span></p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 21.666666666666668%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">1.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -155,8 +236,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('ADA')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2854</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2858</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -172,7 +262,16 @@
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('AVAX')">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">$9.26</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -187,8 +286,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('DOGE')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.10091</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.7/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.10105</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 11.666666666666666%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.7</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -203,8 +311,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('DOT')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.376</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.377</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -220,7 +337,16 @@
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('TRX')">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2846</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.7/3</span></p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 11.666666666666666%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.7</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -235,8 +361,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('LINK')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$8.92</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$8.93</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -252,7 +387,16 @@
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('TON')">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.45</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -267,8 +411,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('SHIB')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$6.583e-06</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$6.582e-06</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -283,8 +436,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('LTC')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$55.14</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.0/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$55</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 0.0%; left: 50%; background-color: #64748b;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.0</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -300,7 +462,16 @@
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('DAI')">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.0002</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.7/3</span></p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 11.666666666666666%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.7</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -315,8 +486,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('BCH')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$568.8</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">-0.7/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$569.2</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 11.666666666666666%; left: 38.333333333333336%; background-color: #ef4444;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">-0.7</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -331,8 +511,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('ATOM')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$2.295</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$2.291</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -347,8 +536,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('UNI')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.611</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.608</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -363,8 +561,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('NEAR')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.0571</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.058</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -379,8 +586,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('OKB')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$79.676</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.0/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$79.742</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 0.0%; left: 50%; background-color: #64748b;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.0</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -395,8 +611,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('INJ')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.162</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.163</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -411,8 +636,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('OP')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1904</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1901</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -427,8 +661,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('ICP')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$2.407</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.7/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$2.415</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 11.666666666666666%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.7</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -444,7 +687,16 @@
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('FIL')">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.977</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -459,8 +711,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('LDO')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.3463</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.3458</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -475,8 +736,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('TIA')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.3461</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.345</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -492,7 +762,16 @@
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('STX')">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2674</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.7/3</span></p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 11.666666666666666%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.7</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -507,8 +786,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('APT')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.932</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.7/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.929</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 11.666666666666666%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.7</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -523,8 +811,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('ARB')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1152</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1151</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -539,8 +836,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('VET')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.00831</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.008317</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -555,8 +861,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('KAS')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.032158</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.0322</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -571,8 +886,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('ETC')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$8.83</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$8.84</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -587,8 +911,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('MNT')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.6454</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.6448</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -603,8 +936,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('CRO')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.08071</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.08063</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -619,8 +961,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('ALGO')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.09469</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.7/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.0946</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 11.666666666666666%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.7</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -635,8 +986,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('RUNE')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.4057</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.7/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.4066</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 11.666666666666666%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.7</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -651,8 +1011,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('EGLD')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$4.828</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.7/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$4.837</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 11.666666666666666%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.7</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -667,8 +1036,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('SEI')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.07605</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.07621</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -683,8 +1061,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('SUI')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.991</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.9907</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -699,8 +1086,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('AAVE')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$126.68</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">-0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$127.02</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 45.0%; background-color: #ef4444;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">-0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -715,8 +1111,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('ORDI')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$2.808</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.7/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$2.818</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 11.666666666666666%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.7</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -732,7 +1137,16 @@
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('BEAM')">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.02419</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.7/3</span></p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 11.666666666666666%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.7</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -747,8 +1161,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('FLOW')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.04057</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">1.0/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.04048</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 16.666666666666664%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">1.0</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -763,8 +1186,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('MINA')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.06651</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.7/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.06654</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 11.666666666666666%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.7</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -779,8 +1211,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('SAND')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.08819</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.0881</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -795,8 +1236,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('MANA')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.10279</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.10282</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -811,8 +1261,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('AXS')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.3689</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.7/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.3732</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 11.666666666666666%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.7</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -827,8 +1286,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('CHZ')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.0416</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.04168</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -843,8 +1311,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('GALA')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.004138</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.004137</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -859,8 +1336,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('IOTA')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.0703</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.0706</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -875,8 +1361,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('KCS')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$8.4885</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$8.4877</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -891,8 +1386,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('GRT')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.02816</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.02818</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -907,8 +1411,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('NEO')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$2.856</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$2.853</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -923,8 +1436,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('SNX')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2965</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2969</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -939,8 +1461,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('DYDX')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1095</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1094</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -956,7 +1487,16 @@
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('CRV')">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2547</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -971,8 +1511,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('WOO')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.01747</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.01749</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -987,8 +1536,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('LUNC')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.525e-05</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">1.0/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.513e-05</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 16.666666666666664%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">1.0</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -1003,8 +1561,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('KAVA')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.05494</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.7/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.05487</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 11.666666666666666%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.7</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -1019,8 +1586,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('IMX')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1705</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1709</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -1035,8 +1611,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('HBAR')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.10175</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.10187</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -1051,8 +1636,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('QNT')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$69.73</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$69.72</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -1067,8 +1661,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('BTT')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.449e-07</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.7/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.452e-07</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 11.666666666666666%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.7</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -1083,8 +1686,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('JASMY')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.006004</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.005999</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -1099,8 +1711,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('WIF')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2365</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2363</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -1115,8 +1736,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('BONK')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$6.591e-06</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$6.585e-06</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -1131,8 +1761,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('PYTH')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.05707</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.0/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.05702</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 0.0%; left: 50%; background-color: #64748b;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.0</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -1147,8 +1786,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('FLOKI')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.229e-05</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.226e-05</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -1163,8 +1811,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('XLM')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1701</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1699</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -1179,8 +1836,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('XMR')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$325.9</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.0/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$325.88</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 0.0%; left: 50%; background-color: #64748b;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.0</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -1195,8 +1861,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('PEPE')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$4.503e-06</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$4.487e-06</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -1211,8 +1886,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('AR')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$2.034</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$2.039</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -1227,8 +1911,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('STRK')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.04927</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.04932</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -1243,8 +1936,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('LRC')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.03429</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">1.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.03424</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 21.666666666666668%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">1.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -1259,8 +1961,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('ZEC')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$290.81</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">-0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$293.47</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 45.0%; background-color: #ef4444;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">-0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -1276,7 +1987,16 @@
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('BSV')">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">$17.34</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.0/3</span></p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 0.0%; left: 50%; background-color: #64748b;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.0</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -1291,8 +2011,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('PENDLE')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.248</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.246</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -1307,8 +2036,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('FET')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1733</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1732</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -1324,13 +2062,22 @@
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('JUP')">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1629</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="METIS" data-score="0.7">
+             data-symbol="METIS" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'METIS')" class="star-btn">★</button>
@@ -1339,8 +2086,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('METIS')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.645</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.7/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.656</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -1355,8 +2111,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('XAI')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.01069</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.01068</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -1371,8 +2136,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('MANTA')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.08028</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.08024</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -1387,8 +2161,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('RON')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.10051</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.7/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.10044</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 11.666666666666666%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.7</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -1403,8 +2186,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('ENS')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$6.826</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.0/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$6.832</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 0.0%; left: 50%; background-color: #64748b;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.0</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -1420,7 +2212,16 @@
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('ANKR')">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.004672</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -1435,8 +2236,17 @@
             </div>
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('MASK')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.4741</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">0.3/3</span></p>
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.4739</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.3</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         
@@ -1453,7 +2263,7 @@
             </div>
             
             <script>
-                const data = {"BTC": {"RSI (14)": 0, "MACD": -3, "CCI (20)": -3}, "ETH": {"RSI (14)": 0, "MACD": -3, "CCI (20)": 3}, "BNB": {"RSI (14)": -1, "MACD": -2, "CCI (20)": 3}, "SOL": {"RSI (14)": -1, "MACD": -2, "CCI (20)": 3}, "XRP": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "USDC": {"RSI (14)": 0, "MACD": 1, "CCI (20)": 3}, "ADA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "AVAX": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "DOGE": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "DOT": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "TRX": {"RSI (14)": -2, "MACD": 1, "CCI (20)": 3}, "LINK": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "TON": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "SHIB": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "LTC": {"RSI (14)": -1, "MACD": -2, "CCI (20)": 3}, "DAI": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "BCH": {"RSI (14)": -2, "MACD": -3, "CCI (20)": 3}, "ATOM": {"RSI (14)": -3, "MACD": 1, "CCI (20)": 3}, "UNI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "NEAR": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "OKB": {"RSI (14)": -1, "MACD": -2, "CCI (20)": 3}, "INJ": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "OP": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "ICP": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "FIL": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "LDO": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "TIA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "STX": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "APT": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "ARB": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "VET": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "KAS": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "ETC": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "MNT": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "CRO": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "ALGO": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "RUNE": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "EGLD": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "SEI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "SUI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "AAVE": {"RSI (14)": -1, "MACD": -3, "CCI (20)": 3}, "ORDI": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "BEAM": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "FLOW": {"RSI (14)": 1, "MACD": -1, "CCI (20)": 3}, "MINA": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "SAND": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "MANA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "AXS": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "CHZ": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "GALA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "IOTA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "KCS": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "GRT": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "NEO": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "SNX": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "DYDX": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "CRV": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "WOO": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "LUNC": {"RSI (14)": -1, "MACD": 1, "CCI (20)": 3}, "KAVA": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "IMX": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "HBAR": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "QNT": {"RSI (14)": 0, "MACD": -2, "CCI (20)": 3}, "BTT": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "JASMY": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "WIF": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "BONK": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "PYTH": {"RSI (14)": -2, "MACD": -1, "CCI (20)": 3}, "FLOKI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "XLM": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "XMR": {"RSI (14)": 0, "MACD": -3, "CCI (20)": 3}, "PEPE": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "AR": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "STRK": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "LRC": {"RSI (14)": 0, "MACD": 1, "CCI (20)": 3}, "ZEC": {"RSI (14)": -1, "MACD": -3, "CCI (20)": 3}, "BSV": {"RSI (14)": -2, "MACD": -1, "CCI (20)": 3}, "PENDLE": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "FET": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "JUP": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "METIS": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "XAI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "MANTA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "RON": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "ENS": {"RSI (14)": -2, "MACD": -1, "CCI (20)": 3}, "ANKR": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "MASK": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}};
+                const data = {"BTC": {"RSI (14)": -1, "MACD": -3, "CCI (20)": -3}, "ETH": {"RSI (14)": 0, "MACD": -3, "CCI (20)": 3}, "BNB": {"RSI (14)": -1, "MACD": -2, "CCI (20)": 3}, "SOL": {"RSI (14)": -1, "MACD": -2, "CCI (20)": 3}, "XRP": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "USDC": {"RSI (14)": 0, "MACD": 1, "CCI (20)": 3}, "ADA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "AVAX": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "DOGE": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "DOT": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "TRX": {"RSI (14)": -2, "MACD": 1, "CCI (20)": 3}, "LINK": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "TON": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "SHIB": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "LTC": {"RSI (14)": -1, "MACD": -2, "CCI (20)": 3}, "DAI": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "BCH": {"RSI (14)": -2, "MACD": -3, "CCI (20)": 3}, "ATOM": {"RSI (14)": -3, "MACD": 1, "CCI (20)": 3}, "UNI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "NEAR": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "OKB": {"RSI (14)": -1, "MACD": -2, "CCI (20)": 3}, "INJ": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "OP": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "ICP": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "FIL": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "LDO": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "TIA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "STX": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "APT": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "ARB": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "VET": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "KAS": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "ETC": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "MNT": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "CRO": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "ALGO": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "RUNE": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "EGLD": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "SEI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "SUI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "AAVE": {"RSI (14)": -1, "MACD": -3, "CCI (20)": 3}, "ORDI": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "BEAM": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "FLOW": {"RSI (14)": 1, "MACD": -1, "CCI (20)": 3}, "MINA": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "SAND": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "MANA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "AXS": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "CHZ": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "GALA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "IOTA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "KCS": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "GRT": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "NEO": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "SNX": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "DYDX": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "CRV": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "WOO": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "LUNC": {"RSI (14)": -1, "MACD": 1, "CCI (20)": 3}, "KAVA": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "IMX": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "HBAR": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "QNT": {"RSI (14)": 0, "MACD": -2, "CCI (20)": 3}, "BTT": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "JASMY": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "WIF": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "BONK": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "PYTH": {"RSI (14)": -2, "MACD": -1, "CCI (20)": 3}, "FLOKI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "XLM": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "XMR": {"RSI (14)": 0, "MACD": -3, "CCI (20)": 3}, "PEPE": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "AR": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "STRK": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "LRC": {"RSI (14)": 0, "MACD": 1, "CCI (20)": 3}, "ZEC": {"RSI (14)": -1, "MACD": -3, "CCI (20)": 3}, "BSV": {"RSI (14)": -2, "MACD": -1, "CCI (20)": 3}, "PENDLE": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "FET": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "JUP": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "METIS": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "XAI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "MANTA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "RON": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "ENS": {"RSI (14)": -2, "MACD": -1, "CCI (20)": 3}, "ANKR": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "MASK": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}};
                 const grid = document.getElementById('coin-grid');
                 const searchInput = document.getElementById('search');
                 const viewToggle = document.getElementById('view-toggle');
