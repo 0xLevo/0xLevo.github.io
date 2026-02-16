@@ -72,7 +72,7 @@ def analyze_market():
             
     return results
 
-def create_html(data):
+def def create_html(data):
     now = datetime.now().strftime('%Y-%m-%d %H:%M')
     
     html = f"""
@@ -84,37 +84,50 @@ def create_html(data):
         <title>BasedVector | Pro Terminal</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <style>
-            body {{ background-color: #0f172a; color: #f1f5f9; font-family: sans-serif; }}
-            .glass {{ background: rgba(30, 41, 59, 0.5); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.05); }}
-            .trend-badge {{ font-size: 0.7rem; padding: 4px 8px; border-radius: 6px; font-weight: 800; }}
+            body {{ background-color: #020617; color: #f1f5f9; font-family: sans-serif; }}
+            .card {{ background: #111827; border: 1px solid #1f2937; transition: all 0.3s; }}
+            .card:hover {{ border-color: #3b82f6; transform: translateY(-2px); }}
+            .trend-badge {{ font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; font-weight: 800; }}
         </style>
     </head>
     <body class="p-4 md:p-6">
         <div class="max-w-7xl mx-auto">
-            <header class="flex justify-between items-center mb-8 pb-4 border-b border-slate-700">
+            <header class="flex justify-between items-center mb-8 pb-4 border-b border-slate-800">
                 <h1 class="text-3xl font-extrabold tracking-tighter">BASED<span class="text-blue-500">VECTOR</span></h1>
                 <div class="text-right text-xs">
-                    <p class="text-slate-400">Veri Kaynağı: MEXC</p>
+                    <p class="text-slate-400">Veri: MEXC Global</p>
                     <p class="font-mono text-blue-400">{now} UTC</p>
                 </div>
             </header>
 
-            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3">
     """
     
     # Skor yüksekten düşüğe sırala
     sorted_data = sorted(data, key=lambda x: x['score_1d'], reverse=True)
     
     for item in sorted_data:
+        # Skor çubuğu rengi
+        bar_color = "bg-red-500" if item['score_1d'] < 0 else "bg-green-500"
+        bar_width = min(abs(item['score_1d']) * 33.33, 100)
+        
         html += f"""
-        <div class="glass p-3 rounded-lg flex flex-col justify-between hover:border-slate-500 transition">
-            <div class="flex justify-between items-center mb-1">
-                <span class="font-bold text-sm">{item['symbol']}</span>
+        <div class="card p-3 rounded-lg flex flex-col justify-between">
+            <div class="flex justify-between items-center mb-2">
+                <span class="font-bold text-sm text-white">{item['symbol']}</span>
                 <span class="trend-badge" style="background: {item['color']}22; color: {item['color']}; border: 1px solid {item['color']}44;">{item['trend']}</span>
             </div>
-            <p class="text-xs font-mono text-slate-300 mb-2">${item['price']}</p>
-            <div class="flex justify-between items-center pt-1 border-t border-slate-700/50 text-[10px]">
-                <span class="text-slate-400">1D Skor: <span class="font-bold text-white">{item['score_1d']}/3</span></span>
+            
+            <p class="text-xs font-mono text-slate-400 mb-3">${item['price']}</p>
+            
+            <div class="space-y-1">
+                <div class="flex justify-between text-[10px] text-slate-500">
+                    <span>1D Puan</span>
+                    <span class="font-bold text-white">{item['score_1d']}/3</span>
+                </div>
+                <div class="w-full bg-slate-800 rounded-full h-1.5">
+                    <div class="{bar_color} h-1.5 rounded-full" style="width: {bar_width}%"></div>
+                </div>
             </div>
         </div>
         """
@@ -122,8 +135,8 @@ def create_html(data):
     # --- YASAL UYARI ---
     html += """
             </div>
-            <div class="mt-16 p-6 glass rounded-lg text-slate-400 text-xs text-center">
-                <h3 class="font-bold text-slate-100 mb-2">⚠️ Yasal Sorumluluk Reddi (Disclaimer)</h3>
+            <div class="mt-16 p-6 card rounded-lg text-slate-500 text-xs text-center">
+                <h3 class="font-bold text-slate-200 mb-2">⚠️ Yasal Sorumluluk Reddi (Disclaimer)</h3>
                 <p>BasedVector.com sitesinde paylaşılan tüm analizler, grafikler ve sinyaller <strong>sadece bilgilendirme amaçlıdır</strong>. Bu bilgiler yatırım tavsiyesi veya finansal danışmanlık kapsamında değildir. Kripto para piyasaları yüksek risk içerir ve sermayenizin tamamını kaybedebilirsiniz. Yapacağınız işlemlerden tamamen siz sorumlusunuz. BasedVector hiçbir sorumluluk kabul etmez.</p>
             </div>
             <footer class="mt-8 text-center text-slate-700 text-[10px] uppercase tracking-widest">
@@ -136,6 +149,3 @@ def create_html(data):
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(html)
 
-if __name__ == "__main__":
-    market_data = analyze_market()
-    create_html(market_data)
