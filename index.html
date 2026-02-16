@@ -9,16 +9,20 @@
         <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
         <style>
             body { background-color: #000000; color: #f1f5f9; font-family: 'Space Grotesk', sans-serif; }
-            .card { background: #0a0a0a; border: 1px solid #161616; transition: all 0.3s; border-radius: 12px; }
+            .card { background: #0a0a0a; border: 1px solid #161616; transition: all 0.3s; border-radius: 12px; cursor: pointer; }
             .card:hover { border-color: #3b82f6; transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.15); }
-            .trend-badge { font-size: 0.65rem; padding: 4px 10px; border-radius: 20px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; }
-            .star-btn { font-size: 1.2rem; cursor: pointer; color: #334155; }
+            .star-btn { font-size: 1.2rem; cursor: pointer; color: #334155; z-index: 10; position: relative;}
             .star-btn.active { color: #eab308; }
             .modal { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px); }
         </style>
     </head>
     <body class="p-4 md:p-8">
         <div class="max-w-7xl mx-auto">
+            
+            <div class="bg-blue-950/50 border border-blue-900 text-blue-200 text-xs text-center p-2 rounded-lg mb-6 font-medium">
+                ⚠️ Legal Disclaimer: All information is for educational purposes only. Not financial advice.
+            </div>
+
             <header class="mb-10 pb-6 border-b border-slate-900">
                 <div class="flex justify-between items-center mb-6">
                     <h1 class="text-4xl font-bold tracking-tighter text-white">
@@ -26,13 +30,17 @@
                     </h1>
                     <div class="text-right text-sm">
                         <p class="text-slate-400">Data Source: MEXC Global</p>
-                        <p class="font-mono text-blue-400">2026-02-16 23:14 UTC</p>
+                        <p class="font-mono text-blue-400">2026-02-16 23:23 UTC</p>
                     </div>
                 </div>
                 
                 <div class="flex flex-col md:flex-row gap-4 glass p-4 rounded-xl bg-slate-950 border border-slate-900">
                     <input type="text" id="search" placeholder="🔍 Search Assets (e.g. BTC)..." class="bg-black p-3 rounded-lg w-full text-sm border border-slate-800 text-white placeholder-slate-600 focus:border-blue-500 focus:outline-none">
-                    <button onclick="toggleView()" id="view-toggle" class="bg-slate-900 hover:bg-slate-800 text-white px-5 py-3 rounded-lg text-sm font-bold flex items-center gap-2 border border-slate-800">
+                    <select id="sort" class="bg-black p-3 rounded-lg text-sm border border-slate-800 text-white focus:border-blue-500">
+                        <option value="score-desc">Score: High to Low</option>
+                        <option value="score-asc">Score: Low to High</option>
+                    </select>
+                    <button onclick="toggleView()" id="view-toggle" class="bg-slate-900 hover:bg-slate-800 text-white px-5 py-3 rounded-lg text-sm font-bold flex items-center gap-2 border border-slate-800 whitespace-nowrap">
                         ⭐ My Watchlist
                     </button>
                 </div>
@@ -40,1307 +48,1307 @@
 
             <div id="coin-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
     
-        <div class="card p-5 flex flex-col justify-between" data-symbol="BTC">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="BTC" data-score="-2.0">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'BTC')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('BTC')">BTC</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'BTC')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">BTC</span>
                 </div>
-                <span class="trend-badge" style="background: #ef444415; color: #ef4444; border: 1px solid #ef444430;">STRONG SELL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #7f1d1d;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$68736</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('BTC')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$68734</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">-2.0/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="ETH">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="ETH" data-score="0.0">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'ETH')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('ETH')">ETH</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'ETH')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">ETH</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1996.5</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('ETH')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1997.3</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.0/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="BNB">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="BNB" data-score="0.0">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'BNB')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('BNB')">BNB</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'BNB')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">BNB</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$627.61</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('BNB')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$627.3</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.0/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="SOL">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="SOL" data-score="0.0">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'SOL')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('SOL')">SOL</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'SOL')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">SOL</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$86.08</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('SOL')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$86.14</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.0/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="XRP">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="XRP" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'XRP')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('XRP')">XRP</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'XRP')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">XRP</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.4888</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('XRP')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.4875</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="USDC">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="USDC" data-score="1.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'USDC')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('USDC')">USDC</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'USDC')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">USDC</span>
                 </div>
-                <span class="trend-badge" style="background: #2dd4bf15; color: #2dd4bf; border: 1px solid #2dd4bf30;">BUY</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #16a34a;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.0005</p>
-                <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">1.0/3</span></p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('USDC')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.0004</p>
+                <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">1.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="ADA">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="ADA" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'ADA')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('ADA')">ADA</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'ADA')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">ADA</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2854</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('ADA')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2857</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="AVAX">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="AVAX" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'AVAX')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('AVAX')">AVAX</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'AVAX')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">AVAX</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('AVAX')">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">$9.27</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="DOGE">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="DOGE" data-score="0.7">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'DOGE')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('DOGE')">DOGE</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'DOGE')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">DOGE</span>
                 </div>
-                <span class="trend-badge" style="background: #2dd4bf15; color: #2dd4bf; border: 1px solid #2dd4bf30;">BUY</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #16a34a;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.10064</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('DOGE')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.10087</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.7/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="DOT">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="DOT" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'DOT')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('DOT')">DOT</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'DOT')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">DOT</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('DOT')">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.376</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="TRX">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="TRX" data-score="0.7">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'TRX')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('TRX')">TRX</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'TRX')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">TRX</span>
                 </div>
-                <span class="trend-badge" style="background: #2dd4bf15; color: #2dd4bf; border: 1px solid #2dd4bf30;">BUY</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #16a34a;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2845</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('TRX')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2843</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.7/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="LINK">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="LINK" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'LINK')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('LINK')">LINK</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'LINK')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">LINK</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$8.911</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('LINK')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$8.926</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="TON">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="TON" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'TON')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('TON')">TON</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'TON')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">TON</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.449</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('TON')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.451</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="SHIB">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="SHIB" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'SHIB')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('SHIB')">SHIB</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'SHIB')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">SHIB</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$6.586e-06</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('SHIB')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$6.584e-06</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="LTC">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="LTC" data-score="0.0">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'LTC')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('LTC')">LTC</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'LTC')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">LTC</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$55.11</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('LTC')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$55.17</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.0/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="DAI">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="DAI" data-score="0.7">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'DAI')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('DAI')">DAI</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'DAI')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">DAI</span>
                 </div>
-                <span class="trend-badge" style="background: #2dd4bf15; color: #2dd4bf; border: 1px solid #2dd4bf30;">BUY</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #16a34a;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.0001</p>
-                <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">1.0/3</span></p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('DAI')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.0002</p>
+                <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.7/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="BCH">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="BCH" data-score="-0.7">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'BCH')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('BCH')">BCH</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'BCH')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">BCH</span>
                 </div>
-                <span class="trend-badge" style="background: #f9731615; color: #f97316; border: 1px solid #f9731630;">SELL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #dc2626;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$569.1</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('BCH')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$569.3</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">-0.7/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="ATOM">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="ATOM" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'ATOM')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('ATOM')">ATOM</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'ATOM')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">ATOM</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$2.303</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('ATOM')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$2.295</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="UNI">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="UNI" data-score="1.0">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'UNI')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('UNI')">UNI</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'UNI')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">UNI</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #16a34a;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.612</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('UNI')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.619</p>
+                <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">1.0/3</span></p>
+            </div>
+        </div>
+        
+        <div class="card p-5 flex flex-col justify-between" data-symbol="NEAR" data-score="0.3">
+            <div class="flex justify-between items-center mb-3">
+                <div class="flex items-center gap-2">
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'NEAR')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">NEAR</span>
+                </div>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
+            </div>
+            
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('NEAR')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.0581</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="NEAR">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="OKB" data-score="0.0">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'NEAR')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('NEAR')">NEAR</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'OKB')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">OKB</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.0577</p>
-                <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
-            </div>
-        </div>
-        
-        <div class="card p-5 flex flex-col justify-between" data-symbol="OKB">
-            <div class="flex justify-between items-center mb-3">
-                <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'OKB')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('OKB')">OKB</span>
-                </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
-            </div>
-            
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$79.83</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('OKB')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$79.749</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.0/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="INJ">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="INJ" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'INJ')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('INJ')">INJ</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'INJ')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">INJ</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('INJ')">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.17</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="OP">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="OP" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'OP')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('OP')">OP</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'OP')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">OP</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1904</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('OP')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1905</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="ICP">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="ICP" data-score="0.7">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'ICP')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('ICP')">ICP</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'ICP')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">ICP</span>
                 </div>
-                <span class="trend-badge" style="background: #2dd4bf15; color: #2dd4bf; border: 1px solid #2dd4bf30;">BUY</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #16a34a;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$2.407</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('ICP')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$2.411</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.7/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="FIL">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="FIL" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'FIL')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('FIL')">FIL</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'FIL')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">FIL</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('FIL')">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.977</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="LDO">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="LDO" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'LDO')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('LDO')">LDO</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'LDO')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">LDO</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.3472</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('LDO')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.347</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="TIA">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="TIA" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'TIA')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('TIA')">TIA</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'TIA')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">TIA</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.3461</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('TIA')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.3467</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="STX">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="STX" data-score="0.7">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'STX')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('STX')">STX</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'STX')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">STX</span>
                 </div>
-                <span class="trend-badge" style="background: #2dd4bf15; color: #2dd4bf; border: 1px solid #2dd4bf30;">BUY</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #16a34a;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2672</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('STX')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2674</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.7/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="APT">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="APT" data-score="0.7">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'APT')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('APT')">APT</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'APT')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">APT</span>
                 </div>
-                <span class="trend-badge" style="background: #2dd4bf15; color: #2dd4bf; border: 1px solid #2dd4bf30;">BUY</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #16a34a;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('APT')">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.932</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.7/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="ARB">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="ARB" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'ARB')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('ARB')">ARB</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'ARB')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">ARB</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('ARB')">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1151</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="VET">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="VET" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'VET')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('VET')">VET</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'VET')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">VET</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.008317</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('VET')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.008318</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="KAS">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="KAS" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'KAS')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('KAS')">KAS</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'KAS')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">KAS</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.032152</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('KAS')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.032178</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="ETC">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="ETC" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'ETC')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('ETC')">ETC</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'ETC')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">ETC</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('ETC')">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">$8.84</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="MNT">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="MNT" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'MNT')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('MNT')">MNT</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'MNT')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">MNT</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.6452</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('MNT')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.646</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="CRO">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="CRO" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'CRO')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('CRO')">CRO</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'CRO')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">CRO</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.08109</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('CRO')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.08076</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="ALGO">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="ALGO" data-score="0.7">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'ALGO')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('ALGO')">ALGO</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'ALGO')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">ALGO</span>
                 </div>
-                <span class="trend-badge" style="background: #2dd4bf15; color: #2dd4bf; border: 1px solid #2dd4bf30;">BUY</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #16a34a;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('ALGO')">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.09476</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.7/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="RUNE">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="RUNE" data-score="0.7">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'RUNE')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('RUNE')">RUNE</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'RUNE')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">RUNE</span>
                 </div>
-                <span class="trend-badge" style="background: #2dd4bf15; color: #2dd4bf; border: 1px solid #2dd4bf30;">BUY</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #16a34a;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.4055</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('RUNE')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.4059</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.7/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="EGLD">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="EGLD" data-score="0.7">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'EGLD')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('EGLD')">EGLD</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'EGLD')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">EGLD</span>
                 </div>
-                <span class="trend-badge" style="background: #2dd4bf15; color: #2dd4bf; border: 1px solid #2dd4bf30;">BUY</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #16a34a;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$4.821</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('EGLD')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$4.826</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.7/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="SEI">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="SEI" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'SEI')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('SEI')">SEI</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'SEI')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">SEI</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.07613</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('SEI')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.07622</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="SUI">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="SUI" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'SUI')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('SUI')">SUI</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'SUI')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">SUI</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.9948</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('SUI')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.9927</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="AAVE">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="AAVE" data-score="-0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'AAVE')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('AAVE')">AAVE</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'AAVE')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">AAVE</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$126.55</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('AAVE')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$126.82</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">-0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="ORDI">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="ORDI" data-score="0.7">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'ORDI')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('ORDI')">ORDI</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'ORDI')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">ORDI</span>
                 </div>
-                <span class="trend-badge" style="background: #2dd4bf15; color: #2dd4bf; border: 1px solid #2dd4bf30;">BUY</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #16a34a;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$2.811</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('ORDI')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$2.813</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.7/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="BEAM">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="BEAM" data-score="0.7">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'BEAM')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('BEAM')">BEAM</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'BEAM')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">BEAM</span>
                 </div>
-                <span class="trend-badge" style="background: #2dd4bf15; color: #2dd4bf; border: 1px solid #2dd4bf30;">BUY</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #16a34a;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('BEAM')">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.02418</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.7/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="FLOW">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="FLOW" data-score="1.0">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'FLOW')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('FLOW')">FLOW</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'FLOW')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">FLOW</span>
                 </div>
-                <span class="trend-badge" style="background: #2dd4bf15; color: #2dd4bf; border: 1px solid #2dd4bf30;">BUY</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #16a34a;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.04069</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('FLOW')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.04064</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">1.0/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="MINA">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="MINA" data-score="0.7">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'MINA')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('MINA')">MINA</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'MINA')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">MINA</span>
                 </div>
-                <span class="trend-badge" style="background: #2dd4bf15; color: #2dd4bf; border: 1px solid #2dd4bf30;">BUY</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #16a34a;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.0666</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('MINA')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.06652</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.7/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="SAND">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="SAND" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'SAND')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('SAND')">SAND</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'SAND')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">SAND</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.08825</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('SAND')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.08829</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="MANA">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="MANA" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'MANA')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('MANA')">MANA</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'MANA')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">MANA</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.10301</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('MANA')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.10292</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="AXS">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="AXS" data-score="0.7">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'AXS')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('AXS')">AXS</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'AXS')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">AXS</span>
                 </div>
-                <span class="trend-badge" style="background: #2dd4bf15; color: #2dd4bf; border: 1px solid #2dd4bf30;">BUY</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #16a34a;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.3697</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('AXS')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.3692</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.7/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="CHZ">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="CHZ" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'CHZ')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('CHZ')">CHZ</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'CHZ')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">CHZ</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.04159</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('CHZ')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.04151</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="GALA">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="GALA" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'GALA')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('GALA')">GALA</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'GALA')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">GALA</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.004144</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('GALA')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.004141</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="IOTA">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="IOTA" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'IOTA')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('IOTA')">IOTA</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'IOTA')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">IOTA</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.07031</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('IOTA')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.07032</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="KCS">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="KCS" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'KCS')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('KCS')">KCS</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'KCS')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">KCS</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$8.4733</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('KCS')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$8.4863</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="GRT">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="GRT" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'GRT')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('GRT')">GRT</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'GRT')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">GRT</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.0282</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('GRT')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.02823</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="NEO">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="NEO" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'NEO')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('NEO')">NEO</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'NEO')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">NEO</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$2.858</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('NEO')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$2.86</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="SNX">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="SNX" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'SNX')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('SNX')">SNX</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'SNX')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">SNX</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2968</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('SNX')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.297</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="DYDX">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="DYDX" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'DYDX')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('DYDX')">DYDX</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'DYDX')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">DYDX</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1093</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('DYDX')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1094</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="CRV">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="CRV" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'CRV')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('CRV')">CRV</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'CRV')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">CRV</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2541</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('CRV')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2544</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="WOO">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="WOO" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'WOO')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('WOO')">WOO</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'WOO')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">WOO</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.01747</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('WOO')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.01746</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="LUNC">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="LUNC" data-score="1.0">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'LUNC')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('LUNC')">LUNC</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'LUNC')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">LUNC</span>
                 </div>
-                <span class="trend-badge" style="background: #2dd4bf15; color: #2dd4bf; border: 1px solid #2dd4bf30;">BUY</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #16a34a;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.515e-05</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('LUNC')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.518e-05</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">1.0/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="KAVA">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="KAVA" data-score="0.7">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'KAVA')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('KAVA')">KAVA</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'KAVA')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">KAVA</span>
                 </div>
-                <span class="trend-badge" style="background: #2dd4bf15; color: #2dd4bf; border: 1px solid #2dd4bf30;">BUY</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #16a34a;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.0551</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('KAVA')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.05508</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.7/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="IMX">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="IMX" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'IMX')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('IMX')">IMX</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'IMX')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">IMX</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.171</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('IMX')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1707</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="HBAR">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="HBAR" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'HBAR')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('HBAR')">HBAR</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'HBAR')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">HBAR</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.10167</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('HBAR')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.10183</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="QNT">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="QNT" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'QNT')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('QNT')">QNT</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'QNT')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">QNT</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$69.84</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('QNT')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$69.76</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="BTT">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="BTT" data-score="0.7">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'BTT')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('BTT')">BTT</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'BTT')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">BTT</span>
                 </div>
-                <span class="trend-badge" style="background: #2dd4bf15; color: #2dd4bf; border: 1px solid #2dd4bf30;">BUY</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #16a34a;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.448e-07</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('BTT')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.453e-07</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.7/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="JASMY">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="JASMY" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'JASMY')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('JASMY')">JASMY</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'JASMY')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">JASMY</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.006015</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('JASMY')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.006007</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="WIF">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="WIF" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'WIF')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('WIF')">WIF</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'WIF')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">WIF</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2366</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('WIF')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2371</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="BONK">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="BONK" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'BONK')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('BONK')">BONK</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'BONK')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">BONK</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$6.577e-06</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('BONK')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$6.587e-06</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="PYTH">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="PYTH" data-score="0.0">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'PYTH')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('PYTH')">PYTH</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'PYTH')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">PYTH</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.05702</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('PYTH')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.05722</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.0/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="FLOKI">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="FLOKI" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'FLOKI')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('FLOKI')">FLOKI</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'FLOKI')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">FLOKI</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('FLOKI')">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.226e-05</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="XLM">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="XLM" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'XLM')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('XLM')">XLM</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'XLM')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">XLM</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('XLM')">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1699</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="XMR">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="XMR" data-score="0.0">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'XMR')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('XMR')">XMR</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'XMR')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">XMR</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$325.41</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('XMR')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$325.54</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.0/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="PEPE">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="PEPE" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'PEPE')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('PEPE')">PEPE</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'PEPE')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">PEPE</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$4.496e-06</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('PEPE')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$4.503e-06</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="AR">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="AR" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'AR')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('AR')">AR</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'AR')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">AR</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$2.032</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('AR')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$2.033</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="STRK">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="STRK" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'STRK')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('STRK')">STRK</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'STRK')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">STRK</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('STRK')">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.04924</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="LRC">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="LRC" data-score="1.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'LRC')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('LRC')">LRC</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'LRC')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">LRC</span>
                 </div>
-                <span class="trend-badge" style="background: #2dd4bf15; color: #2dd4bf; border: 1px solid #2dd4bf30;">BUY</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #16a34a;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.03446</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('LRC')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.03445</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">1.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="ZEC">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="ZEC" data-score="-0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'ZEC')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('ZEC')">ZEC</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'ZEC')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">ZEC</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$290.89</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('ZEC')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$291.8</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">-0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="BSV">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="BSV" data-score="0.0">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'BSV')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('BSV')">BSV</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'BSV')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">BSV</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$17.35</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('BSV')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$17.34</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.0/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="PENDLE">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="PENDLE" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'PENDLE')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('PENDLE')">PENDLE</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'PENDLE')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">PENDLE</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.245</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('PENDLE')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.246</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="FET">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="FET" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'FET')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('FET')">FET</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'FET')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">FET</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('FET')">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1734</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="JUP">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="JUP" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'JUP')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('JUP')">JUP</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'JUP')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">JUP</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.163</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('JUP')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1631</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="METIS">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="METIS" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'METIS')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('METIS')">METIS</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'METIS')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">METIS</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('METIS')">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.653</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="XAI">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="XAI" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'XAI')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('XAI')">XAI</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'XAI')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">XAI</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('XAI')">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.0107</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="MANTA">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="MANTA" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'MANTA')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('MANTA')">MANTA</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'MANTA')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">MANTA</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.08003</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('MANTA')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.08026</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="RON">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="RON" data-score="0.7">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'RON')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('RON')">RON</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'RON')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">RON</span>
                 </div>
-                <span class="trend-badge" style="background: #2dd4bf15; color: #2dd4bf; border: 1px solid #2dd4bf30;">BUY</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #16a34a;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.10051</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('RON')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.10047</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.7/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="ENS">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="ENS" data-score="0.0">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'ENS')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('ENS')">ENS</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'ENS')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">ENS</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$6.823</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('ENS')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$6.828</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.0/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="ANKR">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="ANKR" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'ANKR')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('ANKR')">ANKR</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'ANKR')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">ANKR</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.004664</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('ANKR')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.004689</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" data-symbol="MASK">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="MASK" data-score="0.3">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, 'MASK')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('MASK')">MASK</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'MASK')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">MASK</span>
                 </div>
-                <span class="trend-badge" style="background: #a3a3a315; color: #a3a3a3; border: 1px solid #a3a3a330;">NEUTRAL</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: #525252;" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.4744</p>
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('MASK')">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.4745</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">0.3/3</span></p>
             </div>
         </div>
@@ -1358,10 +1366,11 @@
             </div>
             
             <script>
-                const data = {"BTC": {"RSI (14)": 0, "MACD": -3, "CCI (20)": -3}, "ETH": {"RSI (14)": 0, "MACD": -3, "CCI (20)": 3}, "BNB": {"RSI (14)": -1, "MACD": -2, "CCI (20)": 3}, "SOL": {"RSI (14)": -1, "MACD": -2, "CCI (20)": 3}, "XRP": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "USDC": {"RSI (14)": -1, "MACD": 1, "CCI (20)": 3}, "ADA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "AVAX": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "DOGE": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "DOT": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "TRX": {"RSI (14)": -2, "MACD": 1, "CCI (20)": 3}, "LINK": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "TON": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "SHIB": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "LTC": {"RSI (14)": -1, "MACD": -2, "CCI (20)": 3}, "DAI": {"RSI (14)": 1, "MACD": -1, "CCI (20)": 3}, "BCH": {"RSI (14)": -2, "MACD": -3, "CCI (20)": 3}, "ATOM": {"RSI (14)": -3, "MACD": 1, "CCI (20)": 3}, "UNI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "NEAR": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "OKB": {"RSI (14)": -1, "MACD": -2, "CCI (20)": 3}, "INJ": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "OP": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "ICP": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "FIL": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "LDO": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "TIA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "STX": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "APT": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "ARB": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "VET": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "KAS": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "ETC": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "MNT": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "CRO": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "ALGO": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "RUNE": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "EGLD": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "SEI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "SUI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "AAVE": {"RSI (14)": -1, "MACD": -3, "CCI (20)": 3}, "ORDI": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "BEAM": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "FLOW": {"RSI (14)": 1, "MACD": -1, "CCI (20)": 3}, "MINA": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "SAND": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "MANA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "AXS": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "CHZ": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "GALA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "IOTA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "KCS": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "GRT": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "NEO": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "SNX": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "DYDX": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "CRV": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "WOO": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "LUNC": {"RSI (14)": -1, "MACD": 1, "CCI (20)": 3}, "KAVA": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "IMX": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "HBAR": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "QNT": {"RSI (14)": 0, "MACD": -2, "CCI (20)": 3}, "BTT": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "JASMY": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "WIF": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "BONK": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "PYTH": {"RSI (14)": -2, "MACD": -1, "CCI (20)": 3}, "FLOKI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "XLM": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "XMR": {"RSI (14)": 0, "MACD": -3, "CCI (20)": 3}, "PEPE": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "AR": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "STRK": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "LRC": {"RSI (14)": 0, "MACD": 1, "CCI (20)": 3}, "ZEC": {"RSI (14)": -1, "MACD": -3, "CCI (20)": 3}, "BSV": {"RSI (14)": -2, "MACD": -1, "CCI (20)": 3}, "PENDLE": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "FET": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "JUP": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "METIS": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "XAI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "MANTA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "RON": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "ENS": {"RSI (14)": -2, "MACD": -1, "CCI (20)": 3}, "ANKR": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "MASK": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}};
+                const data = {"BTC": {"RSI (14)": 0, "MACD": -3, "CCI (20)": -3}, "ETH": {"RSI (14)": 0, "MACD": -3, "CCI (20)": 3}, "BNB": {"RSI (14)": -1, "MACD": -2, "CCI (20)": 3}, "SOL": {"RSI (14)": -1, "MACD": -2, "CCI (20)": 3}, "XRP": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "USDC": {"RSI (14)": 0, "MACD": 1, "CCI (20)": 3}, "ADA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "AVAX": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "DOGE": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "DOT": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "TRX": {"RSI (14)": -2, "MACD": 1, "CCI (20)": 3}, "LINK": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "TON": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "SHIB": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "LTC": {"RSI (14)": -1, "MACD": -2, "CCI (20)": 3}, "DAI": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "BCH": {"RSI (14)": -2, "MACD": -3, "CCI (20)": 3}, "ATOM": {"RSI (14)": -3, "MACD": 1, "CCI (20)": 3}, "UNI": {"RSI (14)": -1, "MACD": 1, "CCI (20)": 3}, "NEAR": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "OKB": {"RSI (14)": -1, "MACD": -2, "CCI (20)": 3}, "INJ": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "OP": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "ICP": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "FIL": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "LDO": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "TIA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "STX": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "APT": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "ARB": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "VET": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "KAS": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "ETC": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "MNT": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "CRO": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "ALGO": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "RUNE": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "EGLD": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "SEI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "SUI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "AAVE": {"RSI (14)": -1, "MACD": -3, "CCI (20)": 3}, "ORDI": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "BEAM": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "FLOW": {"RSI (14)": 1, "MACD": -1, "CCI (20)": 3}, "MINA": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "SAND": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "MANA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "AXS": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "CHZ": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "GALA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "IOTA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "KCS": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "GRT": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "NEO": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "SNX": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "DYDX": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "CRV": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "WOO": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "LUNC": {"RSI (14)": -1, "MACD": 1, "CCI (20)": 3}, "KAVA": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "IMX": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "HBAR": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "QNT": {"RSI (14)": 0, "MACD": -2, "CCI (20)": 3}, "BTT": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "JASMY": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "WIF": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "BONK": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "PYTH": {"RSI (14)": -2, "MACD": -1, "CCI (20)": 3}, "FLOKI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "XLM": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "XMR": {"RSI (14)": 0, "MACD": -3, "CCI (20)": 3}, "PEPE": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "AR": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "STRK": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "LRC": {"RSI (14)": 0, "MACD": 1, "CCI (20)": 3}, "ZEC": {"RSI (14)": -1, "MACD": -3, "CCI (20)": 3}, "BSV": {"RSI (14)": -2, "MACD": -1, "CCI (20)": 3}, "PENDLE": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "FET": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "JUP": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "METIS": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "XAI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "MANTA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "RON": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "ENS": {"RSI (14)": -2, "MACD": -1, "CCI (20)": 3}, "ANKR": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "MASK": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}};
                 const grid = document.getElementById('coin-grid');
                 const searchInput = document.getElementById('search');
                 const viewToggle = document.getElementById('view-toggle');
+                const sortSelect = document.getElementById('sort');
                 let showingFavorites = false;
 
                 // Load favorites and update stars
@@ -1391,25 +1400,34 @@
                     if (showingFavorites) renderGrid();
                 }
 
-                // Search & Filter
+                // Search & Filter & Sort
                 function renderGrid() {
                     const term = searchInput.value.toUpperCase();
                     const favs = JSON.parse(localStorage.getItem('favs') || '[]');
+                    const sortOrder = sortSelect.value;
                     
-                    document.querySelectorAll('.card').forEach(card => {
+                    let cards = Array.from(document.querySelectorAll('.card'));
+                    
+                    // Filter
+                    cards.forEach(card => {
                         const symbol = card.dataset.symbol;
                         const matchesSearch = symbol.includes(term);
                         const matchesFav = favs.includes(symbol);
-                        
-                        if (showingFavorites) {
-                            card.style.display = (matchesSearch && matchesFav) ? 'flex' : 'none';
-                        } else {
-                            card.style.display = matchesSearch ? 'flex' : 'none';
-                        }
+                        card.style.display = (showingFavorites ? (matchesSearch && matchesFav) : matchesSearch) ? 'flex' : 'none';
                     });
+                    
+                    // Sort
+                    cards.sort((a, b) => {
+                        const scoreA = parseFloat(a.dataset.score);
+                        const scoreB = parseFloat(b.dataset.score);
+                        return sortOrder === 'score-desc' ? scoreB - scoreA : scoreA - scoreB;
+                    });
+                    
+                    cards.forEach(card => grid.appendChild(card));
                 }
 
                 searchInput.addEventListener('input', renderGrid);
+                sortSelect.addEventListener('change', renderGrid);
 
                 // Toggle View (All / Favorites)
                 function toggleView() {
@@ -1438,9 +1456,7 @@
             </script>
             
             <footer class="mt-20 p-8 card text-slate-500 text-sm text-center">
-                <h3 class="font-bold text-slate-100 mb-3">⚠️ Legal Disclaimer</h3>
-                <p>All analysis, charts, and signals shared on BasedVector.com are <strong>for informational purposes only</strong>. This information does not constitute investment advice or financial consultancy. Cryptocurrency markets involve high risk, and you may lose your entire capital. You are solely responsible for your actions. BasedVector accepts no liability.</p>
-                <p class="text-xs text-slate-600 mt-6 uppercase tracking-widest">© 2026 BASED VECTOR ALPHA TERMINAL</p>
+                <p class="text-xs text-slate-600 uppercase tracking-widest">© 2026 BASED VECTOR ALPHA TERMINAL</p>
             </footer>
         </div>
     </body>
