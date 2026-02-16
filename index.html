@@ -15,1677 +15,840 @@
     </head>
     <body class="p-4 md:p-6">
         <div class="max-w-7xl mx-auto">
-            <header class="flex justify-between items-center mb-8 pb-4 border-b border-slate-800">
-                <h1 class="text-3xl font-extrabold tracking-tighter">BASED<span class="text-blue-500">VECTOR</span></h1>
-                <div class="text-right text-xs">
-                    <p class="text-slate-400">Veri: MEXC Global</p>
-                    <p class="font-mono text-blue-400">2026-02-16 23:01 UTC</p>
+            <header class="mb-8 pb-4 border-b border-slate-800">
+                <div class="flex justify-between items-center mb-4">
+                    <h1 class="text-3xl font-extrabold tracking-tighter">BASED<span class="text-blue-500">VECTOR</span></h1>
+                    <div class="text-right text-xs">
+                        <p class="text-slate-400">Veri: MEXC Global</p>
+                        <p class="font-mono text-blue-400">2026-02-16 23:03 UTC</p>
+                    </div>
+                </div>
+                
+                <div class="flex gap-2">
+                    <input type="text" id="search" placeholder="Coin ara..." class="bg-slate-800 p-2 rounded w-full text-sm">
+                    <button onclick="filterFavorites()" class="bg-yellow-600 p-2 rounded text-sm font-bold">⭐ Takip</button>
                 </div>
             </header>
 
-            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3">
+            <div id="coin-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3">
     
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">MANTA</span>
-                <span class="trend-badge" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e44;">TREND UP</span>
-            </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.08006</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">2/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 66.66%"></div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">USDC</span>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
-            </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$1.0004</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">1/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 33.33%"></div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">DAI</span>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
-            </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$1.0001</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">1/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 33.33%"></div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">BCH</span>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
-            </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$569.4</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">1/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 33.33%"></div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">ATOM</span>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
-            </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$2.302</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">1/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 33.33%"></div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">AXS</span>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
-            </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$1.3674</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">1/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 33.33%"></div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">HBAR</span>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
-            </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.1015</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">1/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 33.33%"></div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">PYTH</span>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
-            </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.05695</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">1/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 33.33%"></div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">PEPE</span>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
-            </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$4.48e-06</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">1/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 33.33%"></div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">BSV</span>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
-            </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$17.32</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">1/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 33.33%"></div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="BTC">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">BTC</span>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+                <button onclick="toggleFavorite('BTC')" class="text-yellow-500">⭐</button>
+                <span class="trend-badge" style="background: #ef444422; color: #ef4444; border: 1px solid #ef444444;">STRONG SELL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$68587</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$68545</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="ETH">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">ETH</span>
+                <button onclick="toggleFavorite('ETH')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$1990.2</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$1990.1</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="BNB">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">BNB</span>
+                <button onclick="toggleFavorite('BNB')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$626.17</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$626.08</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="SOL">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">SOL</span>
+                <button onclick="toggleFavorite('SOL')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$85.71</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$85.7</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="XRP">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">XRP</span>
+                <button onclick="toggleFavorite('XRP')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$1.4839</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$1.4833</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="USDC">
+            <div class="flex justify-between items-center mb-2">
+                <span class="font-bold text-sm text-white">USDC</span>
+                <button onclick="toggleFavorite('USDC')" class="text-yellow-500">⭐</button>
+                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$1.0004</p>
+        </div>
+        
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="ADA">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">ADA</span>
+                <button onclick="toggleFavorite('ADA')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.285</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.2849</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="AVAX">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">AVAX</span>
+                <button onclick="toggleFavorite('AVAX')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
             <p class="text-xs font-mono text-slate-400 mb-3">$9.26</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="DOGE">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">DOGE</span>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+                <button onclick="toggleFavorite('DOGE')" class="text-yellow-500">⭐</button>
+                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.1005</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.10043</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="DOT">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">DOT</span>
+                <button onclick="toggleFavorite('DOT')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$1.375</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$1.374</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="TRX">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">TRX</span>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+                <button onclick="toggleFavorite('TRX')" class="text-yellow-500">⭐</button>
+                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.2841</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.284</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="LINK">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">LINK</span>
+                <button onclick="toggleFavorite('LINK')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$8.891</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$8.89</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="TON">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">TON</span>
+                <button onclick="toggleFavorite('TON')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$1.449</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$1.447</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="SHIB">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">SHIB</span>
+                <button onclick="toggleFavorite('SHIB')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$6.572e-06</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$6.57e-06</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="LTC">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">LTC</span>
+                <button onclick="toggleFavorite('LTC')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$55.04</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$55</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="DAI">
+            <div class="flex justify-between items-center mb-2">
+                <span class="font-bold text-sm text-white">DAI</span>
+                <button onclick="toggleFavorite('DAI')" class="text-yellow-500">⭐</button>
+                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$1.0002</p>
+        </div>
+        
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="BCH">
+            <div class="flex justify-between items-center mb-2">
+                <span class="font-bold text-sm text-white">BCH</span>
+                <button onclick="toggleFavorite('BCH')" class="text-yellow-500">⭐</button>
+                <span class="trend-badge" style="background: #f9731622; color: #f97316; border: 1px solid #f9731644;">SELL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$569</p>
+        </div>
+        
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="ATOM">
+            <div class="flex justify-between items-center mb-2">
+                <span class="font-bold text-sm text-white">ATOM</span>
+                <button onclick="toggleFavorite('ATOM')" class="text-yellow-500">⭐</button>
+                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$2.305</p>
+        </div>
+        
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="UNI">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">UNI</span>
+                <button onclick="toggleFavorite('UNI')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$3.582</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$3.591</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="NEAR">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">NEAR</span>
+                <button onclick="toggleFavorite('NEAR')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$1.0566</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$1.0564</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="OKB">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">OKB</span>
+                <button onclick="toggleFavorite('OKB')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$79.703</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$79.664</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="INJ">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">INJ</span>
+                <button onclick="toggleFavorite('INJ')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$3.171</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$3.167</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="OP">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">OP</span>
+                <button onclick="toggleFavorite('OP')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.1902</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.1901</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="ICP">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">ICP</span>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+                <button onclick="toggleFavorite('ICP')" class="text-yellow-500">⭐</button>
+                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$2.41</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$2.405</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="FIL">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">FIL</span>
+                <button onclick="toggleFavorite('FIL')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
             <p class="text-xs font-mono text-slate-400 mb-3">$0.976</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="LDO">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">LDO</span>
+                <button onclick="toggleFavorite('LDO')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.3457</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.3459</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="TIA">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">TIA</span>
+                <button onclick="toggleFavorite('TIA')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.3457</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.3452</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="STX">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">STX</span>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+                <button onclick="toggleFavorite('STX')" class="text-yellow-500">⭐</button>
+                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.2662</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.2663</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="APT">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">APT</span>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+                <button onclick="toggleFavorite('APT')" class="text-yellow-500">⭐</button>
+                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
             </div>
-            
             <p class="text-xs font-mono text-slate-400 mb-3">$0.929</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="ARB">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">ARB</span>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+                <button onclick="toggleFavorite('ARB')" class="text-yellow-500">⭐</button>
+                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.115</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.1149</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="VET">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">VET</span>
+                <button onclick="toggleFavorite('VET')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.008321</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.008309</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="KAS">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">KAS</span>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+                <button onclick="toggleFavorite('KAS')" class="text-yellow-500">⭐</button>
+                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.032051</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.032068</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="ETC">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">ETC</span>
+                <button onclick="toggleFavorite('ETC')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$8.83</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$8.82</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="MNT">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">MNT</span>
+                <button onclick="toggleFavorite('MNT')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.6435</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.6433</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="CRO">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">CRO</span>
+                <button onclick="toggleFavorite('CRO')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.08042</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.08045</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="ALGO">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">ALGO</span>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+                <button onclick="toggleFavorite('ALGO')" class="text-yellow-500">⭐</button>
+                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.09473</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.09472</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="RUNE">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">RUNE</span>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+                <button onclick="toggleFavorite('RUNE')" class="text-yellow-500">⭐</button>
+                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.4053</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.4052</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="EGLD">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">EGLD</span>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+                <button onclick="toggleFavorite('EGLD')" class="text-yellow-500">⭐</button>
+                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$4.83</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$4.822</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="SEI">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">SEI</span>
+                <button onclick="toggleFavorite('SEI')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.07585</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.07584</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="SUI">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">SUI</span>
+                <button onclick="toggleFavorite('SUI')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.9928</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.9926</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="AAVE">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">AAVE</span>
+                <button onclick="toggleFavorite('AAVE')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$126.23</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$126.22</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="ORDI">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">ORDI</span>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+                <button onclick="toggleFavorite('ORDI')" class="text-yellow-500">⭐</button>
+                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$2.81</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$2.809</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="BEAM">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">BEAM</span>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+                <button onclick="toggleFavorite('BEAM')" class="text-yellow-500">⭐</button>
+                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.02416</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.02417</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="FLOW">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">FLOW</span>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+                <button onclick="toggleFavorite('FLOW')" class="text-yellow-500">⭐</button>
+                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.04069</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.0406</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="MINA">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">MINA</span>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+                <button onclick="toggleFavorite('MINA')" class="text-yellow-500">⭐</button>
+                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.06656</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.06649</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="SAND">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">SAND</span>
+                <button onclick="toggleFavorite('SAND')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.08814</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.0881</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="MANA">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">MANA</span>
+                <button onclick="toggleFavorite('MANA')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.10279</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.10268</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="AXS">
+            <div class="flex justify-between items-center mb-2">
+                <span class="font-bold text-sm text-white">AXS</span>
+                <button onclick="toggleFavorite('AXS')" class="text-yellow-500">⭐</button>
+                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$1.3668</p>
+        </div>
+        
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="CHZ">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">CHZ</span>
+                <button onclick="toggleFavorite('CHZ')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.04146</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.04148</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="GALA">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">GALA</span>
+                <button onclick="toggleFavorite('GALA')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
             <p class="text-xs font-mono text-slate-400 mb-3">$0.004145</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="IOTA">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">IOTA</span>
+                <button onclick="toggleFavorite('IOTA')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.07029</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.07028</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="KCS">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">KCS</span>
+                <button onclick="toggleFavorite('KCS')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$8.4737</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$8.4727</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="GRT">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">GRT</span>
+                <button onclick="toggleFavorite('GRT')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.02817</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.02816</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="NEO">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">NEO</span>
+                <button onclick="toggleFavorite('NEO')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
             <p class="text-xs font-mono text-slate-400 mb-3">$2.858</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="SNX">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">SNX</span>
+                <button onclick="toggleFavorite('SNX')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.2961</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.2963</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="DYDX">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">DYDX</span>
+                <button onclick="toggleFavorite('DYDX')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.1092</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.1091</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="CRV">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">CRV</span>
+                <button onclick="toggleFavorite('CRV')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.2537</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.2535</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="WOO">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">WOO</span>
+                <button onclick="toggleFavorite('WOO')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
             <p class="text-xs font-mono text-slate-400 mb-3">$0.01744</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="LUNC">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">LUNC</span>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+                <button onclick="toggleFavorite('LUNC')" class="text-yellow-500">⭐</button>
+                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$3.505e-05</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$3.512e-05</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="KAVA">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">KAVA</span>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+                <button onclick="toggleFavorite('KAVA')" class="text-yellow-500">⭐</button>
+                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.05509</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.05503</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="IMX">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">IMX</span>
+                <button onclick="toggleFavorite('IMX')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
             <p class="text-xs font-mono text-slate-400 mb-3">$0.1707</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="HBAR">
+            <div class="flex justify-between items-center mb-2">
+                <span class="font-bold text-sm text-white">HBAR</span>
+                <button onclick="toggleFavorite('HBAR')" class="text-yellow-500">⭐</button>
+                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.10134</p>
+        </div>
+        
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="QNT">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">QNT</span>
+                <button onclick="toggleFavorite('QNT')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$69.87</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$69.73</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="BTT">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">BTT</span>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+                <button onclick="toggleFavorite('BTT')" class="text-yellow-500">⭐</button>
+                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
             </div>
-            
             <p class="text-xs font-mono text-slate-400 mb-3">$3.452e-07</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="JASMY">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">JASMY</span>
+                <button onclick="toggleFavorite('JASMY')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.006008</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.006007</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="WIF">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">WIF</span>
+                <button onclick="toggleFavorite('WIF')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.2363</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.2361</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="BONK">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">BONK</span>
+                <button onclick="toggleFavorite('BONK')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$6.565e-06</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$6.568e-06</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="PYTH">
+            <div class="flex justify-between items-center mb-2">
+                <span class="font-bold text-sm text-white">PYTH</span>
+                <button onclick="toggleFavorite('PYTH')" class="text-yellow-500">⭐</button>
+                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.057</p>
+        </div>
+        
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="FLOKI">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">FLOKI</span>
+                <button onclick="toggleFavorite('FLOKI')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$3.219e-05</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$3.22e-05</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="XLM">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">XLM</span>
+                <button onclick="toggleFavorite('XLM')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
             <p class="text-xs font-mono text-slate-400 mb-3">$0.1694</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="XMR">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">XMR</span>
+                <button onclick="toggleFavorite('XMR')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$326.37</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$325.62</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="PEPE">
+            <div class="flex justify-between items-center mb-2">
+                <span class="font-bold text-sm text-white">PEPE</span>
+                <button onclick="toggleFavorite('PEPE')" class="text-yellow-500">⭐</button>
+                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$4.477e-06</p>
+        </div>
+        
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="AR">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">AR</span>
+                <button onclick="toggleFavorite('AR')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$2.032</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$2.03</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="STRK">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">STRK</span>
+                <button onclick="toggleFavorite('STRK')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.04924</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.04923</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="LRC">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">LRC</span>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+                <button onclick="toggleFavorite('LRC')" class="text-yellow-500">⭐</button>
+                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.03441</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.03446</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="ZEC">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">ZEC</span>
+                <button onclick="toggleFavorite('ZEC')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$290.83</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$289.73</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="BSV">
+            <div class="flex justify-between items-center mb-2">
+                <span class="font-bold text-sm text-white">BSV</span>
+                <button onclick="toggleFavorite('BSV')" class="text-yellow-500">⭐</button>
+                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$17.33</p>
+        </div>
+        
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="PENDLE">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">PENDLE</span>
+                <button onclick="toggleFavorite('PENDLE')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$1.246</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$1.245</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="FET">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">FET</span>
+                <button onclick="toggleFavorite('FET')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.173</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.1729</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="JUP">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">JUP</span>
+                <button onclick="toggleFavorite('JUP')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
             <p class="text-xs font-mono text-slate-400 mb-3">$0.1621</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="METIS">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">METIS</span>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+                <button onclick="toggleFavorite('METIS')" class="text-yellow-500">⭐</button>
+                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$3.648</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$3.643</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="XAI">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">XAI</span>
+                <button onclick="toggleFavorite('XAI')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
             <p class="text-xs font-mono text-slate-400 mb-3">$0.01069</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="MANTA">
+            <div class="flex justify-between items-center mb-2">
+                <span class="font-bold text-sm text-white">MANTA</span>
+                <button onclick="toggleFavorite('MANTA')" class="text-yellow-500">⭐</button>
+                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.0801</p>
+        </div>
+        
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="RON">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">RON</span>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+                <button onclick="toggleFavorite('RON')" class="text-yellow-500">⭐</button>
+                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.10049</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.1005</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="ENS">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">ENS</span>
+                <button onclick="toggleFavorite('ENS')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$6.813</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$6.811</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="ANKR">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">ANKR</span>
+                <button onclick="toggleFavorite('ANKR')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.004668</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.00467</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between">
+        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="MASK">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-sm text-white">MASK</span>
+                <button onclick="toggleFavorite('MASK')" class="text-yellow-500">⭐</button>
                 <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.4743</p>
-            
-            <div class="space-y-1">
-                <div class="flex justify-between text-[10px] text-slate-500">
-                    <span>1D Puan</span>
-                    <span class="font-bold text-white">0/3</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 0.0%"></div>
-                </div>
-            </div>
+            <p class="text-xs font-mono text-slate-400 mb-3">$0.4734</p>
         </div>
         
             </div>
+            
+            <script>
+                // Arama Fonksiyonu
+                document.getElementById('search').addEventListener('input', function(e) {
+                    const term = e.target.value.toUpperCase();
+                    document.querySelectorAll('.card').forEach(card => {
+                        card.style.display = card.dataset.symbol.includes(term) ? 'block' : 'none';
+                    });
+                });
+
+                // Favori Ekleme/Çıkarma
+                function toggleFavorite(symbol) {
+                    let favs = JSON.parse(localStorage.getItem('favs') || '[]');
+                    if (favs.includes(symbol)) {
+                        favs = favs.filter(f => f !== symbol);
+                    } else {
+                        favs.push(symbol);
+                    }
+                    localStorage.setItem('favs', JSON.stringify(favs));
+                }
+
+                // Sadece Favorileri Göster
+                function filterFavorites() {
+                    let favs = JSON.parse(localStorage.getItem('favs') || '[]');
+                    document.querySelectorAll('.card').forEach(card => {
+                        card.style.display = favs.includes(card.dataset.symbol) ? 'block' : 'none';
+                    });
+                }
+            </script>
+            
             <div class="mt-16 p-6 card rounded-lg text-slate-500 text-xs text-center">
-                <h3 class="font-bold text-slate-200 mb-2">⚠️ Yasal Sorumluluk Reddi (Disclaimer)</h3>
-                <p>BasedVector.com sitesinde paylaşılan tüm analizler, grafikler ve sinyaller <strong>sadece bilgilendirme amaçlıdır</strong>. Bu bilgiler yatırım tavsiyesi veya finansal danışmanlık kapsamında değildir. Kripto para piyasaları yüksek risk içerir ve sermayenizin tamamını kaybedebilirsiniz. Yapacağınız işlemlerden tamamen siz sorumlusunuz. BasedVector hiçbir sorumluluk kabul etmez.</p>
+                <p>⚠️ <strong>Yasal Uyarı:</strong> Yatırım tavsiyesi değildir.</p>
             </div>
-            <footer class="mt-8 text-center text-slate-700 text-[10px] uppercase tracking-widest">
-                AUTOMATED ALPHA TERMINAL
-            </footer>
         </div>
     </body>
     </html>
