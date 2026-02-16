@@ -62,25 +62,28 @@ def analyze_market():
             avg_score = (s1 + s2 + s3) / 3
             
             # Decision Colors based on precise ranges
-            # Alpha: 0 is gray, negative is red, positive is green. 
-            # Intense colors for extreme values (-3, 3)
-            
             if avg_score == 0:
                 bg_color = "rgba(51, 65, 85, 0.2)"; border_color = "rgba(51, 65, 85, 0.5)" # Neutral (Gray)
+                bar_color = "#64748b"
             elif -1.5 <= avg_score < 0:
                 bg_color = "rgba(239, 68, 68, 0.15)"; border_color = "rgba(239, 68, 68, 0.4)" # Light Red (-1.5 to 0)
+                bar_color = "#ef4444"
             elif avg_score < -1.5:
                 bg_color = "rgba(185, 28, 28, 0.25)"; border_color = "rgba(185, 28, 28, 0.6)" # Dark Red (-3 to -1.5)
+                bar_color = "#b91c1c"
             elif 0 < avg_score <= 1.5:
                 bg_color = "rgba(34, 197, 94, 0.15)"; border_color = "rgba(34, 197, 94, 0.4)" # Light Green (0 to 1.5)
+                bar_color = "#22c55e"
             else: # 1.5 < avg_score <= 3
                 bg_color = "rgba(16, 185, 129, 0.25)"; border_color = "rgba(16, 185, 129, 0.6)" # Dark Green (1.5 to 3)
+                bar_color = "#10b981"
 
             results.append({
                 'symbol': symbol,
                 'price': f"{df['close'].iloc[-1]:.5g}",
                 'bg_color': bg_color,
                 'border_color': border_color,
+                'bar_color': bar_color,
                 'score': round(avg_score, 1),
                 'details': {
                     'RSI (14)': s1,
@@ -114,6 +117,33 @@ def create_html(data):
             .star-btn {{ font-size: 1.2rem; cursor: pointer; color: rgba(255,255,255,0.3); z-index: 10; position: relative;}}
             .star-btn.active {{ color: #eab308; }}
             .modal {{ background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px); }}
+            
+            /* Score Bar Styles */
+            .score-bar-container {{
+                width: 100%;
+                height: 8px;
+                background-color: #1f2937;
+                border-radius: 4px;
+                position: relative;
+                margin-top: 8px;
+                overflow: hidden;
+            }}
+            .score-bar-fill {{
+                height: 100%;
+                border-radius: 4px;
+                transition: width 0.5s ease-out;
+                position: absolute;
+                top: 0;
+            }}
+            .score-bar-center {{
+                position: absolute;
+                top: 0;
+                left: 50%;
+                width: 2px;
+                height: 100%;
+                background-color: #4b5563;
+                transform: translateX(-50%);
+            }}
         </style>
     </head>
     <body class="p-4 md:p-8">
@@ -150,6 +180,16 @@ def create_html(data):
     """
     
     for item in data:
+        # Puan çubuğu genişliğini ve pozisyonunu hesapla (-3 -> 0, +3 -> 100)
+        # Score bar calculation: -3 is 0%, +3 is 100%
+        # Width represents absolute intensity, margin-left represents direction
+        intensity = abs(item['score']) / 3 * 50 
+        
+        if item['score'] >= 0:
+            bar_style = f"width: {intensity}%; left: 50%; background-color: {item['bar_color']};"
+        else:
+            bar_style = f"width: {intensity}%; left: {50 - intensity}%; background-color: {item['bar_color']};"
+            
         html += f"""
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: {item['bg_color']}; border: 1px solid {item['border_color']};"
@@ -163,7 +203,16 @@ def create_html(data):
             
             <div class="text-center my-2 cursor-pointer" onclick="showDetails('{item['symbol']}')">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">${item['price']}</p>
-                <p class="text-xs text-slate-300">Score: <span class="font-bold text-white">{item['score']}/3</span></p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="{bar_style}"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">{item['score']}</span>
+                    <span>+3</span>
+                </div>
             </div>
         </div>
         """
@@ -253,35 +302,4 @@ def create_html(data):
                     renderGrid();
                 }}
                 
-                // Modal Functions
-                function showDetails(symbol) {{
-                    const details = data[symbol];
-                    document.getElementById('modal-title').innerText = symbol + ' Score Details';
-                    let content = '';
-                    for (const [key, value] of Object.entries(details)) {{
-                        const color = value > 0 ? 'text-green-400' : (value < 0 ? 'text-red-400' : 'text-slate-400');
-                        content += `<div class='flex justify-between'><span>${{key}}</span><span class='${{color}} font-bold'>${{value}}</span></div>`;
-                    }}
-                    document.getElementById('modal-content').innerHTML = content;
-                    document.getElementById('details-modal').classList.remove('hidden');
-                }}
-                
-                function closeDetails() {{
-                    document.getElementById('details-modal').classList.hidden = true;
-                    document.getElementById('details-modal').classList.add('hidden');
-                }}
-            </script>
-            
-            <footer class="mt-20 p-8 text-slate-600 text-sm text-center">
-                <p class="text-xs uppercase tracking-widest">© 2026 BASED VECTOR ALPHA TERMINAL</p>
-            </footer>
-        </div>
-    </body>
-    </html>
-    """
-    with open("index.html", "w", encoding="utf-8") as f:
-        f.write(html)
-
-if __name__ == "__main__":
-    market_data = analyze_market()
-    create_html(market_data)
+                // Modal
