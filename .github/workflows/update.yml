@@ -1,0 +1,36 @@
+name: Kripto Analiz Güncellemesi
+
+on:
+  schedule:
+    - cron: '0 * * * *' # Her saat başı çalışır (Değiştirebilirsiniz)
+  workflow_dispatch: # Manuel tetikleme için
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repoyu Çek
+        uses: actions/checkout@v3
+
+      - name: Python Kur
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Kütüphaneleri Yükle
+        run: pip install -r requirements.txt
+
+      - name: Analiz Robotunu Çalıştır
+        run: python main.py
+
+      - name: Değişiklikleri Kaydet ve Pushla
+        run: |
+          git config --global user.name 'BasedVector Bot'
+          git config --global user.email 'bot@basedvector.com'
+          git add index.html
+          git commit -m "Otomatik Güncelleme: $(date)" || exit 0
+          git push
