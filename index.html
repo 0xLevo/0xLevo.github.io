@@ -1,854 +1,1592 @@
 
     <!DOCTYPE html>
-    <html lang="tr">
+    <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>BasedVector | Pro Terminal</title>
+        <title>BasedVector | Alpha Dashboard</title>
         <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
         <style>
-            body { background-color: #020617; color: #f1f5f9; font-family: sans-serif; }
-            .card { background: #111827; border: 1px solid #1f2937; transition: all 0.3s; }
-            .card:hover { border-color: #3b82f6; transform: translateY(-2px); }
-            .trend-badge { font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; font-weight: 800; }
+            body { background-color: #020617; color: #f1f5f9; font-family: 'Space Grotesk', sans-serif; }
+            .card { background: #0f172a; border: 1px solid #1e293b; transition: all 0.3s; border-radius: 12px; }
+            .card:hover { border-color: #3b82f6; transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.1); }
+            .trend-badge { font-size: 0.65rem; padding: 3px 8px; border-radius: 6px; font-weight: 800; }
+            .star-btn { font-size: 1.2rem; cursor: pointer; color: #475569; }
+            .star-btn.active { color: #eab308; }
         </style>
     </head>
-    <body class="p-4 md:p-6">
+    <body class="p-4 md:p-8">
         <div class="max-w-7xl mx-auto">
-            <header class="mb-8 pb-4 border-b border-slate-800">
-                <div class="flex justify-between items-center mb-4">
-                    <h1 class="text-3xl font-extrabold tracking-tighter">BASED<span class="text-blue-500">VECTOR</span></h1>
-                    <div class="text-right text-xs">
-                        <p class="text-slate-400">Veri: MEXC Global</p>
-                        <p class="font-mono text-blue-400">2026-02-16 23:03 UTC</p>
+            <header class="mb-10 pb-6 border-b border-slate-800">
+                <div class="flex justify-between items-center mb-6">
+                    <h1 class="text-4xl font-bold tracking-tighter text-white">
+                        <span class="text-blue-500">Based</span>Vector <span class="text-xs font-mono bg-blue-950 text-blue-300 px-2 py-0.5 rounded">ALPHA</span>
+                    </h1>
+                    <div class="text-right text-sm">
+                        <p class="text-slate-400">Data Source: MEXC Global</p>
+                        <p class="font-mono text-blue-400">2026-02-16 23:08 UTC</p>
                     </div>
                 </div>
                 
-                <div class="flex gap-2">
-                    <input type="text" id="search" placeholder="Coin ara..." class="bg-slate-800 p-2 rounded w-full text-sm">
-                    <button onclick="filterFavorites()" class="bg-yellow-600 p-2 rounded text-sm font-bold">⭐ Takip</button>
+                <div class="flex flex-col md:flex-row gap-4 glass p-4 rounded-xl bg-slate-900 border border-slate-800">
+                    <input type="text" id="search" placeholder="🔍 Search Assets (e.g. BTC)..." class="bg-slate-950 p-3 rounded-lg w-full text-sm border border-slate-700 text-white placeholder-slate-500">
+                    <button onclick="toggleView()" id="view-toggle" class="bg-slate-800 hover:bg-slate-700 text-white px-5 py-3 rounded-lg text-sm font-bold flex items-center gap-2">
+                        ⭐ My Watchlist
+                    </button>
                 </div>
             </header>
 
-            <div id="coin-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3">
+            <div id="coin-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
     
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="BTC">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">BTC</span>
-                <button onclick="toggleFavorite('BTC')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #ef444422; color: #ef4444; border: 1px solid #ef444444;">STRONG SELL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="BTC">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">BTC</span>
+                <button onclick="toggleFavorite(this, 'BTC')" class="star-btn">★</button>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$68545</p>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$68731</p>
+                <span class="trend-badge mb-1" style="background: #ef444422; color: #ef4444; border: 1px solid #ef444444;">STRONG SELL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">-2.0/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="ETH">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">ETH</span>
-                <button onclick="toggleFavorite('ETH')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="ETH">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">ETH</span>
+                <button onclick="toggleFavorite(this, 'ETH')" class="star-btn">★</button>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$1990.1</p>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$1995.5</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.0/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="BNB">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">BNB</span>
-                <button onclick="toggleFavorite('BNB')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="BNB">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">BNB</span>
+                <button onclick="toggleFavorite(this, 'BNB')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$627.52</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$626.08</p>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.0/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="SOL">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">SOL</span>
-                <button onclick="toggleFavorite('SOL')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="SOL">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">SOL</span>
+                <button onclick="toggleFavorite(this, 'SOL')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$86.05</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$85.7</p>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.0/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="XRP">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">XRP</span>
-                <button onclick="toggleFavorite('XRP')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="XRP">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">XRP</span>
+                <button onclick="toggleFavorite(this, 'XRP')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$1.489</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$1.4833</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="USDC">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">USDC</span>
-                <button onclick="toggleFavorite('USDC')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="USDC">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">USDC</span>
+                <button onclick="toggleFavorite(this, 'USDC')" class="star-btn">★</button>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$1.0004</p>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$1.0004</p>
+                <span class="trend-badge mb-1" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">1.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="ADA">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">ADA</span>
-                <button onclick="toggleFavorite('ADA')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="ADA">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">ADA</span>
+                <button onclick="toggleFavorite(this, 'ADA')" class="star-btn">★</button>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.2849</p>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.2857</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="AVAX">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">AVAX</span>
-                <button onclick="toggleFavorite('AVAX')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="AVAX">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">AVAX</span>
+                <button onclick="toggleFavorite(this, 'AVAX')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$9.27</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$9.26</p>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="DOGE">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">DOGE</span>
-                <button onclick="toggleFavorite('DOGE')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="DOGE">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">DOGE</span>
+                <button onclick="toggleFavorite(this, 'DOGE')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.10068</p>
+                <span class="trend-badge mb-1" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.7/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.10043</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="DOT">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">DOT</span>
-                <button onclick="toggleFavorite('DOT')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="DOT">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">DOT</span>
+                <button onclick="toggleFavorite(this, 'DOT')" class="star-btn">★</button>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$1.374</p>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$1.376</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="TRX">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">TRX</span>
-                <button onclick="toggleFavorite('TRX')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="TRX">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">TRX</span>
+                <button onclick="toggleFavorite(this, 'TRX')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.2844</p>
+                <span class="trend-badge mb-1" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.284</p>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.7/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="LINK">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">LINK</span>
-                <button onclick="toggleFavorite('LINK')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="LINK">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">LINK</span>
+                <button onclick="toggleFavorite(this, 'LINK')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$8.9</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$8.89</p>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="TON">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">TON</span>
-                <button onclick="toggleFavorite('TON')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="TON">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">TON</span>
+                <button onclick="toggleFavorite(this, 'TON')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$1.449</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$1.447</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="SHIB">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">SHIB</span>
-                <button onclick="toggleFavorite('SHIB')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="SHIB">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">SHIB</span>
+                <button onclick="toggleFavorite(this, 'SHIB')" class="star-btn">★</button>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$6.57e-06</p>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$6.588e-06</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="LTC">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">LTC</span>
-                <button onclick="toggleFavorite('LTC')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="LTC">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">LTC</span>
+                <button onclick="toggleFavorite(this, 'LTC')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$55.09</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$55</p>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.0/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="DAI">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">DAI</span>
-                <button onclick="toggleFavorite('DAI')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="DAI">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">DAI</span>
+                <button onclick="toggleFavorite(this, 'DAI')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$1.0001</p>
+                <span class="trend-badge mb-1" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">1.0/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$1.0002</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="BCH">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">BCH</span>
-                <button onclick="toggleFavorite('BCH')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #f9731622; color: #f97316; border: 1px solid #f9731644;">SELL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="BCH">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">BCH</span>
+                <button onclick="toggleFavorite(this, 'BCH')" class="star-btn">★</button>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$569</p>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$569.3</p>
+                <span class="trend-badge mb-1" style="background: #f9731622; color: #f97316; border: 1px solid #f9731644;">SELL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">-0.7/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="ATOM">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">ATOM</span>
-                <button onclick="toggleFavorite('ATOM')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="ATOM">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">ATOM</span>
+                <button onclick="toggleFavorite(this, 'ATOM')" class="star-btn">★</button>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$2.305</p>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$2.299</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="UNI">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">UNI</span>
-                <button onclick="toggleFavorite('UNI')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="UNI">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">UNI</span>
+                <button onclick="toggleFavorite(this, 'UNI')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$3.608</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$3.591</p>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="NEAR">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">NEAR</span>
-                <button onclick="toggleFavorite('NEAR')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="NEAR">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">NEAR</span>
+                <button onclick="toggleFavorite(this, 'NEAR')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$1.0571</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$1.0564</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="OKB">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">OKB</span>
-                <button onclick="toggleFavorite('OKB')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="OKB">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">OKB</span>
+                <button onclick="toggleFavorite(this, 'OKB')" class="star-btn">★</button>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$79.664</p>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$79.788</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.0/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="INJ">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">INJ</span>
-                <button onclick="toggleFavorite('INJ')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="INJ">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">INJ</span>
+                <button onclick="toggleFavorite(this, 'INJ')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$3.17</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$3.167</p>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="OP">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">OP</span>
-                <button onclick="toggleFavorite('OP')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="OP">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">OP</span>
+                <button onclick="toggleFavorite(this, 'OP')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.1904</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.1901</p>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="ICP">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">ICP</span>
-                <button onclick="toggleFavorite('ICP')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="ICP">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">ICP</span>
+                <button onclick="toggleFavorite(this, 'ICP')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$2.409</p>
+                <span class="trend-badge mb-1" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.7/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$2.405</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="FIL">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">FIL</span>
-                <button onclick="toggleFavorite('FIL')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="FIL">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">FIL</span>
+                <button onclick="toggleFavorite(this, 'FIL')" class="star-btn">★</button>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.976</p>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.977</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="LDO">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">LDO</span>
-                <button onclick="toggleFavorite('LDO')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="LDO">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">LDO</span>
+                <button onclick="toggleFavorite(this, 'LDO')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.3471</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.3459</p>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="TIA">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">TIA</span>
-                <button onclick="toggleFavorite('TIA')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="TIA">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">TIA</span>
+                <button onclick="toggleFavorite(this, 'TIA')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.3465</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.3452</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="STX">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">STX</span>
-                <button onclick="toggleFavorite('STX')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="STX">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">STX</span>
+                <button onclick="toggleFavorite(this, 'STX')" class="star-btn">★</button>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.2663</p>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.267</p>
+                <span class="trend-badge mb-1" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.7/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="APT">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">APT</span>
-                <button onclick="toggleFavorite('APT')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="APT">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">APT</span>
+                <button onclick="toggleFavorite(this, 'APT')" class="star-btn">★</button>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.929</p>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.931</p>
+                <span class="trend-badge mb-1" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.7/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="ARB">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">ARB</span>
-                <button onclick="toggleFavorite('ARB')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="ARB">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">ARB</span>
+                <button onclick="toggleFavorite(this, 'ARB')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.1152</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.1149</p>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="VET">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">VET</span>
-                <button onclick="toggleFavorite('VET')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="VET">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">VET</span>
+                <button onclick="toggleFavorite(this, 'VET')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.008322</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.008309</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="KAS">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">KAS</span>
-                <button onclick="toggleFavorite('KAS')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="KAS">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">KAS</span>
+                <button onclick="toggleFavorite(this, 'KAS')" class="star-btn">★</button>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.032068</p>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.032169</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="ETC">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">ETC</span>
-                <button onclick="toggleFavorite('ETC')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="ETC">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">ETC</span>
+                <button onclick="toggleFavorite(this, 'ETC')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$8.83</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$8.82</p>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="MNT">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">MNT</span>
-                <button onclick="toggleFavorite('MNT')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="MNT">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">MNT</span>
+                <button onclick="toggleFavorite(this, 'MNT')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.6455</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.6433</p>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="CRO">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">CRO</span>
-                <button onclick="toggleFavorite('CRO')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="CRO">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">CRO</span>
+                <button onclick="toggleFavorite(this, 'CRO')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.08081</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.08045</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="ALGO">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">ALGO</span>
-                <button onclick="toggleFavorite('ALGO')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="ALGO">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">ALGO</span>
+                <button onclick="toggleFavorite(this, 'ALGO')" class="star-btn">★</button>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.09472</p>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.09479</p>
+                <span class="trend-badge mb-1" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.7/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="RUNE">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">RUNE</span>
-                <button onclick="toggleFavorite('RUNE')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="RUNE">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">RUNE</span>
+                <button onclick="toggleFavorite(this, 'RUNE')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.4054</p>
+                <span class="trend-badge mb-1" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.4052</p>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.7/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="EGLD">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">EGLD</span>
-                <button onclick="toggleFavorite('EGLD')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="EGLD">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">EGLD</span>
+                <button onclick="toggleFavorite(this, 'EGLD')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$4.831</p>
+                <span class="trend-badge mb-1" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.7/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$4.822</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="SEI">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">SEI</span>
-                <button onclick="toggleFavorite('SEI')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="SEI">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">SEI</span>
+                <button onclick="toggleFavorite(this, 'SEI')" class="star-btn">★</button>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.07584</p>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.07603</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="SUI">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">SUI</span>
-                <button onclick="toggleFavorite('SUI')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="SUI">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">SUI</span>
+                <button onclick="toggleFavorite(this, 'SUI')" class="star-btn">★</button>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.9926</p>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.9949</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="AAVE">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">AAVE</span>
-                <button onclick="toggleFavorite('AAVE')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="AAVE">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">AAVE</span>
+                <button onclick="toggleFavorite(this, 'AAVE')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$126.55</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$126.22</p>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">-0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="ORDI">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">ORDI</span>
-                <button onclick="toggleFavorite('ORDI')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="ORDI">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">ORDI</span>
+                <button onclick="toggleFavorite(this, 'ORDI')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$2.81</p>
+                <span class="trend-badge mb-1" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.7/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$2.809</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="BEAM">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">BEAM</span>
-                <button onclick="toggleFavorite('BEAM')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="BEAM">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">BEAM</span>
+                <button onclick="toggleFavorite(this, 'BEAM')" class="star-btn">★</button>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.02417</p>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.02413</p>
+                <span class="trend-badge mb-1" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.7/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="FLOW">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">FLOW</span>
-                <button onclick="toggleFavorite('FLOW')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="FLOW">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">FLOW</span>
+                <button onclick="toggleFavorite(this, 'FLOW')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.0407</p>
+                <span class="trend-badge mb-1" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.0406</p>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.7/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="MINA">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">MINA</span>
-                <button onclick="toggleFavorite('MINA')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="MINA">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">MINA</span>
+                <button onclick="toggleFavorite(this, 'MINA')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.06656</p>
+                <span class="trend-badge mb-1" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.06649</p>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.7/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="SAND">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">SAND</span>
-                <button onclick="toggleFavorite('SAND')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="SAND">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">SAND</span>
+                <button onclick="toggleFavorite(this, 'SAND')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.08817</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.0881</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="MANA">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">MANA</span>
-                <button onclick="toggleFavorite('MANA')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="MANA">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">MANA</span>
+                <button onclick="toggleFavorite(this, 'MANA')" class="star-btn">★</button>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.10268</p>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.10294</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="AXS">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">AXS</span>
-                <button onclick="toggleFavorite('AXS')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="AXS">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">AXS</span>
+                <button onclick="toggleFavorite(this, 'AXS')" class="star-btn">★</button>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$1.3668</p>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$1.3688</p>
+                <span class="trend-badge mb-1" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.7/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="CHZ">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">CHZ</span>
-                <button onclick="toggleFavorite('CHZ')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="CHZ">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">CHZ</span>
+                <button onclick="toggleFavorite(this, 'CHZ')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.04157</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.04148</p>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="GALA">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">GALA</span>
-                <button onclick="toggleFavorite('GALA')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="GALA">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">GALA</span>
+                <button onclick="toggleFavorite(this, 'GALA')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.004148</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.004145</p>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="IOTA">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">IOTA</span>
-                <button onclick="toggleFavorite('IOTA')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="IOTA">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">IOTA</span>
+                <button onclick="toggleFavorite(this, 'IOTA')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.07035</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.07028</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="KCS">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">KCS</span>
-                <button onclick="toggleFavorite('KCS')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="KCS">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">KCS</span>
+                <button onclick="toggleFavorite(this, 'KCS')" class="star-btn">★</button>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$8.4727</p>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$8.487</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="GRT">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">GRT</span>
-                <button onclick="toggleFavorite('GRT')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="GRT">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">GRT</span>
+                <button onclick="toggleFavorite(this, 'GRT')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.02821</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.02816</p>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="NEO">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">NEO</span>
-                <button onclick="toggleFavorite('NEO')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="NEO">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">NEO</span>
+                <button onclick="toggleFavorite(this, 'NEO')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$2.86</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$2.858</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="SNX">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">SNX</span>
-                <button onclick="toggleFavorite('SNX')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="SNX">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">SNX</span>
+                <button onclick="toggleFavorite(this, 'SNX')" class="star-btn">★</button>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.2963</p>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.2972</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="DYDX">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">DYDX</span>
-                <button onclick="toggleFavorite('DYDX')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="DYDX">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">DYDX</span>
+                <button onclick="toggleFavorite(this, 'DYDX')" class="star-btn">★</button>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.1091</p>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.1092</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="CRV">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">CRV</span>
-                <button onclick="toggleFavorite('CRV')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="CRV">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">CRV</span>
+                <button onclick="toggleFavorite(this, 'CRV')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.2539</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.2535</p>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="WOO">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">WOO</span>
-                <button onclick="toggleFavorite('WOO')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="WOO">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">WOO</span>
+                <button onclick="toggleFavorite(this, 'WOO')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.01746</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.01744</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="LUNC">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">LUNC</span>
-                <button onclick="toggleFavorite('LUNC')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="LUNC">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">LUNC</span>
+                <button onclick="toggleFavorite(this, 'LUNC')" class="star-btn">★</button>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$3.512e-05</p>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$3.507e-05</p>
+                <span class="trend-badge mb-1" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">1.0/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="KAVA">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">KAVA</span>
-                <button onclick="toggleFavorite('KAVA')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="KAVA">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">KAVA</span>
+                <button onclick="toggleFavorite(this, 'KAVA')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.05507</p>
+                <span class="trend-badge mb-1" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.05503</p>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.7/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="IMX">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">IMX</span>
-                <button onclick="toggleFavorite('IMX')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="IMX">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">IMX</span>
+                <button onclick="toggleFavorite(this, 'IMX')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.1707</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.1707</p>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="HBAR">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">HBAR</span>
-                <button onclick="toggleFavorite('HBAR')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="HBAR">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">HBAR</span>
+                <button onclick="toggleFavorite(this, 'HBAR')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.10168</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.10134</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="QNT">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">QNT</span>
-                <button onclick="toggleFavorite('QNT')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="QNT">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">QNT</span>
+                <button onclick="toggleFavorite(this, 'QNT')" class="star-btn">★</button>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$69.73</p>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$69.78</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="BTT">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">BTT</span>
-                <button onclick="toggleFavorite('BTT')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="BTT">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">BTT</span>
+                <button onclick="toggleFavorite(this, 'BTT')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$3.446e-07</p>
+                <span class="trend-badge mb-1" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$3.452e-07</p>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.7/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="JASMY">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">JASMY</span>
-                <button onclick="toggleFavorite('JASMY')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="JASMY">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">JASMY</span>
+                <button onclick="toggleFavorite(this, 'JASMY')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.006016</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.006007</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="WIF">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">WIF</span>
-                <button onclick="toggleFavorite('WIF')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="WIF">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">WIF</span>
+                <button onclick="toggleFavorite(this, 'WIF')" class="star-btn">★</button>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.2361</p>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.2368</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="BONK">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">BONK</span>
-                <button onclick="toggleFavorite('BONK')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="BONK">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">BONK</span>
+                <button onclick="toggleFavorite(this, 'BONK')" class="star-btn">★</button>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$6.568e-06</p>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$6.58e-06</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="PYTH">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">PYTH</span>
-                <button onclick="toggleFavorite('PYTH')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="PYTH">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">PYTH</span>
+                <button onclick="toggleFavorite(this, 'PYTH')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.05703</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.057</p>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.0/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="FLOKI">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">FLOKI</span>
-                <button onclick="toggleFavorite('FLOKI')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="FLOKI">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">FLOKI</span>
+                <button onclick="toggleFavorite(this, 'FLOKI')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$3.224e-05</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$3.22e-05</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="XLM">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">XLM</span>
-                <button onclick="toggleFavorite('XLM')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="XLM">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">XLM</span>
+                <button onclick="toggleFavorite(this, 'XLM')" class="star-btn">★</button>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.1694</p>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.1698</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="XMR">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">XMR</span>
-                <button onclick="toggleFavorite('XMR')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="XMR">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">XMR</span>
+                <button onclick="toggleFavorite(this, 'XMR')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$326.2</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$325.62</p>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.0/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="PEPE">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">PEPE</span>
-                <button onclick="toggleFavorite('PEPE')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="PEPE">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">PEPE</span>
+                <button onclick="toggleFavorite(this, 'PEPE')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$4.49e-06</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$4.477e-06</p>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="AR">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">AR</span>
-                <button onclick="toggleFavorite('AR')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="AR">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">AR</span>
+                <button onclick="toggleFavorite(this, 'AR')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$2.035</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$2.03</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="STRK">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">STRK</span>
-                <button onclick="toggleFavorite('STRK')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="STRK">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">STRK</span>
+                <button onclick="toggleFavorite(this, 'STRK')" class="star-btn">★</button>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.04923</p>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.04927</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="LRC">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">LRC</span>
-                <button onclick="toggleFavorite('LRC')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="LRC">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">LRC</span>
+                <button onclick="toggleFavorite(this, 'LRC')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.03459</p>
+                <span class="trend-badge mb-1" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.03446</p>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">1.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="ZEC">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">ZEC</span>
-                <button onclick="toggleFavorite('ZEC')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="ZEC">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">ZEC</span>
+                <button onclick="toggleFavorite(this, 'ZEC')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$290.66</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">-0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$289.73</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="BSV">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">BSV</span>
-                <button onclick="toggleFavorite('BSV')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="BSV">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">BSV</span>
+                <button onclick="toggleFavorite(this, 'BSV')" class="star-btn">★</button>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$17.33</p>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$17.35</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.0/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="PENDLE">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">PENDLE</span>
-                <button onclick="toggleFavorite('PENDLE')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="PENDLE">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">PENDLE</span>
+                <button onclick="toggleFavorite(this, 'PENDLE')" class="star-btn">★</button>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$1.245</p>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$1.246</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="FET">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">FET</span>
-                <button onclick="toggleFavorite('FET')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="FET">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">FET</span>
+                <button onclick="toggleFavorite(this, 'FET')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.1734</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.1729</p>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="JUP">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">JUP</span>
-                <button onclick="toggleFavorite('JUP')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="JUP">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">JUP</span>
+                <button onclick="toggleFavorite(this, 'JUP')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.1624</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.1621</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="METIS">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">METIS</span>
-                <button onclick="toggleFavorite('METIS')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="METIS">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">METIS</span>
+                <button onclick="toggleFavorite(this, 'METIS')" class="star-btn">★</button>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$3.643</p>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$3.651</p>
+                <span class="trend-badge mb-1" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.7/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="XAI">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">XAI</span>
-                <button onclick="toggleFavorite('XAI')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="XAI">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">XAI</span>
+                <button onclick="toggleFavorite(this, 'XAI')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.01071</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.01069</p>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="MANTA">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">MANTA</span>
-                <button onclick="toggleFavorite('MANTA')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="MANTA">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">MANTA</span>
+                <button onclick="toggleFavorite(this, 'MANTA')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.08018</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.0801</p>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="RON">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">RON</span>
-                <button onclick="toggleFavorite('RON')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="RON">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">RON</span>
+                <button onclick="toggleFavorite(this, 'RON')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.1005</p>
+                <span class="trend-badge mb-1" style="background: #84cc1622; color: #84cc16; border: 1px solid #84cc1644;">BUY</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.7/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.1005</p>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="ENS">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">ENS</span>
-                <button onclick="toggleFavorite('ENS')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="ENS">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">ENS</span>
+                <button onclick="toggleFavorite(this, 'ENS')" class="star-btn">★</button>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$6.811</p>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$6.827</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.0/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="ANKR">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">ANKR</span>
-                <button onclick="toggleFavorite('ANKR')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="ANKR">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">ANKR</span>
+                <button onclick="toggleFavorite(this, 'ANKR')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.00466</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.00467</p>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="MASK">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">MASK</span>
-                <button onclick="toggleFavorite('MASK')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="MASK">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">MASK</span>
+                <button onclick="toggleFavorite(this, 'MASK')" class="star-btn">★</button>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">$0.4745</p>
+                <span class="trend-badge mb-1" style="background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844;">NEUTRAL</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">0.3/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">$0.4734</p>
         </div>
         
             </div>
             
             <script>
-                // Arama Fonksiyonu
-                document.getElementById('search').addEventListener('input', function(e) {
-                    const term = e.target.value.toUpperCase();
-                    document.querySelectorAll('.card').forEach(card => {
-                        card.style.display = card.dataset.symbol.includes(term) ? 'block' : 'none';
-                    });
-                });
+                const grid = document.getElementById('coin-grid');
+                const searchInput = document.getElementById('search');
+                const viewToggle = document.getElementById('view-toggle');
+                let showingFavorites = false;
 
-                // Favori Ekleme/Çıkarma
-                function toggleFavorite(symbol) {
+                // Load favorites and update stars
+                function loadFavorites() {
+                    const favs = JSON.parse(localStorage.getItem('favs') || '[]');
+                    document.querySelectorAll('.card').forEach(card => {
+                        const symbol = card.dataset.symbol;
+                        const star = card.querySelector('.star-btn');
+                        if (favs.includes(symbol)) {
+                            star.classList.add('active');
+                        }
+                    });
+                }
+                loadFavorites();
+
+                // Toggle Favorite
+                function toggleFavorite(btn, symbol) {
                     let favs = JSON.parse(localStorage.getItem('favs') || '[]');
                     if (favs.includes(symbol)) {
                         favs = favs.filter(f => f !== symbol);
+                        btn.classList.remove('active');
                     } else {
                         favs.push(symbol);
+                        btn.classList.add('active');
                     }
                     localStorage.setItem('favs', JSON.stringify(favs));
+                    if (showingFavorites) renderGrid();
                 }
 
-                // Sadece Favorileri Göster
-                function filterFavorites() {
-                    let favs = JSON.parse(localStorage.getItem('favs') || '[]');
+                // Search & Filter
+                function renderGrid() {
+                    const term = searchInput.value.toUpperCase();
+                    const favs = JSON.parse(localStorage.getItem('favs') || '[]');
+                    
                     document.querySelectorAll('.card').forEach(card => {
-                        card.style.display = favs.includes(card.dataset.symbol) ? 'block' : 'none';
+                        const symbol = card.dataset.symbol;
+                        const matchesSearch = symbol.includes(term);
+                        const matchesFav = favs.includes(symbol);
+                        
+                        if (showingFavorites) {
+                            card.style.display = (matchesSearch && matchesFav) ? 'flex' : 'none';
+                        } else {
+                            card.style.display = matchesSearch ? 'flex' : 'none';
+                        }
                     });
+                }
+
+                searchInput.addEventListener('input', renderGrid);
+
+                // Toggle View (All / Favorites)
+                function toggleView() {
+                    showingFavorites = !showingFavorites;
+                    viewToggle.innerHTML = showingFavorites ? '🌐 All Assets' : '⭐ My Watchlist';
+                    viewToggle.classList.toggle('bg-blue-600');
+                    renderGrid();
                 }
             </script>
             
-            <div class="mt-16 p-6 card rounded-lg text-slate-500 text-xs text-center">
-                <p>⚠️ <strong>Yasal Uyarı:</strong> Yatırım tavsiyesi değildir.</p>
-            </div>
+            <footer class="mt-20 p-8 card text-slate-500 text-sm text-center">
+                <h3 class="font-bold text-slate-100 mb-3">⚠️ Legal Disclaimer</h3>
+                <p>All analysis, charts, and signals shared on BasedVector.com are <strong>for informational purposes only</strong>. This information does not constitute investment advice or financial consultancy. Cryptocurrency markets involve high risk, and you may lose your entire capital. You are solely responsible for your actions. BasedVector accepts no liability.</p>
+                <p class="text-xs text-slate-600 mt-6 uppercase tracking-widest">© 2026 BASED VECTOR ALPHA TERMINAL</p>
+            </footer>
         </div>
     </body>
     </html>
