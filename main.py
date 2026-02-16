@@ -98,18 +98,8 @@ def analyze_market():
 
 def create_html(data):
     now = datetime.now().strftime('%Y-%m-%d %H:%M')
-    
-    # Detayları JS için JSON'a çevir
     data_json = json.dumps({item['symbol']: item['details'] for item in data})
-    
-    # Tüm marketin ortalama rengini BasedVector için bul (Örn: BTC rengi veya genel ortalama)
-    # Basitlik için ilk sonucu (veya en büyük hacimlisini) BasedVector rengi olarak alabiliriz
-    # Bu versiyonda BasedVector'ü teknik olarak genel trende bağlayabiliriz veya sabit
-    # dinamik bir renk yapabiliriz. Şimdilik dinamik yapacağız.
-    try:
-        based_color = data[0]['text_color'] # En yüksek hacimli veya ilk coin
-    except:
-        based_color = "#3b82f6"
+    based_color = data[0]['text_color'] if data else "#3b82f6"
     
     html_header = f"""
     <!DOCTYPE html>
@@ -140,7 +130,10 @@ def create_html(data):
             .star-btn {{ font-size: 1.2rem; cursor: pointer; color: rgba(100,116,139,0.3); z-index: 10; position: relative;}}
             .light .star-btn {{ color: rgba(100,116,139,0.5); }}
             .star-btn.active {{ color: #eab308; }}
-            .modal {{ background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px); }}
+            
+            /* Modal Backdrop */
+            .modal-backdrop {{ background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(4px); }}
+            .light .modal-backdrop {{ background: rgba(0, 0, 0, 0.5); }}
             
             /* Score Bar Styles */
             .score-bar-container {{
@@ -211,7 +204,6 @@ def create_html(data):
     
     html_content = ""
     for item in data:
-        # Puan çubuğu genişliğini ve pozisyonunu hesapla
         intensity = abs(item['score']) / 3 * 50 
         
         if item['score'] >= 0:
@@ -222,7 +214,8 @@ def create_html(data):
         html_content += f"""
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: {item['bg_color']}; border: 1px solid {item['border_color']};"
-             data-symbol="{item['symbol']}" data-score="{item['score']}">
+             data-symbol="{item['symbol']}" data-score="{item['score']}"
+             onclick="showDetails('{item['symbol']}')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, '{item['symbol']}')" class="star-btn">★</button>
@@ -230,7 +223,7 @@ def create_html(data):
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('{item['symbol']}')">
+            <div class="text-center my-2">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">${item['price']}</p>
                 
                 <div class="score-bar-container">
@@ -239,42 +232,4 @@ def create_html(data):
                 </div>
                 <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">{item['score']}</span>
-                    <span>+3</span>
-                </div>
-            </div>
-        </div>
-        """
-            
-    html_footer = f"""
-            </div>
-            
-            <div id="details-modal" class="hidden fixed inset-0 modal z-50 flex items-center justify-center p-4">
-                <div class="card p-6 w-full max-w-sm" style="background: #0a0a0a; border: 1px solid #334155;">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 id="modal-title" class="text-xl font-bold text-white"></h3>
-                        <button onclick="closeDetails()" class="text-slate-500 hover:text-white">✕</button>
-                    </div>
-                    <div id="modal-content" class="space-y-2 text-sm text-slate-300 font-mono"></div>
-                </div>
-            </div>
-            
-            <script>
-                const data = {data_json};
-                const grid = document.getElementById('coin-grid');
-                const searchInput = document.getElementById('search');
-                const viewToggle = document.getElementById('view-toggle');
-                const sortSelect = document.getElementById('sort');
-                const themeToggle = document.getElementById('theme-toggle');
-                let showingFavorites = false;
-
-                // --- Theme Switcher ---
-                function toggleTheme() {{
-                    document.body.classList.toggle('light');
-                    const isLight = document.body.classList.contains('light');
-                    localStorage.setItem('theme', isLight ? 'light' : 'dark');
-                    themeToggle.innerText = isLight ? '☀️' : '🌙';
-                }}
-                
-                // Load saved theme
-                if (localStorage.getItem('theme') === 'light') {{
+                    <span
