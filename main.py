@@ -6,7 +6,7 @@ from datetime import datetime
 
 # --- AYARLAR ---
 # Analiz edilecek coin sayısı (Hız için düşük tuttum, artırabilirsiniz)
-COIN_LIMIT = 50 
+COIN_LIMIT = 35
 TIMEFRAME = '4h' # 4 Saatlik mumlara bakar
 
 def get_top_coins():
@@ -39,7 +39,7 @@ def analyze_market():
     for symbol in symbols:
         try:
             # Son 100 mumu çek
-            bars = exchange.fetch_ohlcv(symbol, timeframe=TIMEFRAME, limit=100)
+            bars = exchange.fetch_ohlcv(symbol, timeframe=TIMEFRAME, limit=35)
             df = pd.DataFrame(bars, columns=['time', 'open', 'high', 'low', 'close', 'volume'])
             
             # İndikatörleri Hesapla (Pandas TA)
@@ -104,7 +104,7 @@ def analyze_market():
             })
             
             # API Ban yememek için bekle
-            time.sleep(0.5)
+            time.sleep(3)
             
         except Exception as e:
             print(f"Hata ({symbol}): {e}")
