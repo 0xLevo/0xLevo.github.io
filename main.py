@@ -61,22 +61,22 @@ def analyze_market():
             s3 = get_cci_score(cci)
             avg_score = (s1 + s2 + s3) / 3
             
-            # Decision Colors based on precise ranges
+            # Decision Colors & BasedVector Text Colors
             if avg_score == 0:
-                bg_color = "rgba(51, 65, 85, 0.2)"; border_color = "rgba(51, 65, 85, 0.5)" # Neutral (Gray)
-                bar_color = "#64748b"
+                bg_color = "rgba(51, 65, 85, 0.2)"; border_color = "rgba(51, 65, 85, 0.5)" # Gray
+                bar_color = "#64748b"; text_color = "#94a3b8"
             elif -1.5 <= avg_score < 0:
-                bg_color = "rgba(239, 68, 68, 0.15)"; border_color = "rgba(239, 68, 68, 0.4)" # Light Red (-1.5 to 0)
-                bar_color = "#ef4444"
+                bg_color = "rgba(239, 68, 68, 0.15)"; border_color = "rgba(239, 68, 68, 0.4)" # Light Red
+                bar_color = "#ef4444"; text_color = "#f87171"
             elif avg_score < -1.5:
-                bg_color = "rgba(185, 28, 28, 0.25)"; border_color = "rgba(185, 28, 28, 0.6)" # Dark Red (-3 to -1.5)
-                bar_color = "#b91c1c"
+                bg_color = "rgba(185, 28, 28, 0.25)"; border_color = "rgba(185, 28, 28, 0.6)" # Dark Red
+                bar_color = "#b91c1c"; text_color = "#ef4444"
             elif 0 < avg_score <= 1.5:
-                bg_color = "rgba(34, 197, 94, 0.15)"; border_color = "rgba(34, 197, 94, 0.4)" # Light Green (0 to 1.5)
-                bar_color = "#22c55e"
+                bg_color = "rgba(34, 197, 94, 0.15)"; border_color = "rgba(34, 197, 94, 0.4)" # Light Green
+                bar_color = "#22c55e"; text_color = "#4ade80"
             else: # 1.5 < avg_score <= 3
-                bg_color = "rgba(16, 185, 129, 0.25)"; border_color = "rgba(16, 185, 129, 0.6)" # Dark Green (1.5 to 3)
-                bar_color = "#10b981"
+                bg_color = "rgba(16, 185, 129, 0.25)"; border_color = "rgba(16, 185, 129, 0.6)" # Dark Green
+                bar_color = "#10b981"; text_color = "#10b981"
 
             results.append({
                 'symbol': symbol,
@@ -84,6 +84,7 @@ def analyze_market():
                 'bg_color': bg_color,
                 'border_color': border_color,
                 'bar_color': bar_color,
+                'text_color': text_color,
                 'score': round(avg_score, 1),
                 'details': {
                     'RSI (14)': s1,
@@ -101,7 +102,15 @@ def create_html(data):
     # Detayları JS için JSON'a çevir
     data_json = json.dumps({item['symbol']: item['details'] for item in data})
     
-    # Hata veren uzun metni küçük parçalara bölerek güvenli hale getiriyoruz
+    # Tüm marketin ortalama rengini BasedVector için bul (Örn: BTC rengi veya genel ortalama)
+    # Basitlik için ilk sonucu (veya en büyük hacimlisini) BasedVector rengi olarak alabiliriz
+    # Bu versiyonda BasedVector'ü teknik olarak genel trende bağlayabiliriz veya sabit
+    # dinamik bir renk yapabiliriz. Şimdilik dinamik yapacağız.
+    try:
+        based_color = data[0]['text_color'] # En yüksek hacimli veya ilk coin
+    except:
+        based_color = "#3b82f6"
+    
     html_header = f"""
     <!DOCTYPE html>
     <html lang="en">
@@ -112,10 +121,24 @@ def create_html(data):
         <script src="https://cdn.tailwindcss.com"></script>
         <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
         <style>
-            body {{ background-color: #000000; color: #f1f5f9; font-family: 'Space Grotesk', sans-serif; }}
-            .card {{ transition: all 0.3s; border-radius: 16px; cursor: pointer; backdrop-filter: blur(10px); }}
+            :root {{
+                --bg-body: #000000;
+                --bg-card: #0a0a0a;
+                --text-main: #f1f5f9;
+                --border-card: #161616;
+            }}
+            .light {{
+                --bg-body: #f8fafc;
+                --bg-card: #ffffff;
+                --text-main: #0f172a;
+                --border-card: #e2e8f0;
+            }}
+            body {{ background-color: var(--bg-body); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; transition: background 0.3s, color 0.3s; }}
+            .card {{ background: var(--bg-card); border: 1px solid var(--border-card); transition: all 0.3s; border-radius: 16px; cursor: pointer; backdrop-filter: blur(10px); }}
             .card:hover {{ transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(255, 255, 255, 0.05); }}
-            .star-btn {{ font-size: 1.2rem; cursor: pointer; color: rgba(255,255,255,0.3); z-index: 10; position: relative;}}
+            .light .card:hover {{ box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }}
+            .star-btn {{ font-size: 1.2rem; cursor: pointer; color: rgba(100,116,139,0.3); z-index: 10; position: relative;}}
+            .light .star-btn {{ color: rgba(100,116,139,0.5); }}
             .star-btn.active {{ color: #eab308; }}
             .modal {{ background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px); }}
             
@@ -129,6 +152,8 @@ def create_html(data):
                 margin-top: 8px;
                 overflow: hidden;
             }}
+            .light .score-bar-container {{ background-color: #e2e8f0; }}
+            
             .score-bar-fill {{
                 height: 100%;
                 border-radius: 4px;
@@ -157,11 +182,15 @@ def create_html(data):
             <header class="mb-10 pb-6 border-b border-slate-900">
                 <div class="flex justify-between items-center mb-6">
                     <h1 class="text-4xl font-bold tracking-tighter text-white">
-                        <span class="text-blue-500">Based</span>Vector <span class="text-xs font-mono bg-blue-950 text-blue-300 px-2 py-0.5 rounded">ALPHA</span>
+                        <span style="color: {based_color};">Based</span>Vector 
+                        <span class="text-xs font-mono bg-blue-950 text-blue-300 px-2 py-0.5 rounded">ALPHA</span>
                     </h1>
-                    <div class="text-right text-sm">
-                        <p class="text-slate-400">Data Source: MEXC Global</p>
-                        <p class="font-mono text-blue-400">{now} UTC</p>
+                    <div class="flex items-center gap-3">
+                        <div class="text-right text-sm">
+                            <p class="text-slate-400">Data Source: MEXC Global</p>
+                            <p class="font-mono text-blue-400">{now} UTC</p>
+                        </div>
+                        <button onclick="toggleTheme()" id="theme-toggle" class="p-2 rounded-full bg-slate-900 text-white">🌙</button>
                     </div>
                 </div>
                 
@@ -236,105 +265,16 @@ def create_html(data):
                 const searchInput = document.getElementById('search');
                 const viewToggle = document.getElementById('view-toggle');
                 const sortSelect = document.getElementById('sort');
+                const themeToggle = document.getElementById('theme-toggle');
                 let showingFavorites = false;
 
-                // Load favorites and update stars
-                function loadFavorites() {{
-                    const favs = JSON.parse(localStorage.getItem('favs') || '[]');
-                    document.querySelectorAll('.card').forEach(card => {{
-                        const symbol = card.dataset.symbol;
-                        const star = card.querySelector('.star-btn');
-                        if (favs.includes(symbol)) {{
-                            star.classList.add('active');
-                        }}
-                    }});
-                }}
-                loadFavorites();
-
-                // Toggle Favorite
-                function toggleFavorite(btn, symbol) {{
-                    let favs = JSON.parse(localStorage.getItem('favs') || '[]');
-                    if (favs.includes(symbol)) {{
-                        favs = favs.filter(f => f !== symbol);
-                        btn.classList.remove('active');
-                    }} else {{
-                        favs.push(symbol);
-                        btn.classList.add('active');
-                    }}
-                    localStorage.setItem('favs', JSON.stringify(favs));
-                    if (showingFavorites) renderGrid();
-                }}
-
-                // Search & Filter & Sort
-                function renderGrid() {{
-                    const term = searchInput.value.toUpperCase();
-                    const favs = JSON.parse(localStorage.getItem('favs') || '[]');
-                    const sortOrder = sortSelect.value;
-                    
-                    let cards = Array.from(document.querySelectorAll('.card'));
-                    
-                    // Filter
-                    cards.forEach(card => {{
-                        const symbol = card.dataset.symbol;
-                        const matchesSearch = symbol.includes(term);
-                        const matchesFav = favs.includes(symbol);
-                        card.style.display = (showingFavorites ? (matchesSearch && matchesFav) : matchesSearch) ? 'flex' : 'none';
-                    }});
-                    
-                    // Sort
-                    cards.sort((a, b) => {{
-                        const scoreA = parseFloat(a.dataset.score);
-                        const scoreB = parseFloat(b.dataset.score);
-                        return sortOrder === 'score-desc' ? scoreB - scoreA : scoreA - scoreB;
-                    }});
-                    
-                    cards.forEach(card => grid.appendChild(card));
-                }}
-
-                searchInput.addEventListener('input', renderGrid);
-                sortSelect.addEventListener('change', renderGrid);
-
-                // Toggle View (All / Favorites)
-                function toggleView() {{
-                    showingFavorites = !showingFavorites;
-                    viewToggle.innerHTML = showingFavorites ? '🌐 All Assets' : '⭐ My Watchlist';
-                    viewToggle.classList.toggle('bg-blue-600');
-                    renderGrid();
+                // --- Theme Switcher ---
+                function toggleTheme() {{
+                    document.body.classList.toggle('light');
+                    const isLight = document.body.classList.contains('light');
+                    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+                    themeToggle.innerText = isLight ? '☀️' : '🌙';
                 }}
                 
-                // Modal Functions
-                function showDetails(symbol) {{
-                    const details = data[symbol];
-                    document.getElementById('modal-title').innerText = symbol + ' Score Details';
-                    let content = '';
-                    for (const [key, value] of Object.entries(details)) {{
-                        const color = value > 0 ? 'text-green-400' : (value < 0 ? 'text-red-400' : 'text-slate-400');
-                        content += `<div class='flex justify-between'><span>${{key}}</span><span class='${{color}} font-bold'>${{value}}</span></div>`;
-                    }}
-                    document.getElementById('modal-content').innerHTML = content;
-                    document.getElementById('details-modal').classList.remove('hidden');
-                }}
-                
-                function closeDetails() {{
-                    document.getElementById('details-modal').classList.hidden = true;
-                    document.getElementById('details-modal').classList.add('hidden');
-                }}
-            </script>
-            
-            <footer class="mt-20 p-8 text-slate-600 text-sm text-center">
-                <p class="text-xs uppercase tracking-widest">© 2026 BASED VECTOR ALPHA TERMINAL</p>
-            </footer>
-        </div>
-    </body>
-    </html>
-    """
-    
-    # Tüm parçaları birleştir
-    final_html = html_header + html_content + html_footer
-    
-    with open("index.html", "w", encoding="utf-8") as f:
-        f.write(final_html)
-
-if __name__ == "__main__":
-    market_data = analyze_market()
-    create_html(market_data)
+                // Load saved theme
+                if (localStorage.getItem('theme') === 'light') {{
