@@ -35,13 +35,13 @@ def analyze_market():
     for symbol in CMC_TOP_100:
         pair = f"{symbol}/USDT"
         try:
-            # 1. 1D (Günlük) Veri Çek ve Analiz Et (Son 200 mum)
+            # 1. 1D (Günlük) Veri Çek ve Analiz Et
             bars_1d = exchange.fetch_ohlcv(pair, timeframe='1d', limit=200)
             if len(bars_1d) < 100: continue
             df_1d = pd.DataFrame(bars_1d, columns=['time', 'open', 'high', 'low', 'close', 'volume'])
             score_1d = calculate_score(df_1d)
             
-            # 2. 4H (4 Saatlik) Veri Çek ve Analiz Et (Son 200 mum)
+            # 2. 4H (4 Saatlik) Veri Çek ve Analiz Et
             bars_4h = exchange.fetch_ohlcv(pair, timeframe='4h', limit=200)
             if len(bars_4h) < 100: continue
             df_4h = pd.DataFrame(bars_4h, columns=['time', 'open', 'high', 'low', 'close', 'volume'])
@@ -55,7 +55,7 @@ def analyze_market():
             if score_1d >= 2: trend = "TREND UP"; color = "#22c55e" # Green
             elif score_1d <= -1: trend = "TREND DOWN"; color = "#ef4444" # Red
             
-            # 4H ile onaylama (Opsiyonel daha detaylı mantık için)
+            # 4H ile onaylama
             if trend == "TREND UP" and score_4h < 1: trend = "UP (4H Weak)"
             elif trend == "TREND DOWN" and score_4h > 1: trend = "DOWN (4H Weak)"
 
@@ -66,13 +66,13 @@ def analyze_market():
                 'trend': trend,
                 'color': color
             })
-            time.sleep(0.05)
+            time.sleep(0.05) # Rate limit koruması
         except Exception:
             continue
             
     return results
 
-def def create_html(data):
+def create_html(data):
     now = datetime.now().strftime('%Y-%m-%d %H:%M')
     
     html = f"""
@@ -149,3 +149,6 @@ def def create_html(data):
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(html)
 
+if __name__ == "__main__":
+    market_data = analyze_market()
+    create_html(market_data)
