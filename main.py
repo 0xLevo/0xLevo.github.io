@@ -43,26 +43,24 @@ def analyze_market():
     for symbol in CMC_TOP_100:
         pair = f"{symbol}/USDT"
         try:
-            # 4H Veri Çek
             bars = exchange.fetch_ohlcv(pair, timeframe='4h', limit=100)
             if len(bars) < 50: continue
             df = pd.DataFrame(bars, columns=['time', 'open', 'high', 'low', 'close', 'volume'])
             
-            # --- TEKNİK GÖSTERGELER ---
+            # Indicators
             rsi = ta.rsi(df['close'], length=14).iloc[-1]
             macd_df = ta.macd(df['close'])
             macd = macd_df.iloc[-1, 0]
             signal = macd_df.iloc[-1, 2]
             cci = ta.cci(df['high'], df['low'], df['close'], length=20).iloc[-1]
             
-            # --- PUANLAMA ---
+            # Scoring
             s1 = get_rsi_score(rsi)
             s2 = get_macd_score(macd, signal)
             s3 = get_cci_score(cci)
-            
             avg_score = (s1 + s2 + s3) / 3
             
-            # --- KARAR MANTIĞI ---
+            # Decision
             if avg_score > 1.5: decision = "STRONG BUY"; color = "#22c55e"
             elif avg_score > 0.5: decision = "BUY"; color = "#84cc16"
             elif avg_score > -0.5: decision = "NEUTRAL"; color = "#94a3b8"
@@ -85,48 +83,63 @@ def create_html(data):
     
     html = f"""
     <!DOCTYPE html>
-    <html lang="tr">
+    <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>BasedVector | Pro Terminal</title>
+        <title>BasedVector | Alpha Dashboard</title>
         <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
         <style>
-            body {{ background-color: #020617; color: #f1f5f9; font-family: sans-serif; }}
-            .card {{ background: #111827; border: 1px solid #1f2937; transition: all 0.3s; }}
-            .card:hover {{ border-color: #3b82f6; transform: translateY(-2px); }}
-            .trend-badge {{ font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; font-weight: 800; }}
+            body {{ background-color: #020617; color: #f1f5f9; font-family: 'Space Grotesk', sans-serif; }}
+            .card {{ background: #0f172a; border: 1px solid #1e293b; transition: all 0.3s; border-radius: 12px; }}
+            .card:hover {{ border-color: #3b82f6; transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.1); }}
+            .trend-badge {{ font-size: 0.65rem; padding: 3px 8px; border-radius: 6px; font-weight: 800; }}
+            .star-btn {{ font-size: 1.2rem; cursor: pointer; color: #475569; }}
+            .star-btn.active {{ color: #eab308; }}
         </style>
     </head>
-    <body class="p-4 md:p-6">
+    <body class="p-4 md:p-8">
         <div class="max-w-7xl mx-auto">
-            <header class="mb-8 pb-4 border-b border-slate-800">
-                <div class="flex justify-between items-center mb-4">
-                    <h1 class="text-3xl font-extrabold tracking-tighter">BASED<span class="text-blue-500">VECTOR</span></h1>
-                    <div class="text-right text-xs">
-                        <p class="text-slate-400">Veri: MEXC Global</p>
+            <header class="mb-10 pb-6 border-b border-slate-800">
+                <div class="flex justify-between items-center mb-6">
+                    <h1 class="text-4xl font-bold tracking-tighter text-white">
+                        <span class="text-blue-500">Based</span>Vector <span class="text-xs font-mono bg-blue-950 text-blue-300 px-2 py-0.5 rounded">ALPHA</span>
+                    </h1>
+                    <div class="text-right text-sm">
+                        <p class="text-slate-400">Data Source: MEXC Global</p>
                         <p class="font-mono text-blue-400">{now} UTC</p>
                     </div>
                 </div>
                 
-                <div class="flex gap-2">
-                    <input type="text" id="search" placeholder="Coin ara..." class="bg-slate-800 p-2 rounded w-full text-sm">
-                    <button onclick="filterFavorites()" class="bg-yellow-600 p-2 rounded text-sm font-bold">⭐ Takip</button>
+                <div class="flex flex-col md:flex-row gap-4 glass p-4 rounded-xl bg-slate-900 border border-slate-800">
+                    <input type="text" id="search" placeholder="🔍 Search Assets (e.g. BTC)..." class="bg-slate-950 p-3 rounded-lg w-full text-sm border border-slate-700 text-white placeholder-slate-500">
+                    <button onclick="toggleView()" id="view-toggle" class="bg-slate-800 hover:bg-slate-700 text-white px-5 py-3 rounded-lg text-sm font-bold flex items-center gap-2">
+                        ⭐ My Watchlist
+                    </button>
                 </div>
             </header>
 
-            <div id="coin-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3">
+            <div id="coin-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
     """
     
     for item in data:
         html += f"""
-        <div class="card p-3 rounded-lg flex flex-col justify-between" data-symbol="{item['symbol']}">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-sm text-white">{item['symbol']}</span>
-                <button onclick="toggleFavorite('{item['symbol']}')" class="text-yellow-500">⭐</button>
-                <span class="trend-badge" style="background: {item['color']}22; color: {item['color']}; border: 1px solid {item['color']}44;">{item['decision']}</span>
+        <div class="card p-4 flex flex-col justify-between" data-symbol="{item['symbol']}">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-bold text-lg text-white font-mono">{item['symbol']}</span>
+                <button onclick="toggleFavorite(this, '{item['symbol']}')" class="star-btn">★</button>
             </div>
-            <p class="text-xs font-mono text-slate-400 mb-3">${item['price']}</p>
+            
+            <div class="flex justify-between items-end">
+                <p class="text-xl font-bold text-white font-mono mb-1">${item['price']}</p>
+                <span class="trend-badge mb-1" style="background: {item['color']}22; color: {item['color']}; border: 1px solid {item['color']}44;">{item['decision']}</span>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                <span>Score: <span class="font-bold text-white">{item['score']}/3</span></span>
+                <span class="font-mono">4H Timeframe</span>
+            </div>
         </div>
         """
             
@@ -134,37 +147,72 @@ def create_html(data):
             </div>
             
             <script>
-                // Arama Fonksiyonu
-                document.getElementById('search').addEventListener('input', function(e) {
-                    const term = e.target.value.toUpperCase();
-                    document.querySelectorAll('.card').forEach(card => {
-                        card.style.display = card.dataset.symbol.includes(term) ? 'block' : 'none';
-                    });
-                });
+                const grid = document.getElementById('coin-grid');
+                const searchInput = document.getElementById('search');
+                const viewToggle = document.getElementById('view-toggle');
+                let showingFavorites = false;
 
-                // Favori Ekleme/Çıkarma
-                function toggleFavorite(symbol) {
+                // Load favorites and update stars
+                function loadFavorites() {
+                    const favs = JSON.parse(localStorage.getItem('favs') || '[]');
+                    document.querySelectorAll('.card').forEach(card => {
+                        const symbol = card.dataset.symbol;
+                        const star = card.querySelector('.star-btn');
+                        if (favs.includes(symbol)) {
+                            star.classList.add('active');
+                        }
+                    });
+                }
+                loadFavorites();
+
+                // Toggle Favorite
+                function toggleFavorite(btn, symbol) {
                     let favs = JSON.parse(localStorage.getItem('favs') || '[]');
                     if (favs.includes(symbol)) {
                         favs = favs.filter(f => f !== symbol);
+                        btn.classList.remove('active');
                     } else {
                         favs.push(symbol);
+                        btn.classList.add('active');
                     }
                     localStorage.setItem('favs', JSON.stringify(favs));
+                    if (showingFavorites) renderGrid();
                 }
 
-                // Sadece Favorileri Göster
-                function filterFavorites() {
-                    let favs = JSON.parse(localStorage.getItem('favs') || '[]');
+                // Search & Filter
+                function renderGrid() {
+                    const term = searchInput.value.toUpperCase();
+                    const favs = JSON.parse(localStorage.getItem('favs') || '[]');
+                    
                     document.querySelectorAll('.card').forEach(card => {
-                        card.style.display = favs.includes(card.dataset.symbol) ? 'block' : 'none';
+                        const symbol = card.dataset.symbol;
+                        const matchesSearch = symbol.includes(term);
+                        const matchesFav = favs.includes(symbol);
+                        
+                        if (showingFavorites) {
+                            card.style.display = (matchesSearch && matchesFav) ? 'flex' : 'none';
+                        } else {
+                            card.style.display = matchesSearch ? 'flex' : 'none';
+                        }
                     });
+                }
+
+                searchInput.addEventListener('input', renderGrid);
+
+                // Toggle View (All / Favorites)
+                function toggleView() {
+                    showingFavorites = !showingFavorites;
+                    viewToggle.innerHTML = showingFavorites ? '🌐 All Assets' : '⭐ My Watchlist';
+                    viewToggle.classList.toggle('bg-blue-600');
+                    renderGrid();
                 }
             </script>
             
-            <div class="mt-16 p-6 card rounded-lg text-slate-500 text-xs text-center">
-                <p>⚠️ <strong>Yasal Uyarı:</strong> Yatırım tavsiyesi değildir.</p>
-            </div>
+            <footer class="mt-20 p-8 card text-slate-500 text-sm text-center">
+                <h3 class="font-bold text-slate-100 mb-3">⚠️ Legal Disclaimer</h3>
+                <p>All analysis, charts, and signals shared on BasedVector.com are <strong>for informational purposes only</strong>. This information does not constitute investment advice or financial consultancy. Cryptocurrency markets involve high risk, and you may lose your entire capital. You are solely responsible for your actions. BasedVector accepts no liability.</p>
+                <p class="text-xs text-slate-600 mt-6 uppercase tracking-widest">© 2026 BASED VECTOR ALPHA TERMINAL</p>
+            </footer>
         </div>
     </body>
     </html>
