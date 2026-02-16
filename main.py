@@ -60,17 +60,16 @@ def analyze_market():
             s3 = get_cci_score(cci)
             avg_score = (s1 + s2 + s3) / 3
             
-            # Decision & Elit Color Palette
-            if avg_score > 1.5: decision = "STRONG BUY"; color = "#3b82f6" # Royal Blue
-            elif avg_score > 0.5: decision = "BUY"; color = "#2dd4bf" # Teal
-            elif avg_score > -0.5: decision = "NEUTRAL"; color = "#a3a3a3" # Neutral Gray
-            elif avg_score > -1.5: decision = "SELL"; color = "#f97316" # Orange
-            else: decision = "STRONG SELL"; color = "#ef4444" # Red
+            # Decision Colors (No Text, just background)
+            if avg_score > 1.5: color = "#059669" # Deep Green (Strong Buy)
+            elif avg_score > 0.5: color = "#16a34a" # Green (Buy)
+            elif avg_score > -0.5: color = "#525252" # Gray (Neutral)
+            elif avg_score > -1.5: color = "#dc2626" # Red (Sell)
+            else: color = "#7f1d1d" # Deep Red (Strong Sell)
 
             results.append({
                 'symbol': symbol,
                 'price': f"{df['close'].iloc[-1]:.5g}",
-                'decision': decision,
                 'color': color,
                 'score': round(avg_score, 1),
                 'details': {
@@ -101,16 +100,20 @@ def create_html(data):
         <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
         <style>
             body {{ background-color: #000000; color: #f1f5f9; font-family: 'Space Grotesk', sans-serif; }}
-            .card {{ background: #0a0a0a; border: 1px solid #161616; transition: all 0.3s; border-radius: 12px; }}
+            .card {{ background: #0a0a0a; border: 1px solid #161616; transition: all 0.3s; border-radius: 12px; cursor: pointer; }}
             .card:hover {{ border-color: #3b82f6; transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.15); }}
-            .trend-badge {{ font-size: 0.65rem; padding: 4px 10px; border-radius: 20px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; }}
-            .star-btn {{ font-size: 1.2rem; cursor: pointer; color: #334155; }}
+            .star-btn {{ font-size: 1.2rem; cursor: pointer; color: #334155; z-index: 10; position: relative;}}
             .star-btn.active {{ color: #eab308; }}
             .modal {{ background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px); }}
         </style>
     </head>
     <body class="p-4 md:p-8">
         <div class="max-w-7xl mx-auto">
+            
+            <div class="bg-blue-950/50 border border-blue-900 text-blue-200 text-xs text-center p-2 rounded-lg mb-6 font-medium">
+                ⚠️ Legal Disclaimer: All information is for educational purposes only. Not financial advice.
+            </div>
+
             <header class="mb-10 pb-6 border-b border-slate-900">
                 <div class="flex justify-between items-center mb-6">
                     <h1 class="text-4xl font-bold tracking-tighter text-white">
@@ -124,7 +127,11 @@ def create_html(data):
                 
                 <div class="flex flex-col md:flex-row gap-4 glass p-4 rounded-xl bg-slate-950 border border-slate-900">
                     <input type="text" id="search" placeholder="🔍 Search Assets (e.g. BTC)..." class="bg-black p-3 rounded-lg w-full text-sm border border-slate-800 text-white placeholder-slate-600 focus:border-blue-500 focus:outline-none">
-                    <button onclick="toggleView()" id="view-toggle" class="bg-slate-900 hover:bg-slate-800 text-white px-5 py-3 rounded-lg text-sm font-bold flex items-center gap-2 border border-slate-800">
+                    <select id="sort" class="bg-black p-3 rounded-lg text-sm border border-slate-800 text-white focus:border-blue-500">
+                        <option value="score-desc">Score: High to Low</option>
+                        <option value="score-asc">Score: Low to High</option>
+                    </select>
+                    <button onclick="toggleView()" id="view-toggle" class="bg-slate-900 hover:bg-slate-800 text-white px-5 py-3 rounded-lg text-sm font-bold flex items-center gap-2 border border-slate-800 whitespace-nowrap">
                         ⭐ My Watchlist
                     </button>
                 </div>
@@ -135,16 +142,16 @@ def create_html(data):
     
     for item in data:
         html += f"""
-        <div class="card p-5 flex flex-col justify-between" data-symbol="{item['symbol']}">
+        <div class="card p-5 flex flex-col justify-between" data-symbol="{item['symbol']}" data-score="{item['score']}">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <button onclick="toggleFavorite(this, '{item['symbol']}')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono cursor-pointer hover:text-blue-400" onclick="showDetails('{item['symbol']}')">{item['symbol']}</span>
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, '{item['symbol']}')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">{item['symbol']}</span>
                 </div>
-                <span class="trend-badge" style="background: {item['color']}15; color: {item['color']}; border: 1px solid {item['color']}30;">{item['decision']}</span>
+                <div class="w-5 h-5 rounded-full" style="background-color: {item['color']};" title="Decision Color"></div>
             </div>
             
-            <div class="text-center my-2">
+            <div class="text-center my-2 cursor-pointer" onclick="showDetails('{item['symbol']}')">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">${item['price']}</p>
                 <p class="text-xs text-slate-500">Score: <span class="font-bold text-slate-300">{item['score']}/3</span></p>
             </div>
@@ -169,6 +176,7 @@ def create_html(data):
                 const grid = document.getElementById('coin-grid');
                 const searchInput = document.getElementById('search');
                 const viewToggle = document.getElementById('view-toggle');
+                const sortSelect = document.getElementById('sort');
                 let showingFavorites = false;
 
                 // Load favorites and update stars
@@ -198,25 +206,34 @@ def create_html(data):
                     if (showingFavorites) renderGrid();
                 }}
 
-                // Search & Filter
+                // Search & Filter & Sort
                 function renderGrid() {{
                     const term = searchInput.value.toUpperCase();
                     const favs = JSON.parse(localStorage.getItem('favs') || '[]');
+                    const sortOrder = sortSelect.value;
                     
-                    document.querySelectorAll('.card').forEach(card => {{
+                    let cards = Array.from(document.querySelectorAll('.card'));
+                    
+                    // Filter
+                    cards.forEach(card => {{
                         const symbol = card.dataset.symbol;
                         const matchesSearch = symbol.includes(term);
                         const matchesFav = favs.includes(symbol);
-                        
-                        if (showingFavorites) {{
-                            card.style.display = (matchesSearch && matchesFav) ? 'flex' : 'none';
-                        }} else {{
-                            card.style.display = matchesSearch ? 'flex' : 'none';
-                        }}
+                        card.style.display = (showingFavorites ? (matchesSearch && matchesFav) : matchesSearch) ? 'flex' : 'none';
                     }});
+                    
+                    // Sort
+                    cards.sort((a, b) => {{
+                        const scoreA = parseFloat(a.dataset.score);
+                        const scoreB = parseFloat(b.dataset.score);
+                        return sortOrder === 'score-desc' ? scoreB - scoreA : scoreA - scoreB;
+                    }});
+                    
+                    cards.forEach(card => grid.appendChild(card));
                 }}
 
                 searchInput.addEventListener('input', renderGrid);
+                sortSelect.addEventListener('change', renderGrid);
 
                 // Toggle View (All / Favorites)
                 function toggleView() {{
@@ -245,9 +262,7 @@ def create_html(data):
             </script>
             
             <footer class="mt-20 p-8 card text-slate-500 text-sm text-center">
-                <h3 class="font-bold text-slate-100 mb-3">⚠️ Legal Disclaimer</h3>
-                <p>All analysis, charts, and signals shared on BasedVector.com are <strong>for informational purposes only</strong>. This information does not constitute investment advice or financial consultancy. Cryptocurrency markets involve high risk, and you may lose your entire capital. You are solely responsible for your actions. BasedVector accepts no liability.</p>
-                <p class="text-xs text-slate-600 mt-6 uppercase tracking-widest">© 2026 BASED VECTOR ALPHA TERMINAL</p>
+                <p class="text-xs text-slate-600 uppercase tracking-widest">© 2026 BASED VECTOR ALPHA TERMINAL</p>
             </footer>
         </div>
     </body>
@@ -257,5 +272,4 @@ def create_html(data):
         f.write(html)
 
 if __name__ == "__main__":
-    market_data = analyze_market()
-    create_html(market_data)
+    market_
