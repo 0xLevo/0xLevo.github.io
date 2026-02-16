@@ -1,8 +1,4 @@
-import ccxt
-import pandas as pd
-import pandas_ta as ta
-import time
-from datetime import datetime
+import pandas_ta as ta  # Alt çizgi (_) kullandığınızdan emin olun
 
 # --- AYARLAR ---
 # Analiz edilecek coin sayısı (Hız için düşük tuttum, artırabilirsiniz)
