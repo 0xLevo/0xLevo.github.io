@@ -10,6 +10,19 @@ import numpy as np
 # --- ASSET LIST ---
 CMC_TOP_100 = ['BTC', 'ETH', 'USDT', 'BNB', 'SOL', 'XRP', 'USDC', 'ADA', 'AVAX', 'DOGE', 'DOT', 'TRX', 'LINK', 'MATIC', 'TON', 'SHIB', 'LTC', 'DAI', 'BCH', 'ATOM', 'UNI', 'LEO', 'NEAR', 'OKB', 'INJ', 'OP', 'ICP', 'FIL', 'LDO', 'TIA', 'STX', 'APT', 'ARB', 'RNDR', 'VET', 'KAS', 'ETC', 'MNT', 'CRO', 'ALGO', 'RUNE', 'EGLD', 'SEI', 'SUI', 'AAVE', 'ORDI', 'BEAM', 'FLOW', 'MINA', 'FTM', 'SAND', 'THETA', 'MANA', 'AXS', 'CHZ', 'GALA', 'EOS', 'IOTA', 'KCS', 'GRT', 'NEO', 'SNX', 'DYDX', 'CRV', 'MKR', 'WOO', 'LUNC', 'KAVA', 'IMX', 'HBAR', 'QNT', 'BTT', 'JASMY', 'WIF', 'BONK', 'PYTH', 'FLOKI', 'XLM', 'XMR', 'PEPE', 'AR', 'STRK', 'LRC', 'ZEC', 'KLAY', 'BSV', 'PENDLE', 'FET', 'AGIX', 'OCEAN', 'JUP', 'METIS', 'XAI', 'ALT', 'MANTA', 'RON', 'ENS', 'ANKR', 'MASK']
 
+# --- AI EVALUATION LOGIC ---
+def get_ai_eval(score):
+    if score >= 2.0:
+        return "OVERHEATED: Multiple indicators suggest a peak. High probability of a correction. Avoid FOMO."
+    elif 1.0 <= score < 2.0:
+        return "BULLISH BIAS: Positive momentum is strong, but look for support retests before entering new positions."
+    elif -1.0 < score < 1.0:
+        return "NEUTRAL: Market is indecisive. Sideways movement expected. Best to wait for a clear breakout."
+    elif -2.0 <= score <= -1.0:
+        return "ACCUMULATION: Price is hitting support levels with low RSI. Potential 'buy the dip' zone."
+    else:
+        return "EXTREME OVERSOLD: Deep value detected. Historically, these levels represent strong recovery pivots."
+
 # --- NEWS SENTIMENT ---
 def get_news_sentiment(symbol):
     positive_keywords = ['partnership', 'launch', 'upgrade', 'adoption', 'high']
@@ -26,9 +39,11 @@ def get_news_sentiment(symbol):
 def calculate_confidence(df):
     confidence = 0
     rsi = ta.rsi(df['close'], length=14)
-    if all(rsi.iloc[-2:] < 40) or all(rsi.iloc[-2:] > 60): confidence += 1
+    if rsi.iloc[-1] is not None:
+        if all(rsi.iloc[-2:] < 40) or all(rsi.iloc[-2:] > 60): confidence += 1
     bb = ta.bbands(df['close'], length=20, std=2)
-    if (df['close'].iloc[-1] < bb.iloc[-1, 0]) or (df['close'].iloc[-1] > bb.iloc[-1, 2]): confidence += 1
+    if bb is not None:
+        if (df['close'].iloc[-1] < bb.iloc[-1, 0]) or (df['close'].iloc[-1] > bb.iloc[-1, 2]): confidence += 1
     if df['volume'].iloc[-1] > df['volume'].rolling(window=10).mean().iloc[-1]: confidence += 1
     return confidence
 
@@ -46,7 +61,7 @@ def calculate_correlation(exchange, top_n=10):
     df_corr = pd.DataFrame(price_data)
     matrix = df_corr.corr()
     for sym in active_symbols:
-        if sym != 'BTC':
+        if sym != 'BTC' and sym in matrix.columns:
             corr_data[sym] = round(matrix['BTC'][sym], 2)
     return corr_data
 
@@ -73,7 +88,8 @@ def get_pro_score(df, symbol):
             "RSI": round(rsi,1), "MFI": round(mfi,1), 
             "News": "Bull" if news_score > 0 else ("Bear" if news_score < 0 else "Neutral"),
             "Trend": "Bull" if ema20 > ema50 else "Bear",
-            "Confidence": confidence
+            "Confidence": confidence,
+            "AI_Eval": get_ai_eval(final_score)
         }
         return final_score, details
     except: return 0, {"Error": "Calc"}
@@ -135,11 +151,11 @@ def create_html(data):
         :root { --bg: #050505; --card: #0a0a0a; --text: #f8fafc; --input-bg: #111; --border: #333; --modal-bg: #0a0a0a; --corr-text: #fff; }
         .light { --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --input-bg: #fff; --border: #ddd; --modal-bg: #fff; --corr-text: #0f172a; }
         body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; transition: 0.2s; padding-top: 100px; }
-        .legal-top { background: #1f2937; color: #e5e7eb; text-align: center; padding: 10px; font-size: 12px; position: fixed; top: 0; width: 100%; z-index: 100; border-bottom: 2px solid #dc2626; }
-        .legal-text { max-width: 800px; margin: 0 auto; line-height: 1.5; }
+        .legal-top { background: #1f2937; color: #e5e7eb; text-align: center; padding: 10px; font-size: 11px; position: fixed; top: 0; width: 100%; z-index: 100; border-bottom: 2px solid #dc2626; }
+        .legal-text { max-width: 900px; margin: 0 auto; line-height: 1.4; }
         .highlight-risk { color: #f87171; font-weight: bold; }
         .card { border-radius: 12px; border: 1px solid; cursor: pointer; transition: 0.2s; }
-        .card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
         .based-gradient { background: linear-gradient(90deg, #ef4444, #94a3b8, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; }
         .star-btn { font-size: 1.5rem; color: #334155; }
         .star-btn.active { color: #eab308 !important; }
@@ -154,6 +170,7 @@ def create_html(data):
         .modal-border { border-color: var(--border); }
         .corr-card { color: var(--corr-text); }
         .corr-sym { opacity: 0.7; }
+        .ai-box { background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 8px; padding: 12px; margin-top: 15px; }
     """
 
     html = f"""
@@ -163,9 +180,9 @@ def create_html(data):
     <style>{css}</style></head><body>
     <div class="legal-top">
         <div class="legal-text">
-            <strong>⚠️ LEGAL DISCLAIMER:</strong> This site does not provide financial advice. 
-            <strong>Scoring Logic:</strong> Automatically calculated based on technical indicators (RSI, MFI, Bollinger), market volume, Bitcoin correlation, and news sentiment analysis. 
-            <span class="highlight-risk">Crypto markets involve high risk.</span>
+            <strong>⚠️ LEGAL DISCLAIMER:</strong> Not financial advice. 
+            <strong>Logic:</strong> Technicals (RSI, MFI, BB), volume, BTC Correlation, and News Sentiment. 
+            <span class="highlight-risk">Crypto markets involve high capital risk.</span>
         </div>
     </div>
     <div class="max-w-7xl mx-auto p-4">
@@ -185,12 +202,12 @@ def create_html(data):
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-            <input type="text" id="search" placeholder="Search..." class="custom-input p-3 rounded-lg outline-none">
+            <input type="text" id="search" placeholder="Search asset..." class="custom-input p-3 rounded-lg outline-none">
             <select id="sort" class="custom-input p-3 rounded-lg outline-none cursor-pointer">
                 <option value="score-desc">🔥 Score: High</option>
                 <option value="score-asc">❄️ Score: Low</option>
             </select>
-            <button onclick="toggleFavView()" id="fav-btn" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-bold">⭐ Watchlist</button>
+            <button onclick="toggleFavView()" id="fav-btn" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 transition">⭐ Watchlist</button>
         </div>
         <div id="grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
     """
@@ -203,10 +220,7 @@ def create_html(data):
         confidence = i['details']['Confidence']
         stars = ""
         for s in range(3):
-            if s < confidence:
-                stars += '<span class="star star-filled">★</span>'
-            else:
-                stars += '<span class="star star-empty">★</span>'
+            stars += '<span class="star star-filled">★</span>' if s < confidence else '<span class="star star-empty">★</span>'
         
         details_json = json.dumps(i['details']).replace('"', '\\"')
         
@@ -227,17 +241,21 @@ def create_html(data):
             <div class="flex justify-between items-center update-tag">
                 <span class="{news_color} font-bold text-sm">{i['score']}</span>
                 <div class="flex gap-0.5">{stars}</div>
-                <span>{i['update_time']} UTC</span>
+                <span>{i['update_time']}</span>
             </div>
         </div>
         """
 
     html += f"""
         </div></div>
-        <div id="modal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50" onclick="this.classList.add('hidden')">
-            <div class="modal-card p-8 rounded-2xl max-w-sm w-full" onclick="event.stopPropagation()">
-                <h3 id="m-title" class="text-2xl font-bold mb-6 text-center"></h3>
-                <div id="m-body" class="space-y-4 font-mono text-sm"></div>
+        <div id="modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50" onclick="this.classList.add('hidden')">
+            <div class="modal-card p-8 rounded-2xl max-w-md w-full shadow-2xl" onclick="event.stopPropagation()">
+                <div class="flex justify-between items-start mb-6">
+                    <h3 id="m-title" class="text-3xl font-bold"></h3>
+                    <button onclick="document.getElementById('modal').classList.add('hidden')" class="text-2xl opacity-50">&times;</button>
+                </div>
+                <div id="m-body" class="space-y-3 font-mono text-sm"></div>
+                <div id="m-ai" class="ai-box mt-6 italic text-sm text-blue-400"></div>
             </div>
         </div>
         <script>
@@ -276,7 +294,7 @@ def create_html(data):
             }}
             function toggleFavView() {{
                 onlyFavs = !onlyFavs;
-                document.getElementById('fav-btn').innerText = onlyFavs ? '🌐 All' : '⭐ Watchlist';
+                document.getElementById('fav-btn').innerText = onlyFavs ? '🌐 View All' : '⭐ Watchlist';
                 render();
             }}
             
@@ -289,19 +307,20 @@ def create_html(data):
                     stars += s < details.Confidence ? '<span class="star star-filled">★</span>' : '<span class="star star-empty">★</span>';
                 }}
                 
-                let modalContent = `<div class="flex justify-between pb-2 modal-border border-b"><span>Confidence</span><div class="flex gap-0.5">${{stars}}</div></div>`;
+                let modalContent = `<div class="flex justify-between pb-2 modal-border border-b"><span>Confidence Index</span><div class="flex gap-0.5">${{stars}}</div></div>`;
                 
                 for (const [key, value] of Object.entries(details)) {{
-                    if (key !== 'Confidence') {{
+                    if (key !== 'Confidence' && key !== 'AI_Eval') {{
                         modalContent += `
-                            <div class="flex justify-between border-b modal-border pb-2">
-                                <span class="opacity-70">${{key}}</span><span class="font-bold">${{value}}</span>
+                            <div class="flex justify-between border-b modal-border py-2">
+                                <span class="opacity-60">${{key}}</span><span class="font-bold">${{value}}</span>
                             </div>`;
                     }}
                 }}
                 
-                document.getElementById('modal').classList.remove('hidden');
                 document.getElementById('m-body').innerHTML = modalContent;
+                document.getElementById('m-ai').innerHTML = "<strong>AI ANALYSIS:</strong><br>" + details.AI_Eval;
+                document.getElementById('modal').classList.remove('hidden');
             }}
             
             document.getElementById('search').addEventListener('input', render);
