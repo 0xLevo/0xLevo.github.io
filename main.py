@@ -32,15 +32,18 @@ def calculate_confidence(df):
        (df['close'].iloc[-1] > bb.iloc[-1, 2] and df['close'].iloc[-2] > bb.iloc[-2, 2]): confidence += 1
     return confidence 
 
-# --- CORRELATION MATRIX (Pro Feature) ---
+# --- CORRELATION MATRIX (Pro Feature - FIXED) ---
 def calculate_correlation(exchange, top_n=10):
-    """İlk n coinin BTC ile korelasyonunu hesaplar"""
+    """Korelasyon analizi için stabil coinleri hariç tutar"""
     corr_data = {}
-    symbols = CMC_TOP_100[:top_n]
+    
+    # USDT, USDC, DAI gibi stabil coinleri çıkarıp aktif coinleri alıyoruz
+    blacklist = ['USDT', 'USDC', 'DAI']
+    active_symbols = [s for s in CMC_TOP_100 if s not in blacklist][:top_n]
     
     # Tümünün verisini çek
     price_data = {}
-    for sym in symbols:
+    for sym in active_symbols:
         try:
             bars = exchange.fetch_ohlcv(f"{sym}/USDT", timeframe='1h', limit=50)
             price_data[sym] = [bar[4] for bar in bars]
@@ -50,8 +53,9 @@ def calculate_correlation(exchange, top_n=10):
     matrix = df_corr.corr()
     
     # BTC ile ilişkilerini al
-    for sym in symbols:
-        corr_data[sym] = round(matrix['BTC'][sym], 2)
+    for sym in active_symbols:
+        if sym != 'BTC':
+            corr_data[sym] = round(matrix['BTC'][sym], 2)
     return corr_data
 
 def get_pro_score(df, symbol):
@@ -87,7 +91,7 @@ def analyze_market():
     exchange = ccxt.mexc({'enableRateLimit': True})
     results = []
     
-    # Korelasyonu hesapla
+    # Korelasyonu hesapla (Fix uygulanmış fonksiyon)
     correlation_matrix = calculate_correlation(exchange)
     
     for index, symbol in enumerate(CMC_TOP_100):
@@ -125,12 +129,11 @@ def create_html(data):
     full_update = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M')
     data_json = json.dumps({item['symbol']: item['details'] for item in data})
     
-    # Sadece ilk 10 için korelasyon görseli hazırla
+    # Korelasyon görselini oluştur (Sadece aktif coinler için)
     corr_html = ""
-    for item in data[:10]:
+    for item in data:
         if 'BTC_Corr' in item['details']:
             corr = item['details']['BTC_Corr']
-            # Renk skalası: Kırmızı (Ters) -> Sarı (Nötr) -> Yeşil (Paralel)
             color = "border-red-500" if corr < 0.2 else ("border-yellow-500" if corr < 0.7 else "border-green-500")
             corr_html += f"""
                 <div class="p-2 bg-gray-900 rounded-lg text-center border-b-2 {color}">
