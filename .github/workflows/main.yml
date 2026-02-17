@@ -1,0 +1,38 @@
+name: BasedVector Scheduler
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    # Her 4 saatte bir otomatik çalıştır (UTC saatine göre)
+    - cron: '0 */4 * * *'
+  # Manuel çalıştırma özelliği
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install Dependencies
+        run: |
+          pip install ccxt pandas pandas_ta numpy
+
+      - name: Run Analysis
+        run: |
+          python main.py
+
+      - name: Commit and Push Changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add index.html
+          git commit -m "Update Dashboard: $(date '+%Y-%m-%d %H:%M:%S')"
+          git push
