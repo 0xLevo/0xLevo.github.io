@@ -35,12 +35,14 @@ def get_pro_score(df):
     except: return 0, {"Error": "Calc"}
 
 def analyze_market():
+    # enableRateLimit True yapıldı, ccxt kendi içinde beklemeler yapar
     exchange = ccxt.mexc({'enableRateLimit': True})
     results = []
-    print("BasedVector Terminal v15.3 Analyzing...")
+    print(f"[{datetime.now().strftime('%H:%M:%S')}] BasedVector Engine Scanning...")
     for index, symbol in enumerate(CMC_TOP_100):
         try:
             pair = f"{symbol}/USDT"
+            # 4 saatlik grafik, 100 bar, veri yeterliliği için 60 bar şartı
             bars = exchange.fetch_ohlcv(pair, timeframe='4h', limit=100)
             if len(bars) < 60: continue
             df = pd.DataFrame(bars, columns=['time', 'open', 'high', 'low', 'close', 'volume'])
@@ -58,15 +60,17 @@ def analyze_market():
                 'rank': index + 1, 'bg': bg, 'border': border, 'bar': bar,
                 'score': score, 'details': details
             })
-            time.sleep(0.01)
-        except: continue
+            # BAN YEMEMEK İÇİN GÜVENLİ BEKLEME (0.1 Saniye)
+            time.sleep(0.1) 
+        except Exception as e:
+            print(f"Error {symbol}: {e}")
+            continue
     return results
 
 def create_html(data):
     now = datetime.now().strftime('%Y-%m-%d %H:%M')
     data_json = json.dumps({item['symbol']: item['details'] for item in data})
     
-    # CSS (No double brace escaping needed here, structured outside f-string)
     css = """
         :root { --bg: #050505; --card: #0a0a0a; --text: #f8fafc; --sec: #94a3b8; }
         .light { --bg: #f1f5f9; --card: #ffffff; --text: #0f172a; --sec: #475569; }
@@ -80,7 +84,6 @@ def create_html(data):
         .custom-input { background: var(--card); border: 1px solid #262626; color: var(--text); }
     """
 
-    # HTML Generator
     html = f"""
     <!DOCTYPE html><html><head><meta charset="UTF-8">
     <title>BasedVector Alpha</title>
@@ -137,7 +140,6 @@ def create_html(data):
         </div>
         """
 
-    # Footer JavaScript - Protected from f-string with DATA_PLACEHOLDER
     html += f"""
         </div></div>
         <div id="modal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50" onclick="this.classList.add('hidden')">
