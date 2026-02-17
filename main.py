@@ -61,22 +61,22 @@ def analyze_market():
             s3 = get_cci_score(cci)
             avg_score = (s1 + s2 + s3) / 3
             
-            # Decision Colors & BasedVector Text Colors
+            # Decision Colors
             if avg_score == 0:
-                bg_color = "rgba(51, 65, 85, 0.2)"; border_color = "rgba(51, 65, 85, 0.5)" # Gray
-                bar_color = "#64748b"; text_color = "#94a3b8"
+                bg_color = "rgba(148, 163, 184, 0.1)"; border_color = "rgba(148, 163, 184, 0.3)"
+                bar_color = "#94a3b8"
             elif -1.5 <= avg_score < 0:
-                bg_color = "rgba(239, 68, 68, 0.15)"; border_color = "rgba(239, 68, 68, 0.4)" # Light Red
-                bar_color = "#ef4444"; text_color = "#f87171"
+                bg_color = "rgba(239, 68, 68, 0.15)"; border_color = "rgba(239, 68, 68, 0.4)"
+                bar_color = "#ef4444"
             elif avg_score < -1.5:
-                bg_color = "rgba(185, 28, 28, 0.25)"; border_color = "rgba(185, 28, 28, 0.6)" # Dark Red
-                bar_color = "#b91c1c"; text_color = "#ef4444"
+                bg_color = "rgba(185, 28, 28, 0.25)"; border_color = "rgba(185, 28, 28, 0.6)"
+                bar_color = "#b91c1c"
             elif 0 < avg_score <= 1.5:
-                bg_color = "rgba(34, 197, 94, 0.15)"; border_color = "rgba(34, 197, 94, 0.4)" # Light Green
-                bar_color = "#22c55e"; text_color = "#4ade80"
+                bg_color = "rgba(34, 197, 94, 0.15)"; border_color = "rgba(34, 197, 94, 0.4)"
+                bar_color = "#22c55e"
             else: # 1.5 < avg_score <= 3
-                bg_color = "rgba(16, 185, 129, 0.25)"; border_color = "rgba(16, 185, 129, 0.6)" # Dark Green
-                bar_color = "#10b981"; text_color = "#10b981"
+                bg_color = "rgba(16, 185, 129, 0.25)"; border_color = "rgba(16, 185, 129, 0.6)"
+                bar_color = "#10b981"
 
             results.append({
                 'symbol': symbol,
@@ -84,7 +84,6 @@ def analyze_market():
                 'bg_color': bg_color,
                 'border_color': border_color,
                 'bar_color': bar_color,
-                'text_color': text_color,
                 'score': round(avg_score, 1),
                 'details': {
                     'RSI (14)': s1,
@@ -99,9 +98,7 @@ def analyze_market():
 def create_html(data):
     now = datetime.now().strftime('%Y-%m-%d %H:%M')
     data_json = json.dumps({item['symbol']: item['details'] for item in data})
-    based_color = data[0]['text_color'] if data else "#3b82f6"
     
-    # Hata veren uzun metni küçük parçalara bölerek güvenli hale getiriyoruz
     html_header = f"""
     <!DOCTYPE html>
     <html lang="en">
@@ -116,85 +113,84 @@ def create_html(data):
                 --bg-body: #000000;
                 --bg-card: #0a0a0a;
                 --text-main: #f1f5f9;
+                --text-muted: #94a3b8;
                 --border-card: #161616;
+                --bg-input: #000000;
+                --border-input: #334155;
             }}
             .light {{
-                --bg-body: #f8fafc;
+                --bg-body: #f1f5f9;
                 --bg-card: #ffffff;
                 --text-main: #0f172a;
+                --text-muted: #475569;
                 --border-card: #e2e8f0;
+                --bg-input: #ffffff;
+                --border-input: #cbd5e1;
             }}
             body {{ background-color: var(--bg-body); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; transition: background 0.3s, color 0.3s; }}
-            .card {{ background: var(--bg-card); border: 1px solid var(--border-card); transition: all 0.3s; border-radius: 16px; cursor: pointer; backdrop-filter: blur(10px); }}
-            .card:hover {{ transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(255, 255, 255, 0.05); }}
-            .light .card:hover {{ box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }}
+            .card {{ background: var(--bg-card); border: 1px solid var(--border-card); transition: all 0.3s; border-radius: 16px; cursor: pointer; }}
+            .card:hover {{ transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }}
+            
             .star-btn {{ font-size: 1.2rem; cursor: pointer; color: rgba(100,116,139,0.3); z-index: 10; position: relative;}}
             .light .star-btn {{ color: rgba(100,116,139,0.5); }}
             .star-btn.active {{ color: #eab308; }}
             
-            /* Modal Backdrop */
             .modal-backdrop {{ background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(4px); }}
-            .light .modal-backdrop {{ background: rgba(0, 0, 0, 0.5); }}
+            .light .modal-backdrop {{ background: rgba(0, 0, 0, 0.4); }}
             
-            /* Score Bar Styles */
-            .score-bar-container {{
-                width: 100%;
-                height: 8px;
-                background-color: #1f2937;
-                border-radius: 4px;
-                position: relative;
-                margin-top: 8px;
-                overflow: hidden;
-            }}
+            .score-bar-container {{ width: 100%; height: 8px; background-color: #1f2937; border-radius: 4px; position: relative; margin-top: 8px; overflow: hidden; }}
             .light .score-bar-container {{ background-color: #e2e8f0; }}
             
-            .score-bar-fill {{
-                height: 100%;
-                border-radius: 4px;
-                transition: width 0.5s ease-out;
-                position: absolute;
-                top: 0;
+            .score-bar-fill {{ height: 100%; border-radius: 4px; transition: width 0.5s ease-out; position: absolute; top: 0; }}
+            .score-bar-center {{ position: absolute; top: 0; left: 50%; width: 2px; height: 100%; background-color: #4b5563; transform: translateX(-50%); }}
+            .light .score-bar-center {{ background-color: #cbd5e1; }}
+
+            /* BasedVector Special Gradient */
+            .based-gradient {{
+                background: linear-gradient(90deg, #ef4444 0%, #f87171 25%, #94a3b8 50%, #4ade80 75%, #10b981 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
             }}
-            .score-bar-center {{
-                position: absolute;
-                top: 0;
-                left: 50%;
-                width: 2px;
-                height: 100%;
-                background-color: #4b5563;
-                transform: translateX(-50%);
+            
+            /* Input Styles */
+            input, select {{
+                background-color: var(--bg-input) !important;
+                color: var(--text-main) !important;
+                border: 1px solid var(--border-input) !important;
             }}
+            .light input::placeholder {{ color: #94a3b8; }}
         </style>
     </head>
     <body class="p-4 md:p-8">
         <div class="max-w-7xl mx-auto">
             
-            <div class="bg-blue-950/30 border border-blue-900/50 text-blue-200 text-xs text-center p-2 rounded-lg mb-6 font-medium">
+            <div class="bg-blue-950/30 border border-blue-900/50 text-blue-200 text-xs text-center p-2 rounded-lg mb-6 font-medium light:bg-blue-100 light:border-blue-200 light:text-blue-900">
                 ⚠️ Legal Disclaimer: All information is for educational purposes only. Not financial advice.
             </div>
 
-            <header class="mb-10 pb-6 border-b border-slate-900">
+            <header class="mb-10 pb-6 border-b border-slate-900 light:border-slate-200">
                 <div class="flex justify-between items-center mb-6">
-                    <h1 class="text-4xl font-bold tracking-tighter text-white">
-                        <span style="color: {based_color};">Based</span>Vector 
-                        <span class="text-xs font-mono bg-blue-950 text-blue-300 px-2 py-0.5 rounded">ALPHA</span>
+                    <h1 class="text-4xl font-bold tracking-tighter text-white light:text-slate-950">
+                        <span class="based-gradient">Based</span>Vector 
+                        <span class="text-xs font-mono bg-blue-950 text-blue-300 px-2 py-0.5 rounded light:bg-blue-100 light:text-blue-700">ALPHA</span>
                     </h1>
                     <div class="flex items-center gap-3">
                         <div class="text-right text-sm">
-                            <p class="text-slate-400">Data Source: MEXC Global</p>
-                            <p class="font-mono text-blue-400">{now} UTC</p>
+                            <p class="text-slate-400 light:text-slate-600">Data Source: MEXC Global</p>
+                            <p class="font-mono text-blue-400 light:text-blue-600">{now} UTC</p>
                         </div>
-                        <button onclick="toggleTheme()" id="theme-toggle" class="p-2 rounded-full bg-slate-900 text-white">🌙</button>
+                        <button onclick="toggleTheme()" id="theme-toggle" class="p-2 rounded-full bg-slate-900 text-white light:bg-slate-200 light:text-slate-950">🌙</button>
                     </div>
                 </div>
                 
-                <div class="flex flex-col md:flex-row gap-4 glass p-4 rounded-xl bg-slate-950 border border-slate-900">
-                    <input type="text" id="search" placeholder="🔍 Search Assets (e.g. BTC)..." class="bg-black p-3 rounded-lg w-full text-sm border border-slate-800 text-white placeholder-slate-600 focus:border-blue-500 focus:outline-none">
-                    <select id="sort" class="bg-black p-3 rounded-lg text-sm border border-slate-800 text-white focus:border-blue-500">
+                <div class="flex flex-col md:flex-row gap-4 glass p-4 rounded-xl bg-slate-950 border border-slate-900 light:bg-white light:border-slate-200">
+                    <input type="text" id="search" placeholder="🔍 Search Assets (e.g. BTC)..." class="p-3 rounded-lg w-full text-sm focus:border-blue-500 focus:outline-none">
+                    <select id="sort" class="p-3 rounded-lg text-sm focus:border-blue-500">
                         <option value="score-desc">Score: High to Low</option>
                         <option value="score-asc">Score: Low to High</option>
                     </select>
-                    <button onclick="toggleView()" id="view-toggle" class="bg-slate-900 hover:bg-slate-800 text-white px-5 py-3 rounded-lg text-sm font-bold flex items-center gap-2 border border-slate-800 whitespace-nowrap">
+                    <button onclick="toggleView()" id="view-toggle" class="bg-slate-900 hover:bg-slate-800 text-white px-5 py-3 rounded-lg text-sm font-bold flex items-center gap-2 border border-slate-800 whitespace-nowrap light:bg-slate-100 light:text-slate-900 light:border-slate-200 light:hover:bg-slate-200">
                         ⭐ My Watchlist
                     </button>
                 </div>
@@ -220,20 +216,20 @@ def create_html(data):
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, '{item['symbol']}')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">{item['symbol']}</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">{item['symbol']}</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">${item['price']}</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">${item['price']}</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="{bar_style}"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">{item['score']}</span>
+                    <span class="font-bold text-white light:text-slate-950">{item['score']}</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -244,12 +240,12 @@ def create_html(data):
             </div>
             
             <div id="details-modal" class="hidden fixed inset-0 modal-backdrop z-50 flex items-center justify-center p-4" onclick="closeDetails(event)">
-                <div class="card p-6 w-full max-w-sm" onclick="event.stopPropagation()">
+                <div class="card p-6 w-full max-w-sm" style="background: var(--bg-card);" onclick="event.stopPropagation()">
                     <div class="flex justify-between items-center mb-4">
-                        <h3 id="modal-title" class="text-xl font-bold text-white"></h3>
-                        <button onclick="closeDetails()" class="text-slate-500 hover:text-white">✕</button>
+                        <h3 id="modal-title" class="text-xl font-bold text-white light:text-slate-950"></h3>
+                        <button onclick="closeDetails()" class="text-slate-500 hover:text-white light:text-slate-600">✕</button>
                     </div>
-                    <div id="modal-content" class="space-y-2 text-sm text-slate-300 font-mono"></div>
+                    <div id="modal-content" class="space-y-2 text-sm text-slate-300 light:text-slate-700 font-mono"></div>
                 </div>
             </div>
             
@@ -262,7 +258,6 @@ def create_html(data):
                 const themeToggle = document.getElementById('theme-toggle');
                 let showingFavorites = false;
 
-                // --- Theme Switcher ---
                 function toggleTheme() {{
                     document.body.classList.toggle('light');
                     const isLight = document.body.classList.contains('light');
@@ -274,7 +269,6 @@ def create_html(data):
                     toggleTheme();
                 }}
 
-                // Load favorites and update stars
                 function loadFavorites() {{
                     const favs = JSON.parse(localStorage.getItem('favs') || '[]');
                     document.querySelectorAll('.card').forEach(card => {{
@@ -287,7 +281,6 @@ def create_html(data):
                 }}
                 loadFavorites();
 
-                // Toggle Favorite
                 function toggleFavorite(btn, symbol) {{
                     let favs = JSON.parse(localStorage.getItem('favs') || '[]');
                     if (favs.includes(symbol)) {{
@@ -301,7 +294,6 @@ def create_html(data):
                     if (showingFavorites) renderGrid();
                 }}
 
-                // Search & Filter & Sort
                 function renderGrid() {{
                     const term = searchInput.value.toUpperCase();
                     const favs = JSON.parse(localStorage.getItem('favs') || '[]');
@@ -309,7 +301,6 @@ def create_html(data):
                     
                     let cards = Array.from(document.querySelectorAll('.card'));
                     
-                    // Filter
                     cards.forEach(card => {{
                         const symbol = card.dataset.symbol;
                         const matchesSearch = symbol.includes(term);
@@ -317,14 +308,12 @@ def create_html(data):
                         card.style.display = (showingFavorites ? (matchesSearch && matchesFav) : matchesSearch) ? 'flex' : 'none';
                     }});
                     
-                    // Sort (Re-ordered logic)
                     cards.sort((a, b) => {{
                         const scoreA = parseFloat(a.dataset.score);
                         const scoreB = parseFloat(b.dataset.score);
                         return sortOrder === 'score-desc' ? scoreB - scoreA : scoreA - scoreB;
                     }});
                     
-                    // Detach, re-append in new order, and filter
                     cards.forEach(card => {{
                         if (card.style.display !== 'none') {{
                             grid.appendChild(card);
@@ -335,21 +324,18 @@ def create_html(data):
                 searchInput.addEventListener('input', renderGrid);
                 sortSelect.addEventListener('change', renderGrid);
 
-                // Toggle View (All / Favorites)
                 function toggleView() {{
                     showingFavorites = !showingFavorites;
                     viewToggle.innerHTML = showingFavorites ? '🌐 All Assets' : '⭐ My Watchlist';
-                    viewToggle.classList.toggle('bg-blue-600');
                     renderGrid();
                 }}
                 
-                // Modal Functions
                 function showDetails(symbol) {{
                     const details = data[symbol];
                     document.getElementById('modal-title').innerText = symbol + ' Score Details';
                     let content = '';
                     for (const [key, value] of Object.entries(details)) {{
-                        const color = value > 0 ? 'text-green-400' : (value < 0 ? 'text-red-400' : 'text-slate-400');
+                        const color = value > 0 ? 'text-green-500' : (value < 0 ? 'text-red-500' : 'text-slate-500');
                         content += `<div class='flex justify-between'><span>${{key}}</span><span class='${{color}} font-bold'>${{value}}</span></div>`;
                     }}
                     document.getElementById('modal-content').innerHTML = content;
@@ -357,13 +343,12 @@ def create_html(data):
                 }}
                 
                 function closeDetails(event) {{
-                    // If event is provided, check if click was on backdrop, not modal content
                     if (event && event.target.id !== 'details-modal') return;
                     document.getElementById('details-modal').classList.add('hidden');
                 }}
             </script>
             
-            <footer class="mt-20 p-8 text-slate-600 text-sm text-center">
+            <footer class="mt-20 p-8 text-slate-600 text-sm text-center light:text-slate-500">
                 <p class="text-xs uppercase tracking-widest">© 2026 BASED VECTOR ALPHA TERMINAL</p>
             </footer>
         </div>
