@@ -5,7 +5,7 @@ import time
 from datetime import datetime, timezone
 import json 
 import random 
-import numpy as np # Korelasyon hesabı için
+import numpy as np
 
 # --- ASSET LIST ---
 CMC_TOP_100 = ['BTC', 'ETH', 'USDT', 'BNB', 'SOL', 'XRP', 'USDC', 'ADA', 'AVAX', 'DOGE', 'DOT', 'TRX', 'LINK', 'MATIC', 'TON', 'SHIB', 'LTC', 'DAI', 'BCH', 'ATOM', 'UNI', 'LEO', 'NEAR', 'OKB', 'INJ', 'OP', 'ICP', 'FIL', 'LDO', 'TIA', 'STX', 'APT', 'ARB', 'RNDR', 'VET', 'KAS', 'ETC', 'MNT', 'CRO', 'ALGO', 'RUNE', 'EGLD', 'SEI', 'SUI', 'AAVE', 'ORDI', 'BEAM', 'FLOW', 'MINA', 'FTM', 'SAND', 'THETA', 'MANA', 'AXS', 'CHZ', 'GALA', 'EOS', 'IOTA', 'KCS', 'GRT', 'NEO', 'SNX', 'DYDX', 'CRV', 'MKR', 'WOO', 'LUNC', 'KAVA', 'IMX', 'HBAR', 'QNT', 'BTT', 'JASMY', 'WIF', 'BONK', 'PYTH', 'FLOKI', 'XLM', 'XMR', 'PEPE', 'AR', 'STRK', 'LRC', 'ZEC', 'KLAY', 'BSV', 'PENDLE', 'FET', 'AGIX', 'OCEAN', 'JUP', 'METIS', 'XAI', 'ALT', 'MANTA', 'RON', 'ENS', 'ANKR', 'MASK']
@@ -22,37 +22,40 @@ def get_news_sentiment(symbol):
         if any(word in headline.lower() for word in negative_keywords): score -= 0.5
     return max(min(score, 1), -1)
 
-# --- CONFIDENCE INDEX ---
+# --- CONFIDENCE INDEX (Revised) ---
 def calculate_confidence(df):
+    """0 ile 3 arası güven skoru döner"""
     confidence = 0
+    
+    # RSI süreklilik kontrolü (Son 3 mum)
     rsi = ta.rsi(df['close'], length=14)
     if all(rsi.iloc[-3:] < 35) or all(rsi.iloc[-3:] > 65): confidence += 1
+        
+    # Bollinger Band süreklilik kontrolü (Son 2 mum)
     bb = ta.bbands(df['close'], length=20, std=2)
     if (df['close'].iloc[-1] < bb.iloc[-1, 0] and df['close'].iloc[-2] < bb.iloc[-2, 0]) or \
-       (df['close'].iloc[-1] > bb.iloc[-1, 2] and df['close'].iloc[-2] > bb.iloc[-2, 2]): confidence += 1
-    return confidence 
+       (df['close'].iloc[-1] > bb.iloc[-1, 2] and df['close'].iloc[-2] > bb.iloc[-2, 2]):
+        confidence += 1
+        
+    # Hacim artış kontrolü (Basit)
+    if df['volume'].iloc[-1] > df['volume'].iloc[-2] * 1.5:
+        confidence += 1
+        
+    return confidence # 0 ile 3 arası
 
-# --- CORRELATION MATRIX (Pro Feature - FIXED) ---
+# --- CORRELATION MATRIX ---
 def calculate_correlation(exchange, top_n=10):
-    """Korelasyon analizi için stabil coinleri hariç tutar"""
     corr_data = {}
-    
-    # USDT, USDC, DAI gibi stabil coinleri çıkarıp aktif coinleri alıyoruz
     blacklist = ['USDT', 'USDC', 'DAI']
     active_symbols = [s for s in CMC_TOP_100 if s not in blacklist][:top_n]
-    
-    # Tümünün verisini çek
     price_data = {}
     for sym in active_symbols:
         try:
             bars = exchange.fetch_ohlcv(f"{sym}/USDT", timeframe='1h', limit=50)
             price_data[sym] = [bar[4] for bar in bars]
         except: continue
-        
     df_corr = pd.DataFrame(price_data)
     matrix = df_corr.corr()
-    
-    # BTC ile ilişkilerini al
     for sym in active_symbols:
         if sym != 'BTC':
             corr_data[sym] = round(matrix['BTC'][sym], 2)
@@ -74,15 +77,16 @@ def get_pro_score(df, symbol):
         strength = 1.8 if adx > 25 else 0.6 
         
         news_score = get_news_sentiment(symbol)
-        confidence = calculate_confidence(df)
+        confidence = calculate_confidence(df) # 0-3 arası
         
+        # Skor hesaplaması: güven ne kadar yüksekse skoru o kadar çarpar
         final_score = round(max(min((m_score + v_score + (t_dir * strength) + news_score) * (1 + confidence*0.1), 3), -3), 1)
         
         details = {
             "RSI": round(rsi,1), "MFI": round(mfi,1), 
             "News": "Bull" if news_score > 0 else ("Bear" if news_score < 0 else "Neutral"),
             "Trend": "Bull" if ema20 > ema50 else "Bear",
-            "Confidence": f"{'★' * confidence}{'☆' * (2-confidence)}"
+            "Confidence": confidence # Rakam olarak tutuyoruz
         }
         return final_score, details
     except: return 0, {"Error": "Calc"}
@@ -90,8 +94,6 @@ def get_pro_score(df, symbol):
 def analyze_market():
     exchange = ccxt.mexc({'enableRateLimit': True})
     results = []
-    
-    # Korelasyonu hesapla (Fix uygulanmış fonksiyon)
     correlation_matrix = calculate_correlation(exchange)
     
     for index, symbol in enumerate(CMC_TOP_100):
@@ -103,17 +105,17 @@ def analyze_market():
             
             score, details = get_pro_score(df, symbol)
             
-            # Korelasyon bilgisini detaylara ekle
             if symbol in correlation_matrix:
                 details['BTC_Corr'] = correlation_matrix[symbol]
             
             coin_time = datetime.now(timezone.utc).strftime('%H:%M:%S')
             
-            if score >= 1.5: bg, border, bar = "rgba(6, 78, 59, 0.15)", "rgba(16, 185, 129, 0.4)", "#10b981"
-            elif 0 < score < 1.5: bg, border, bar = "rgba(34, 197, 94, 0.05)", "rgba(34, 197, 94, 0.2)", "#22c55e"
-            elif -1.5 < score < 0: bg, border, bar = "rgba(239, 68, 68, 0.05)", "rgba(239, 68, 68, 0.2)", "#ef4444"
-            elif score <= -1.5: bg, border, bar = "rgba(153, 27, 27, 0.15)", "rgba(185, 28, 28, 0.4)", "#b91c1c"
-            else: bg, border, bar = "rgba(148, 163, 184, 0.05)", "rgba(148, 163, 184, 0.2)", "#94a3b8"
+            # --- YENİ RENK SKALASI: Daha Yüksek Kontrast ---
+            if score >= 1.5: bg, border, bar = "rgba(16, 185, 129, 0.25)", "rgba(16, 185, 129, 0.8)", "#34d399"
+            elif 0 < score < 1.5: bg, border, bar = "rgba(16, 185, 129, 0.1)", "rgba(16, 185, 129, 0.4)", "#10b981"
+            elif -1.5 < score < 0: bg, border, bar = "rgba(239, 68, 68, 0.1)", "rgba(239, 68, 68, 0.4)", "#ef4444"
+            elif score <= -1.5: bg, border, bar = "rgba(239, 68, 68, 0.25)", "rgba(239, 68, 68, 0.8)", "#f87171"
+            else: bg, border, bar = "rgba(148, 163, 184, 0.1)", "rgba(148, 163, 184, 0.3)", "#94a3b8"
 
             results.append({
                 'symbol': symbol, 'price': f"{df['close'].iloc[-1]:.5g}",
@@ -129,7 +131,6 @@ def create_html(data):
     full_update = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M')
     data_json = json.dumps({item['symbol']: item['details'] for item in data})
     
-    # Korelasyon görselini oluştur (Sadece aktif coinler için)
     corr_html = ""
     for item in data:
         if 'BTC_Corr' in item['details']:
@@ -157,7 +158,10 @@ def create_html(data):
         .update-tag { font-size: 10px; opacity: 0.5; font-weight: bold; font-family: monospace; }
         .news-pos { color: #10b981; }
         .news-neg { color: #ef4444; }
-        .conf-high { color: #f59e0b; }
+        /* Yıldızlar için yeni stiller */
+        .star { font-size: 12px; }
+        .star-filled { color: #f59e0b; }
+        .star-empty { color: #475569; }
     """
 
     html = f"""
@@ -198,6 +202,15 @@ def create_html(data):
         bar_pos = f"width:{intensity}%; left:50%;" if i['score'] >= 0 else f"width:{intensity}%; left:{50-intensity}%;"
         news_color = "news-pos" if i['details']['News'] == "Bull" else ("news-neg" if i['details']['News'] == "Bear" else "")
         
+        # --- DİNAMİK YILDIZ SİSTEMİ (3 üzerinden) ---
+        confidence = i['details']['Confidence']
+        stars = ""
+        for s in range(3):
+            if s < confidence:
+                stars += '<span class="star star-filled">★</span>'
+            else:
+                stars += '<span class="star star-empty">★</span>'
+        
         html += f"""
         <div class="card p-4 flex flex-col justify-between" 
              style="background: {i['bg']}; border-color: {i['border']};"
@@ -212,9 +225,9 @@ def create_html(data):
                     <div class="absolute h-full transition-all" style="{bar_pos} background:{i['bar']}"></div>
                 </div>
             </div>
-            <div class="flex justify-between update-tag">
-                <span class="{news_color}">{i['score']}</span>
-                <span class="conf-high">{i['details']['Confidence']}</span>
+            <div class="flex justify-between items-center update-tag">
+                <span class="{news_color} font-bold text-sm">{i['score']}</span>
+                <div class="flex gap-0.5">{stars}</div>
                 <span>{i['update_time']} UTC</span>
             </div>
         </div>
