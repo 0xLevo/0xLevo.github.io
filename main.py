@@ -22,26 +22,15 @@ def get_news_sentiment(symbol):
         if any(word in headline.lower() for word in negative_keywords): score -= 0.5
     return max(min(score, 1), -1)
 
-# --- CONFIDENCE INDEX (Revised - v16.5) ---
+# --- CONFIDENCE INDEX ---
 def calculate_confidence(df):
-    """0 ile 3 arası güven skoru döner (Gevşetilmiş filtreler)"""
     confidence = 0
-    
-    # 1. RSI Kontrolü (Son 2 mumda 40 altı veya 60 üstü - Gevşetildi)
     rsi = ta.rsi(df['close'], length=14)
-    if all(rsi.iloc[-2:] < 40) or all(rsi.iloc[-2:] > 60): 
-        confidence += 1
-        
-    # 2. Bollinger Band Kontrolü (Sadece son mumda dışına çıkması yeterli - Gevşetildi)
+    if all(rsi.iloc[-2:] < 40) or all(rsi.iloc[-2:] > 60): confidence += 1
     bb = ta.bbands(df['close'], length=20, std=2)
-    if (df['close'].iloc[-1] < bb.iloc[-1, 0]) or (df['close'].iloc[-1] > bb.iloc[-1, 2]):
-        confidence += 1
-        
-    # 3. Hacim Kontrolü (Son mumun hacmi, 10 mumluk ortalamadan yüksek mi?)
-    if df['volume'].iloc[-1] > df['volume'].rolling(window=10).mean().iloc[-1]:
-        confidence += 1
-        
-    return confidence # 0 ile 3 arası
+    if (df['close'].iloc[-1] < bb.iloc[-1, 0]) or (df['close'].iloc[-1] > bb.iloc[-1, 2]): confidence += 1
+    if df['volume'].iloc[-1] > df['volume'].rolling(window=10).mean().iloc[-1]: confidence += 1
+    return confidence
 
 # --- CORRELATION MATRIX ---
 def calculate_correlation(exchange, top_n=10):
@@ -77,16 +66,14 @@ def get_pro_score(df, symbol):
         strength = 1.8 if adx > 25 else 0.6 
         
         news_score = get_news_sentiment(symbol)
-        confidence = calculate_confidence(df) # 0-3 arası
-        
-        # Skor: Güven endeksi sonucu ağırlıklandırır
+        confidence = calculate_confidence(df)
         final_score = round(max(min((m_score + v_score + (t_dir * strength) + news_score) * (1 + confidence*0.1), 3), -3), 1)
         
         details = {
             "RSI": round(rsi,1), "MFI": round(mfi,1), 
             "News": "Bull" if news_score > 0 else ("Bear" if news_score < 0 else "Neutral"),
             "Trend": "Bull" if ema20 > ema50 else "Bear",
-            "Confidence": confidence # Yıldız sayısı için rakam
+            "Confidence": confidence
         }
         return final_score, details
     except: return 0, {"Error": "Calc"}
@@ -110,7 +97,6 @@ def analyze_market():
             
             coin_time = datetime.now(timezone.utc).strftime('%H:%M:%S')
             
-            # --- YENİ RENK SKALASI ---
             if score >= 1.5: bg, border, bar = "rgba(16, 185, 129, 0.25)", "rgba(16, 185, 129, 0.8)", "#34d399"
             elif 0 < score < 1.5: bg, border, bar = "rgba(16, 185, 129, 0.1)", "rgba(16, 185, 129, 0.4)", "#10b981"
             elif -1.5 < score < 0: bg, border, bar = "rgba(239, 68, 68, 0.1)", "rgba(239, 68, 68, 0.4)", "#ef4444"
@@ -129,17 +115,19 @@ def analyze_market():
 
 def create_html(data):
     full_update = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M')
-    data_json = json.dumps({item['symbol']: item['details'] for item in data})
     
     corr_html = ""
     for item in data:
         if 'BTC_Corr' in item['details']:
             corr = item['details']['BTC_Corr']
-            color = "border-red-500" if corr < 0.2 else ("border-yellow-500" if corr < 0.7 else "border-green-500")
+            if corr >= 0.7: bg, border = "rgba(16, 185, 129, 0.2)", "border-green-500"
+            elif corr <= -0.2: bg, border = "rgba(239, 68, 68, 0.2)", "border-red-500"
+            else: bg, border = "rgba(107, 114, 128, 0.1)", "border-gray-500"
+            
             corr_html += f"""
-                <div class="p-2 bg-gray-900 rounded-lg text-center border-b-2 {color}">
+                <div class="p-2 rounded-lg text-center border-b-2 {border}" style="background: {bg}">
                     <div class="text-xs font-bold text-gray-400">{item['symbol']}</div>
-                    <div class="text-sm font-mono text-white">{corr}</div>
+                    <div class="text-sm font-mono text-white font-bold">{corr}</div>
                 </div>
             """
 
@@ -201,7 +189,6 @@ def create_html(data):
         bar_pos = f"width:{intensity}%; left:50%;" if i['score'] >= 0 else f"width:{intensity}%; left:{50-intensity}%;"
         news_color = "news-pos" if i['details']['News'] == "Bull" else ("news-neg" if i['details']['News'] == "Bear" else "")
         
-        # --- 3 YILDIZ SİSTEMİ ---
         confidence = i['details']['Confidence']
         stars = ""
         for s in range(3):
@@ -210,10 +197,13 @@ def create_html(data):
             else:
                 stars += '<span class="star star-empty">★</span>'
         
+        # --- ÖNEMLİ: Details verisini JS'e güvenli şekilde aktar ---
+        details_json = json.dumps(i['details']).replace('"', '\\"')
+        
         html += f"""
         <div class="card p-4 flex flex-col justify-between" 
              style="background: {i['bg']}; border-color: {i['border']};"
-             data-symbol="{i['symbol']}" data-score="{i['score']}" data-rank="{i['rank']}" onclick="showDetails('{i['symbol']}')">
+             data-symbol="{i['symbol']}" data-score="{i['score']}" data-rank="{i['rank']}" onclick='showDetails("{i['symbol']}", "{details_json}")'>
             <div class="flex justify-between items-center">
                 <span class="font-bold text-lg font-mono">{i['symbol']}</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, '{i['symbol']}')" class="star-btn">★</button>
@@ -241,9 +231,7 @@ def create_html(data):
             </div>
         </div>
         <script>
-            const data = DATA_PLACEHOLDER;
             let onlyFavs = false;
-
             function setTheme(isDark) {{
                 if(isDark) {{
                     document.body.classList.remove('light');
@@ -255,59 +243,67 @@ def create_html(data):
                     localStorage.setItem('theme', 'light');
                 }}
             }}
-
             function toggleTheme() {{ setTheme(document.body.classList.contains('light')); }}
-
             function toggleFavorite(btn, sym) {{
                 let favs = JSON.parse(localStorage.getItem('favs') || '[]');
                 favs.includes(sym) ? favs = favs.filter(f => f !== sym) : favs.push(sym);
                 localStorage.setItem('favs', JSON.stringify(favs));
                 render();
             }}
-
             function render() {{
                 const term = document.getElementById('search').value.toUpperCase();
                 const sortVal = document.getElementById('sort').value;
                 const favs = JSON.parse(localStorage.getItem('favs') || '[]');
                 const cards = Array.from(document.querySelectorAll('.card'));
-
                 cards.forEach(c => {{
                     const sym = c.dataset.symbol;
                     const isFav = favs.includes(sym);
                     c.style.display = (sym.includes(term) && (!onlyFavs || isFav)) ? 'flex' : 'none';
                     c.querySelector('.star-btn').classList.toggle('active', isFav);
                 }});
-
                 cards.sort((a, b) => sortVal === 'score-desc' ? b.dataset.score - a.dataset.score : a.dataset.score - b.dataset.score)
                      .forEach(c => document.getElementById('grid').appendChild(c));
             }}
-
             function toggleFavView() {{
                 onlyFavs = !onlyFavs;
                 document.getElementById('fav-btn').innerText = onlyFavs ? '🌐 All' : '⭐ Watchlist';
                 render();
             }}
-
-            function showDetails(sym) {{
-                const d = data[sym];
+            
+            // --- DÜZELTİLMİŞ showDetails FONKSİYONU ---
+            function showDetails(sym, detailsString) {{
+                const details = JSON.parse(detailsString);
                 document.getElementById('m-title').innerText = sym;
-                document.getElementById('m-body').innerHTML = Object.entries(d).map(([k,v]) => `
-                    <div class="flex justify-between border-b border-gray-100 dark:border-gray-800 pb-2">
-                        <span>${{k}}</span><span class="font-bold">${{v}}</span>
-                    </div>`).join('');
+                
+                let stars = "";
+                for(let s=0; s<3; s++) {{
+                    stars += s < details.Confidence ? '<span class="star star-filled">★</span>' : '<span class="star star-empty">★</span>';
+                }}
+                
+                let modalContent = `<div class="flex justify-between pb-2"><span>Confidence</span><div class="flex gap-0.5">${{stars}}</div></div>`;
+                
+                for (const [key, value] of Object.entries(details)) {{
+                    if (key !== 'Confidence') {{
+                        modalContent += `
+                            <div class="flex justify-between border-b border-gray-100 dark:border-gray-800 pb-2">
+                                <span>${{key}}</span><span class="font-bold">${{value}}</span>
+                            </div>`;
+                    }}
+                }}
+                
+                document.getElementById('m-body').innerHTML = modalContent;
                 document.getElementById('modal').classList.remove('hidden');
             }}
-
+            
             document.getElementById('search').addEventListener('input', render);
             document.getElementById('sort').addEventListener('change', render);
-            
             window.onload = () => {{
                 setTheme(localStorage.getItem('theme') === 'dark' ? true : false);
                 render();
             }};
         </script>
     </body></html>
-    """.replace("DATA_PLACEHOLDER", data_json)
+    """
     
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(html)
