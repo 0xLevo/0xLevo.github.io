@@ -125,15 +125,15 @@ def create_html(data):
             else: bg, border = "rgba(107, 114, 128, 0.1)", "border-gray-500"
             
             corr_html += f"""
-                <div class="p-2 rounded-lg text-center border-b-2 {border}" style="background: {bg}">
-                    <div class="text-xs font-bold text-gray-400">{item['symbol']}</div>
-                    <div class="text-sm font-mono text-white font-bold">{corr}</div>
+                <div class="p-2 rounded-lg text-center border-b-2 {border} corr-card" style="background: {bg}">
+                    <div class="text-xs font-bold corr-sym">{item['symbol']}</div>
+                    <div class="text-sm font-mono font-bold corr-val">{corr}</div>
                 </div>
             """
 
     css = """
-        :root { --bg: #050505; --card: #0a0a0a; --text: #f8fafc; --input-bg: #111; --border: #333; --modal-bg: #0a0a0a; }
-        .light { --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --input-bg: #fff; --border: #ddd; --modal-bg: #fff; }
+        :root { --bg: #050505; --card: #0a0a0a; --text: #f8fafc; --input-bg: #111; --border: #333; --modal-bg: #0a0a0a; --corr-text: #fff; }
+        .light { --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --input-bg: #fff; --border: #ddd; --modal-bg: #fff; --corr-text: #0f172a; }
         body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; transition: 0.2s; padding-top: 50px; }
         .legal-top { background: #dc2626; color: white; text-align: center; padding: 8px; font-weight: bold; font-size: 11px; position: fixed; top: 0; width: 100%; z-index: 100; }
         .card { border-radius: 12px; border: 1px solid; cursor: pointer; transition: 0.2s; }
@@ -150,6 +150,8 @@ def create_html(data):
         .star-empty { color: #475569; }
         .modal-card { background: var(--modal-bg); color: var(--text); border: 1px solid var(--border); }
         .modal-border { border-color: var(--border); }
+        .corr-card { color: var(--corr-text); }
+        .corr-sym { opacity: 0.7; }
     """
 
     html = f"""
