@@ -45,8 +45,7 @@ def get_color_by_stars(score, rainbow):
     # 1 Yıldız: Açık Kırmızı
     elif score == 1: return "#ef4444", "SELL"
     
-    # --- YENİ MANTIK ---
-    # 2 ve 3 Yıldız için özel durumlar
+    # 2 ve 3 Yıldız için Rainbow öncelikli mantık
     if score == 3:
         if rainbow in ["FIRE SALE", "BUY"]: return "#22c55e", "BUY"
         elif rainbow in ["BUBBLE", "FOMO"]: return "#ef4444", "SELL"
@@ -163,7 +162,7 @@ def create_html(data):
             --bg: #f1f5f9; --card: #ffffff; --text: #0f172a; --border: #cbd5e1; 
             --modal-bg: #fff; --modal-text: #0f172a; 
         }}
-        body {{ background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; padding-top: 100px; transition: 0.3s; }}
+        body {{ background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; padding-top: 120px; transition: 0.3s; }}
         
         .brand-logo {{
             background: linear-gradient(90deg, #8b0000, #ff0000, #808080, #008000, #006400);
@@ -176,15 +175,18 @@ def create_html(data):
         
         .action-badge {{ font-size: 9px; padding: 2px 8px; border-radius: 99px; font-weight: bold; color: #fff; }}
         
-        /* Yıldız Renkleri */
-        .star-filled {{ color: #eab308; text-shadow: 0 0 5px rgba(234, 179, 8, 0.5); }}
-        .star-empty {{ color: #ef4444; opacity: 0.6; }} /* Kırmızı Boş Yıldızlar */
+        /* Yıldız Renkleri - Yeşil ve Kırmızı */
+        .star-filled {{ color: #22c55e; text-shadow: 0 0 5px rgba(34, 197, 94, 0.5); }}
+        .star-empty {{ color: #ef4444; opacity: 0.6; }}
         
         #modal-content {{ background: var(--modal-bg); color: var(--modal-text); border: 1px solid var(--border); }}
         .ai-box {{ background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 8px; padding: 12px; margin-top: 15px; }}
     </style></head>
     <body>
-        <div class="legal-top"><strong>⚠️ SYSTEM NOTICE:</strong> Colors based on 5-Star Technicals + Rainbow Priority.</div>
+        <div class="legal-top">
+            <strong>⚠️ SYSTEM NOTICE:</strong> Colors based on 5-Star Technicals + Rainbow Priority. 
+            <br><em>Stars (5:Strong Buy, 0:Strong Sell). Action Text & Colors based on technical score + historical price position.</em>
+        </div>
         <div class="max-w-7xl mx-auto p-4">
             <header class="flex justify-between items-center mb-8">
                 <h1 class="text-4xl italic tracking-tighter brand-logo">BasedVector</h1>
