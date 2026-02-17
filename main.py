@@ -16,7 +16,6 @@ CMC_TOP_100 = [
 ]
 
 def get_rainbow_status(df):
-    """Logaritmik Regresyon (Rainbow) Hesaplama"""
     try:
         y = np.log(df['close'].values)
         x = np.arange(len(y))
@@ -33,18 +32,11 @@ def get_rainbow_status(df):
     except: return "UNKNOWN"
 
 def get_ui_colors(score, rainbow):
-    """
-    1. KART RENGİ (Skora göre kenarlık)
-    2. AKSİYON Rozet Rengi (Buy/Sell/Neutral)
-    """
-    # KART RENGİ (Skora göre)
+    # KART RENGİ (Skora göre kenarlık)
     if score >= 4: card_color = "#22c55e" # Yeşil
     elif score == 3: card_color = "#84cc16" # Açık Yeşil
     elif score == 2: card_color = "#f97316" # Turuncu/Açık Kırmızı
     else: card_color = "#ef4444" # Kırmızı
-
-    # AKSİYON Rozet Rengi (Yazıya göre belirlenecek)
-    # Bu fonksiyon sadece kart rengini döndürüyor, rozet rengi `analyze_market` içinde belirleniyor.
     return card_color
 
 def analyze_market():
@@ -76,14 +68,12 @@ def analyze_market():
             rb_text = get_rainbow_status(df)
             
             # --- AKSİYON & ROZET RENGİ ---
-            # Skora ve Rainbow'a göre karar
             if star_count >= 4: action_text = "Strong Buy" if rb_text != "BUBBLE" else "Buy"
             elif star_count <= 1: action_text = "Strong Sell"
             elif star_count == 3: action_text = "Buy" if rb_text in ["BUY", "FIRE SALE"] else "Neutral"
             elif star_count == 2: action_text = "Sell" if rb_text in ["BUBBLE", "FOMO"] else "Neutral"
             else: action_text = "Neutral"
 
-            # Renk mantığı
             card_c = get_ui_colors(star_count, rb_text)
             
             # Rozet Rengi (Kelimeye göre - Nötr ise Gri)
