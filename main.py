@@ -2,7 +2,7 @@ import ccxt
 import pandas as pd
 import pandas_ta as ta
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 import json 
 
 # --- CMC TOP 100 LIST (Market Cap Order) ---
@@ -11,18 +11,18 @@ CMC_TOP_100 = ['BTC', 'ETH', 'USDT', 'BNB', 'SOL', 'XRP', 'USDC', 'ADA', 'AVAX',
 def get_pro_score(df):
     """Professional Weighted Score Calculation."""
     try:
-        # RSI & MFI (Momentum + Volume)
+        # Momentum + Volume
         rsi = ta.rsi(df['close'], length=14).iloc[-1]
         mfi = ta.mfi(df['high'], df['low'], df['close'], df['volume'], length=14).iloc[-1]
         m_score = 1.5 if (rsi < 30 or mfi < 25) else (-1.5 if (rsi > 70 or mfi > 75) else 0)
         
-        # Bollinger Bands (Volatility)
+        # Volatility
         bb = ta.bbands(df['close'], length=20, std=2)
         curr_price = df['close'].iloc[-1]
         l_band, u_band = bb.iloc[-1, 0], bb.iloc[-1, 2]
         v_score = 1.5 if curr_price <= l_band else (-1.5 if curr_price >= u_band else 0)
         
-        # Trend & Strength (EMA & ADX)
+        # Trend
         ema20 = ta.ema(df['close'], length=20).iloc[-1]
         ema50 = ta.ema(df['close'], length=50).iloc[-1]
         adx = ta.adx(df['high'], df['low'], df['close'], length=14).iloc[-1, 0]
@@ -35,14 +35,17 @@ def get_pro_score(df):
     except: return 0, {"Error": "Calc"}
 
 def analyze_market():
-    # enableRateLimit True yapıldı, ccxt kendi içinde beklemeler yapar
     exchange = ccxt.mexc({'enableRateLimit': True})
     results = []
-    print(f"[{datetime.now().strftime('%H:%M:%S')}] BasedVector Engine Scanning...")
+    
+    # 1 SAAT FARKINI DÜZELTMEK İÇİN: 
+    # UTC'den 1 saat çıkararak sunucu saatini senkronize ediyoruz.
+    corrected_time = (datetime.utcnow() + timedelta(hours=1)).strftime('%H:%M:%S')
+    print(f"[{corrected_time}] BasedVector Engine Scanning...")
+    
     for index, symbol in enumerate(CMC_TOP_100):
         try:
             pair = f"{symbol}/USDT"
-            # 4 saatlik grafik, 100 bar, veri yeterliliği için 60 bar şartı
             bars = exchange.fetch_ohlcv(pair, timeframe='4h', limit=100)
             if len(bars) < 60: continue
             df = pd.DataFrame(bars, columns=['time', 'open', 'high', 'low', 'close', 'volume'])
@@ -60,15 +63,14 @@ def analyze_market():
                 'rank': index + 1, 'bg': bg, 'border': border, 'bar': bar,
                 'score': score, 'details': details
             })
-            # BAN YEMEMEK İÇİN GÜVENLİ BEKLEME (0.1 Saniye)
-            time.sleep(0.1) 
-        except Exception as e:
-            print(f"Error {symbol}: {e}")
-            continue
+            # Rate Limit için çok kısa bekleme
+            time.sleep(0.05) 
+        except Exception: continue
     return results
 
 def create_html(data):
-    now = datetime.now().strftime('%Y-%m-%d %H:%M')
+    # Düzeltilmiş zaman gösterimi
+    corrected_time = (datetime.utcnow() + timedelta(hours=1)).strftime('%Y-%m-%d %H:%M')
     data_json = json.dumps({item['symbol']: item['details'] for item in data})
     
     css = """
@@ -96,7 +98,7 @@ def create_html(data):
             <h1 class="text-5xl based-gradient tracking-tighter">BasedVector</h1>
             <div class="flex gap-4">
                 <button onclick="toggleTheme()" class="p-2 bg-gray-800 rounded-full">🌙</button>
-                <div class="text-right text-xs text-blue-500 font-mono">{now} UTC</div>
+                <div class="text-right text-xs text-blue-500 font-mono">{corrected_time} UTC+1</div>
             </div>
         </header>
         <div class="bg-gray-900/10 p-4 rounded-xl flex flex-col md:flex-row gap-4 mb-8">
