@@ -134,8 +134,10 @@ def create_html(data):
     css = """
         :root { --bg: #050505; --card: #0a0a0a; --text: #f8fafc; --input-bg: #111; --border: #333; --modal-bg: #0a0a0a; --corr-text: #fff; }
         .light { --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --input-bg: #fff; --border: #ddd; --modal-bg: #fff; --corr-text: #0f172a; }
-        body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; transition: 0.2s; padding-top: 50px; }
-        .legal-top { background: #dc2626; color: white; text-align: center; padding: 8px; font-weight: bold; font-size: 11px; position: fixed; top: 0; width: 100%; z-index: 100; }
+        body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; transition: 0.2s; padding-top: 100px; }
+        .legal-top { background: #1f2937; color: #e5e7eb; text-align: center; padding: 10px; font-size: 12px; position: fixed; top: 0; width: 100%; z-index: 100; border-bottom: 2px solid #dc2626; }
+        .legal-text { max-width: 800px; margin: 0 auto; line-height: 1.5; }
+        .highlight-risk { color: #f87171; font-weight: bold; }
         .card { border-radius: 12px; border: 1px solid; cursor: pointer; transition: 0.2s; }
         .card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
         .based-gradient { background: linear-gradient(90deg, #ef4444, #94a3b8, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; }
@@ -159,7 +161,13 @@ def create_html(data):
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <style>{css}</style></head><body>
-    <div class="legal-top">⚠️ TRADING RISK WARNING: Analysis includes News, Confidence, and Correlation.</div>
+    <div class="legal-top">
+        <div class="legal-text">
+            <strong>⚠️ YASAL UYARI:</strong> Bu site yatırım tavsiyesi vermez. 
+            <strong>Puanlama Mantığı:</strong> Teknik göstergeler (RSI, MFI, Bollinger), piyasa hacmi, Bitcoin korelasyonu ve haber duyarlılığı analiz edilerek otomatik hesaplanır. 
+            <span class="highlight-risk">Kripto para piyasaları yüksek risk içerir.</span>
+        </div>
+    </div>
     <div class="max-w-7xl mx-auto p-4">
         <header class="flex justify-between items-center mb-8 mt-4">
             <h1 class="text-4xl based-gradient tracking-tighter">BasedVector</h1>
@@ -292,8 +300,8 @@ def create_html(data):
                     }}
                 }}
                 
-                document.getElementById('m-body').innerHTML = modalContent;
                 document.getElementById('modal').classList.remove('hidden');
+                document.getElementById('m-body').innerHTML = modalContent;
             }}
             
             document.getElementById('search').addEventListener('input', render);
