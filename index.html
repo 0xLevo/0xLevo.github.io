@@ -1,1687 +1,1765 @@
 
-    <!DOCTYPE html><html><head><meta charset="UTF-8">
-    <title>BasedVector Alpha</title>
+    <!DOCTYPE html><html><head><meta charset="UTF-8"><title>BasedVector Alpha</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #050505; --card: #0a0a0a; --text: #f8fafc; --sec: #94a3b8; }
-        .light { --bg: #f1f5f9; --card: #ffffff; --text: #0f172a; --sec: #475569; }
-        body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; transition: 0.3s; padding-top: 50px; }
+        :root { --bg: #050505; --card: #0a0a0a; --text: #f8fafc; --input-bg: #111; }
+        .light { --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --input-bg: #fff; }
+        body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; transition: 0.2s; padding-top: 50px; }
         .legal-top { background: #dc2626; color: white; text-align: center; padding: 8px; font-weight: bold; font-size: 11px; position: fixed; top: 0; width: 100%; z-index: 100; }
-        .card { border-radius: 12px; border: 1px solid; cursor: pointer; transition: 0.2s; position: relative; }
-        .card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        .card { border-radius: 12px; border: 1px solid; cursor: pointer; transition: 0.2s; }
+        .card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
         .based-gradient { background: linear-gradient(90deg, #ef4444, #94a3b8, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; }
-        .star-btn { font-size: 1.5rem; color: #334155; transition: 0.2s; }
+        .star-btn { font-size: 1.5rem; color: #334155; }
         .star-btn.active { color: #eab308 !important; }
-        .custom-input { background: var(--card); border: 1px solid #262626; color: var(--text); }
+        .custom-input { background: var(--input-bg); border: 1px solid #ddd; color: var(--text); }
+        .light .custom-input { border-color: #e2e8f0; }
+        .update-tag { font-size: 10px; opacity: 0.5; font-weight: bold; font-family: monospace; }
     </style></head><body>
-    <div class="legal-top">⚠️ TRADING RISK WARNING: High volatility. Analysis is mathematical, not financial advice.</div>
+    <div class="legal-top">⚠️ TRADING RISK WARNING: Analysis is mathematical, not financial advice.</div>
     <div class="max-w-7xl mx-auto p-4">
-        <header class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 mt-4">
-            <h1 class="text-5xl based-gradient tracking-tighter">BasedVector</h1>
-            <div class="flex gap-4">
-                <button onclick="toggleTheme()" class="p-2 bg-gray-800 rounded-full">🌙</button>
-                <div class="text-right text-xs text-blue-500 font-mono">2026-02-17 10:19 UTC+1</div>
+        <header class="flex justify-between items-center mb-8 mt-4">
+            <h1 class="text-4xl based-gradient tracking-tighter">BasedVector</h1>
+            <div class="flex gap-4 items-center">
+                <button onclick="toggleTheme()" class="p-2 bg-gray-200 dark:bg-gray-800 rounded-full" id="theme-toggle">🌙</button>
+                <div class="text-right text-[10px] font-mono opacity-60">BATCH END: 2026-02-17 10:05 UTC</div>
             </div>
         </header>
-        <div class="bg-gray-900/10 p-4 rounded-xl flex flex-col md:flex-row gap-4 mb-8">
-            <input type="text" id="search" placeholder="Asset Search..." class="custom-input p-3 rounded-lg w-full outline-none">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            <input type="text" id="search" placeholder="Search..." class="custom-input p-3 rounded-lg outline-none">
             <select id="sort" class="custom-input p-3 rounded-lg outline-none cursor-pointer">
                 <option value="score-desc">🔥 Score: High</option>
                 <option value="score-asc">❄️ Score: Low</option>
-                <option value="cap-desc">💎 Cap: High</option>
-                <option value="cap-asc">📊 Cap: Low</option>
-            </select>
-            <select id="layout" class="custom-input p-3 rounded-lg outline-none cursor-pointer">
-                <option value="grid-cols-2">2 COL</option>
-                <option value="grid-cols-4" selected>4 COL</option>
-                <option value="grid-cols-5">5 COL</option>
             </select>
             <button onclick="toggleFavView()" id="fav-btn" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-bold">⭐ Watchlist</button>
         </div>
-        <div id="grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4 transition-all">
+        <div id="grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
     
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="BTC" data-score="-0.6" data-rank="1" onclick="showDetails('BTC')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">BTC</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">BTC</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'BTC')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$68049</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$68152</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>09:56:54 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="ETH" data-score="-0.6" data-rank="2" onclick="showDetails('ETH')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">ETH</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">ETH</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'ETH')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$1972.7</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$1976.5</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>09:57:01 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="BNB" data-score="-0.6" data-rank="4" onclick="showDetails('BNB')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">BNB</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">BNB</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'BNB')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$618.68</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$619.76</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>09:57:07 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="SOL" data-score="-0.6" data-rank="5" onclick="showDetails('SOL')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">SOL</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">SOL</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'SOL')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$85.8</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$86.05</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>09:57:13 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(6, 78, 59, 0.25); border-color: rgba(16, 185, 129, 0.6);"
+             style="background: rgba(6, 78, 59, 0.15); border-color: rgba(16, 185, 129, 0.4);"
              data-symbol="XRP" data-score="3" data-rank="6" onclick="showDetails('XRP')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">XRP</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">XRP</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'XRP')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$1.4575</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$1.4611</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:50.0%; left:50%; background:#10b981"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>3</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 3</span>
+                <span>09:57:19 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="USDC" data-score="-0.6" data-rank="7" onclick="showDetails('USDC')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">USDC</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">USDC</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'USDC')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$1.0005</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$1.0004</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>09:57:25 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3);"
+             style="background: rgba(34, 197, 94, 0.05); border-color: rgba(34, 197, 94, 0.2);"
              data-symbol="ADA" data-score="0.6" data-rank="8" onclick="showDetails('ADA')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">ADA</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">ADA</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'ADA')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.2817</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.2824</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 0.6</span>
+                <span>09:57:32 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3);"
+             style="background: rgba(34, 197, 94, 0.05); border-color: rgba(34, 197, 94, 0.2);"
              data-symbol="AVAX" data-score="0.6" data-rank="9" onclick="showDetails('AVAX')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">AVAX</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">AVAX</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'AVAX')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$9.13</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$9.136</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 0.6</span>
+                <span>09:57:38 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(6, 78, 59, 0.25); border-color: rgba(16, 185, 129, 0.6);"
+             style="background: rgba(6, 78, 59, 0.15); border-color: rgba(16, 185, 129, 0.4);"
              data-symbol="DOGE" data-score="2.1" data-rank="10" onclick="showDetails('DOGE')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">DOGE</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">DOGE</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'DOGE')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.09883</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.09928</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:35.0%; left:50%; background:#10b981"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>2.1</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 2.1</span>
+                <span>09:57:44 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3);"
+             style="background: rgba(34, 197, 94, 0.05); border-color: rgba(34, 197, 94, 0.2);"
              data-symbol="DOT" data-score="0.6" data-rank="11" onclick="showDetails('DOT')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">DOT</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">DOT</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'DOT')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$1.361</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$1.362</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 0.6</span>
+                <span>09:57:50 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3);"
+             style="background: rgba(34, 197, 94, 0.05); border-color: rgba(34, 197, 94, 0.2);"
              data-symbol="TRX" data-score="0.6" data-rank="12" onclick="showDetails('TRX')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">TRX</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">TRX</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'TRX')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.2838</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.2825</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 0.6</span>
+                <span>09:57:56 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3);"
+             style="background: rgba(34, 197, 94, 0.05); border-color: rgba(34, 197, 94, 0.2);"
              data-symbol="LINK" data-score="0.6" data-rank="13" onclick="showDetails('LINK')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">LINK</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">LINK</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'LINK')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$8.8</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$8.82</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 0.6</span>
+                <span>09:58:03 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(6, 78, 59, 0.25); border-color: rgba(16, 185, 129, 0.6);"
+             style="background: rgba(6, 78, 59, 0.15); border-color: rgba(16, 185, 129, 0.4);"
              data-symbol="TON" data-score="2.1" data-rank="15" onclick="showDetails('TON')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">TON</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">TON</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'TON')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$1.427</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$1.43</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:35.0%; left:50%; background:#10b981"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>2.1</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 2.1</span>
+                <span>09:58:09 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(6, 78, 59, 0.25); border-color: rgba(16, 185, 129, 0.6);"
+             style="background: rgba(6, 78, 59, 0.15); border-color: rgba(16, 185, 129, 0.4);"
              data-symbol="SHIB" data-score="1.8" data-rank="16" onclick="showDetails('SHIB')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">SHIB</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">SHIB</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'SHIB')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$6.482e-06</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$6.496e-06</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:50%; background:#10b981"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>1.8</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 1.8</span>
+                <span>09:58:15 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="LTC" data-score="-0.6" data-rank="17" onclick="showDetails('LTC')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">LTC</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">LTC</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'LTC')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$55.1</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$55.05</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>09:58:21 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="DAI" data-score="-0.6" data-rank="18" onclick="showDetails('DAI')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">DAI</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">DAI</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'DAI')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$1.0004</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$1.0003</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>09:58:27 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(6, 78, 59, 0.25); border-color: rgba(16, 185, 129, 0.6);"
+             style="background: rgba(6, 78, 59, 0.15); border-color: rgba(16, 185, 129, 0.4);"
              data-symbol="BCH" data-score="1.8" data-rank="19" onclick="showDetails('BCH')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">BCH</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">BCH</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'BCH')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$558.8</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$559.6</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:50%; background:#10b981"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>1.8</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 1.8</span>
+                <span>09:58:33 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(6, 78, 59, 0.25); border-color: rgba(16, 185, 129, 0.6);"
+             style="background: rgba(6, 78, 59, 0.15); border-color: rgba(16, 185, 129, 0.4);"
              data-symbol="ATOM" data-score="1.8" data-rank="20" onclick="showDetails('ATOM')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">ATOM</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">ATOM</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'ATOM')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$2.25</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$2.258</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:50%; background:#10b981"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>1.8</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 1.8</span>
+                <span>09:58:40 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(6, 78, 59, 0.25); border-color: rgba(16, 185, 129, 0.6);"
+             style="background: rgba(6, 78, 59, 0.15); border-color: rgba(16, 185, 129, 0.4);"
              data-symbol="UNI" data-score="1.8" data-rank="21" onclick="showDetails('UNI')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">UNI</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">UNI</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'UNI')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$3.544</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$3.553</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:50%; background:#10b981"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>1.8</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 1.8</span>
+                <span>09:58:46 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3);"
+             style="background: rgba(34, 197, 94, 0.05); border-color: rgba(34, 197, 94, 0.2);"
              data-symbol="NEAR" data-score="0.6" data-rank="23" onclick="showDetails('NEAR')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">NEAR</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">NEAR</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'NEAR')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$1.0496</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$1.0524</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 0.6</span>
+                <span>09:58:52 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(6, 78, 59, 0.25); border-color: rgba(16, 185, 129, 0.6);"
+             style="background: rgba(6, 78, 59, 0.15); border-color: rgba(16, 185, 129, 0.4);"
              data-symbol="OKB" data-score="1.8" data-rank="24" onclick="showDetails('OKB')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">OKB</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">OKB</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'OKB')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$79.047</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$79.23</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:50%; background:#10b981"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>1.8</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 1.8</span>
+                <span>09:58:58 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="INJ" data-score="-0.6" data-rank="25" onclick="showDetails('INJ')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">INJ</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">INJ</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'INJ')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$3.099</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$3.111</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>09:59:04 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3);"
+             style="background: rgba(34, 197, 94, 0.05); border-color: rgba(34, 197, 94, 0.2);"
              data-symbol="OP" data-score="0.9" data-rank="26" onclick="showDetails('OP')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">OP</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">OP</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'OP')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.1869</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.1877</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:15.0%; left:50%; background:#22c55e"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>0.9</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 0.9</span>
+                <span>09:59:11 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="ICP" data-score="-0.6" data-rank="27" onclick="showDetails('ICP')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">ICP</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">ICP</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'ICP')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$2.383</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$2.389</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>09:59:17 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(6, 78, 59, 0.25); border-color: rgba(16, 185, 129, 0.6);"
+             style="background: rgba(6, 78, 59, 0.15); border-color: rgba(16, 185, 129, 0.4);"
              data-symbol="FIL" data-score="2.1" data-rank="28" onclick="showDetails('FIL')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">FIL</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">FIL</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'FIL')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.963</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.9654</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:35.0%; left:50%; background:#10b981"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>2.1</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 2.1</span>
+                <span>09:59:23 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="LDO" data-score="-0.6" data-rank="29" onclick="showDetails('LDO')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">LDO</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">LDO</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'LDO')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.3386</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.3388</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>09:59:29 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3);"
+             style="background: rgba(34, 197, 94, 0.05); border-color: rgba(34, 197, 94, 0.2);"
              data-symbol="TIA" data-score="0.6" data-rank="30" onclick="showDetails('TIA')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">TIA</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">TIA</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'TIA')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.339</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.3395</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 0.6</span>
+                <span>09:59:36 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="STX" data-score="-0.6" data-rank="31" onclick="showDetails('STX')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">STX</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">STX</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'STX')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.2618</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.2626</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>09:59:42 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="APT" data-score="-0.6" data-rank="32" onclick="showDetails('APT')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">APT</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">APT</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'APT')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.923</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.928</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>09:59:48 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="ARB" data-score="-0.6" data-rank="33" onclick="showDetails('ARB')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">ARB</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">ARB</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'ARB')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.1134</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.1135</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>09:59:54 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3);"
+             style="background: rgba(34, 197, 94, 0.05); border-color: rgba(34, 197, 94, 0.2);"
              data-symbol="VET" data-score="0.6" data-rank="35" onclick="showDetails('VET')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">VET</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">VET</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'VET')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.008086</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.00812</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 0.6</span>
+                <span>10:00:01 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3);"
+             style="background: rgba(34, 197, 94, 0.05); border-color: rgba(34, 197, 94, 0.2);"
              data-symbol="KAS" data-score="0.6" data-rank="36" onclick="showDetails('KAS')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">KAS</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">KAS</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'KAS')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.0319</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.031965</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 0.6</span>
+                <span>10:00:07 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3);"
+             style="background: rgba(34, 197, 94, 0.05); border-color: rgba(34, 197, 94, 0.2);"
              data-symbol="ETC" data-score="0.6" data-rank="37" onclick="showDetails('ETC')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">ETC</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">ETC</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'ETC')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$8.69</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$8.71</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 0.6</span>
+                <span>10:00:13 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="MNT" data-score="-0.6" data-rank="38" onclick="showDetails('MNT')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">MNT</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">MNT</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'MNT')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.6382</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.6403</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>10:00:19 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3);"
+             style="background: rgba(34, 197, 94, 0.05); border-color: rgba(34, 197, 94, 0.2);"
              data-symbol="CRO" data-score="0.6" data-rank="39" onclick="showDetails('CRO')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">CRO</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">CRO</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'CRO')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.07927</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.07963</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 0.6</span>
+                <span>10:00:25 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="ALGO" data-score="-0.6" data-rank="40" onclick="showDetails('ALGO')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">ALGO</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">ALGO</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'ALGO')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.09355</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.09342</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>10:00:31 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="RUNE" data-score="-0.6" data-rank="41" onclick="showDetails('RUNE')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">RUNE</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">RUNE</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'RUNE')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.4027</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.4037</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>10:00:38 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(6, 78, 59, 0.25); border-color: rgba(16, 185, 129, 0.6);"
+             style="background: rgba(6, 78, 59, 0.15); border-color: rgba(16, 185, 129, 0.4);"
              data-symbol="EGLD" data-score="3" data-rank="42" onclick="showDetails('EGLD')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">EGLD</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">EGLD</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'EGLD')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$4.699</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$4.709</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:50.0%; left:50%; background:#10b981"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>3</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 3</span>
+                <span>10:00:44 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="SEI" data-score="-0.6" data-rank="43" onclick="showDetails('SEI')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">SEI</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">SEI</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'SEI')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.07459</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.07463</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>10:00:50 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="SUI" data-score="-0.6" data-rank="44" onclick="showDetails('SUI')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">SUI</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">SUI</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'SUI')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.9667</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.9699</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>10:00:56 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(6, 78, 59, 0.25); border-color: rgba(16, 185, 129, 0.6);"
+             style="background: rgba(6, 78, 59, 0.15); border-color: rgba(16, 185, 129, 0.4);"
              data-symbol="AAVE" data-score="1.8" data-rank="45" onclick="showDetails('AAVE')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">AAVE</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">AAVE</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'AAVE')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$124.69</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$124.73</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:50%; background:#10b981"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>1.8</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 1.8</span>
+                <span>10:01:02 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="ORDI" data-score="-0.6" data-rank="46" onclick="showDetails('ORDI')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">ORDI</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">ORDI</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'ORDI')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$2.774</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$2.781</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>10:01:09 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3);"
+             style="background: rgba(34, 197, 94, 0.05); border-color: rgba(34, 197, 94, 0.2);"
              data-symbol="BEAM" data-score="0.6" data-rank="47" onclick="showDetails('BEAM')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">BEAM</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">BEAM</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'BEAM')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.02413</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.02402</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 0.6</span>
+                <span>10:01:15 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="FLOW" data-score="-0.3" data-rank="48" onclick="showDetails('FLOW')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">FLOW</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">FLOW</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'FLOW')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.03926</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.03916</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:5.0%; left:45.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.3</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.3</span>
+                <span>10:01:21 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3);"
+             style="background: rgba(34, 197, 94, 0.05); border-color: rgba(34, 197, 94, 0.2);"
              data-symbol="MINA" data-score="0.9" data-rank="49" onclick="showDetails('MINA')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">MINA</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">MINA</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'MINA')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.06514</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.06553</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:15.0%; left:50%; background:#22c55e"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>0.9</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 0.9</span>
+                <span>10:01:27 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="SAND" data-score="-0.6" data-rank="51" onclick="showDetails('SAND')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">SAND</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">SAND</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'SAND')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.08598</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.08606</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>10:01:33 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="MANA" data-score="-0.6" data-rank="53" onclick="showDetails('MANA')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">MANA</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">MANA</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'MANA')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.10084</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.10073</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>10:01:39 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="AXS" data-score="-0.6" data-rank="54" onclick="showDetails('AXS')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">AXS</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">AXS</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'AXS')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$1.3852</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$1.3809</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>10:01:46 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="CHZ" data-score="-0.6" data-rank="55" onclick="showDetails('CHZ')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">CHZ</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">CHZ</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'CHZ')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.04039</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.04044</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>10:01:52 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="GALA" data-score="-0.6" data-rank="56" onclick="showDetails('GALA')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">GALA</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">GALA</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'GALA')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.004047</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.004055</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>10:01:58 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3);"
+             style="background: rgba(34, 197, 94, 0.05); border-color: rgba(34, 197, 94, 0.2);"
              data-symbol="IOTA" data-score="0.6" data-rank="58" onclick="showDetails('IOTA')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">IOTA</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">IOTA</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'IOTA')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.06954</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.0695</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 0.6</span>
+                <span>10:02:04 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="KCS" data-score="-0.6" data-rank="59" onclick="showDetails('KCS')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">KCS</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">KCS</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'KCS')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$8.4238</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$8.412</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>10:02:10 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3);"
+             style="background: rgba(34, 197, 94, 0.05); border-color: rgba(34, 197, 94, 0.2);"
              data-symbol="GRT" data-score="0.6" data-rank="60" onclick="showDetails('GRT')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">GRT</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">GRT</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'GRT')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.02777</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.02785</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 0.6</span>
+                <span>10:02:17 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="NEO" data-score="-0.6" data-rank="61" onclick="showDetails('NEO')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">NEO</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">NEO</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'NEO')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$2.789</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$2.799</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>10:02:23 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="SNX" data-score="-0.6" data-rank="62" onclick="showDetails('SNX')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">SNX</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">SNX</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'SNX')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.2925</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.2928</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>10:02:29 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="DYDX" data-score="-0.6" data-rank="63" onclick="showDetails('DYDX')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">DYDX</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">DYDX</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'DYDX')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.1056</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.1058</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>10:02:35 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3);"
+             style="background: rgba(34, 197, 94, 0.05); border-color: rgba(34, 197, 94, 0.2);"
              data-symbol="CRV" data-score="0.6" data-rank="64" onclick="showDetails('CRV')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">CRV</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">CRV</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'CRV')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.2525</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.2532</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 0.6</span>
+                <span>10:02:41 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="WOO" data-score="-0.6" data-rank="66" onclick="showDetails('WOO')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">WOO</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">WOO</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'WOO')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.01722</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.01724</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>10:02:48 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(153, 27, 27, 0.3); border-color: rgba(185, 28, 28, 0.6);"
+             style="background: rgba(153, 27, 27, 0.15); border-color: rgba(185, 28, 28, 0.4);"
              data-symbol="LUNC" data-score="-1.8" data-rank="67" onclick="showDetails('LUNC')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">LUNC</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">LUNC</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'LUNC')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$3.424e-05</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$3.426e-05</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:20.0%; background:#b91c1c"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-1.8</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -1.8</span>
+                <span>10:02:54 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="KAVA" data-score="-0.6" data-rank="68" onclick="showDetails('KAVA')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">KAVA</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">KAVA</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'KAVA')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.05414</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.05431</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>10:03:00 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3);"
+             style="background: rgba(34, 197, 94, 0.05); border-color: rgba(34, 197, 94, 0.2);"
              data-symbol="IMX" data-score="0.6" data-rank="69" onclick="showDetails('IMX')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">IMX</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">IMX</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'IMX')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.1685</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.1691</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 0.6</span>
+                <span>10:03:06 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(6, 78, 59, 0.25); border-color: rgba(16, 185, 129, 0.6);"
+             style="background: rgba(6, 78, 59, 0.15); border-color: rgba(16, 185, 129, 0.4);"
              data-symbol="HBAR" data-score="1.8" data-rank="70" onclick="showDetails('HBAR')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">HBAR</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">HBAR</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'HBAR')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.09967</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.09984</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:50%; background:#10b981"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>1.8</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 1.8</span>
+                <span>10:03:13 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(6, 78, 59, 0.25); border-color: rgba(16, 185, 129, 0.6);"
+             style="background: rgba(6, 78, 59, 0.15); border-color: rgba(16, 185, 129, 0.4);"
              data-symbol="QNT" data-score="2.1" data-rank="71" onclick="showDetails('QNT')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">QNT</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">QNT</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'QNT')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$68.8</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$69.26</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:35.0%; left:50%; background:#10b981"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>2.1</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 2.1</span>
+                <span>10:03:19 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(6, 78, 59, 0.25); border-color: rgba(16, 185, 129, 0.6);"
+             style="background: rgba(6, 78, 59, 0.15); border-color: rgba(16, 185, 129, 0.4);"
              data-symbol="BTT" data-score="1.8" data-rank="72" onclick="showDetails('BTT')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">BTT</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">BTT</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'BTT')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$3.419e-07</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$3.427e-07</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:50%; background:#10b981"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>1.8</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 1.8</span>
+                <span>10:03:25 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3);"
+             style="background: rgba(34, 197, 94, 0.05); border-color: rgba(34, 197, 94, 0.2);"
              data-symbol="JASMY" data-score="0.6" data-rank="73" onclick="showDetails('JASMY')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">JASMY</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">JASMY</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'JASMY')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.00602</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.006047</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 0.6</span>
+                <span>10:03:31 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3);"
+             style="background: rgba(34, 197, 94, 0.05); border-color: rgba(34, 197, 94, 0.2);"
              data-symbol="WIF" data-score="0.6" data-rank="74" onclick="showDetails('WIF')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">WIF</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">WIF</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'WIF')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.2319</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.2329</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 0.6</span>
+                <span>10:03:38 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3);"
+             style="background: rgba(34, 197, 94, 0.05); border-color: rgba(34, 197, 94, 0.2);"
              data-symbol="BONK" data-score="0.6" data-rank="75" onclick="showDetails('BONK')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">BONK</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">BONK</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'BONK')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$6.483e-06</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$6.513e-06</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 0.6</span>
+                <span>10:03:44 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(6, 78, 59, 0.25); border-color: rgba(16, 185, 129, 0.6);"
+             style="background: rgba(6, 78, 59, 0.15); border-color: rgba(16, 185, 129, 0.4);"
              data-symbol="PYTH" data-score="1.8" data-rank="76" onclick="showDetails('PYTH')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">PYTH</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">PYTH</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'PYTH')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.05619</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.05632</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:50%; background:#10b981"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>1.8</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 1.8</span>
+                <span>10:03:50 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3);"
+             style="background: rgba(34, 197, 94, 0.05); border-color: rgba(34, 197, 94, 0.2);"
              data-symbol="FLOKI" data-score="0.6" data-rank="77" onclick="showDetails('FLOKI')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">FLOKI</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">FLOKI</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'FLOKI')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$3.177e-05</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$3.187e-05</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 0.6</span>
+                <span>10:03:56 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(6, 78, 59, 0.25); border-color: rgba(16, 185, 129, 0.6);"
+             style="background: rgba(6, 78, 59, 0.15); border-color: rgba(16, 185, 129, 0.4);"
              data-symbol="XLM" data-score="1.8" data-rank="78" onclick="showDetails('XLM')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">XLM</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">XLM</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'XLM')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.1661</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.1659</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:50%; background:#10b981"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>1.8</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 1.8</span>
+                <span>10:04:02 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="XMR" data-score="-0.6" data-rank="79" onclick="showDetails('XMR')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">XMR</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">XMR</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'XMR')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$334.01</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$331.59</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>10:04:09 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(6, 78, 59, 0.25); border-color: rgba(16, 185, 129, 0.6);"
+             style="background: rgba(6, 78, 59, 0.15); border-color: rgba(16, 185, 129, 0.4);"
              data-symbol="PEPE" data-score="1.8" data-rank="80" onclick="showDetails('PEPE')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">PEPE</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">PEPE</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'PEPE')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$4.34e-06</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$4.347e-06</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:50%; background:#10b981"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>1.8</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 1.8</span>
+                <span>10:04:15 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="AR" data-score="-0.6" data-rank="81" onclick="showDetails('AR')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">AR</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">AR</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'AR')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$2.022</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$2.033</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>10:04:21 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3);"
+             style="background: rgba(34, 197, 94, 0.05); border-color: rgba(34, 197, 94, 0.2);"
              data-symbol="STRK" data-score="0.9" data-rank="82" onclick="showDetails('STRK')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">STRK</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">STRK</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'STRK')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.04838</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.04866</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:15.0%; left:50%; background:#22c55e"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>0.9</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 0.9</span>
+                <span>10:04:27 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="LRC" data-score="-0.6" data-rank="83" onclick="showDetails('LRC')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">LRC</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">LRC</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'LRC')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.03412</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.03425</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>10:04:33 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(6, 78, 59, 0.25); border-color: rgba(16, 185, 129, 0.6);"
+             style="background: rgba(6, 78, 59, 0.15); border-color: rgba(16, 185, 129, 0.4);"
              data-symbol="ZEC" data-score="1.8" data-rank="84" onclick="showDetails('ZEC')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">ZEC</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">ZEC</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'ZEC')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$283.36</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$286.23</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:50%; background:#10b981"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>1.8</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 1.8</span>
+                <span>10:04:39 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(6, 78, 59, 0.25); border-color: rgba(16, 185, 129, 0.6);"
+             style="background: rgba(6, 78, 59, 0.15); border-color: rgba(16, 185, 129, 0.4);"
              data-symbol="BSV" data-score="1.8" data-rank="86" onclick="showDetails('BSV')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">BSV</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">BSV</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'BSV')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$16.89</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$16.95</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:50%; background:#10b981"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>1.8</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 1.8</span>
+                <span>10:04:46 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3);"
+             style="background: rgba(34, 197, 94, 0.05); border-color: rgba(34, 197, 94, 0.2);"
              data-symbol="PENDLE" data-score="0.9" data-rank="87" onclick="showDetails('PENDLE')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">PENDLE</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">PENDLE</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'PENDLE')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$1.217</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$1.22</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:15.0%; left:50%; background:#22c55e"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>0.9</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 0.9</span>
+                <span>10:04:52 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(6, 78, 59, 0.25); border-color: rgba(16, 185, 129, 0.6);"
+             style="background: rgba(6, 78, 59, 0.15); border-color: rgba(16, 185, 129, 0.4);"
              data-symbol="FET" data-score="2.1" data-rank="88" onclick="showDetails('FET')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">FET</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">FET</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'FET')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.1711</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.1712</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:35.0%; left:50%; background:#10b981"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>2.1</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 2.1</span>
+                <span>10:04:58 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(6, 78, 59, 0.25); border-color: rgba(16, 185, 129, 0.6);"
+             style="background: rgba(6, 78, 59, 0.15); border-color: rgba(16, 185, 129, 0.4);"
              data-symbol="JUP" data-score="1.8" data-rank="91" onclick="showDetails('JUP')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">JUP</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">JUP</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'JUP')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.165</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.1657</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:50%; background:#10b981"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>1.8</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 1.8</span>
+                <span>10:05:04 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="METIS" data-score="-0.6" data-rank="92" onclick="showDetails('METIS')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">METIS</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">METIS</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'METIS')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$3.582</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$3.596</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>10:05:10 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(6, 78, 59, 0.25); border-color: rgba(16, 185, 129, 0.6);"
+             style="background: rgba(6, 78, 59, 0.15); border-color: rgba(16, 185, 129, 0.4);"
              data-symbol="XAI" data-score="1.8" data-rank="93" onclick="showDetails('XAI')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">XAI</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">XAI</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'XAI')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.01058</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.0106</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:50%; background:#10b981"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>1.8</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 1.8</span>
+                <span>10:05:17 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3);"
+             style="background: rgba(34, 197, 94, 0.05); border-color: rgba(34, 197, 94, 0.2);"
              data-symbol="MANTA" data-score="0.6" data-rank="95" onclick="showDetails('MANTA')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">MANTA</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">MANTA</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'MANTA')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.07992</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.07992</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 0.6</span>
+                <span>10:05:23 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="RON" data-score="-0.6" data-rank="96" onclick="showDetails('RON')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">RON</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">RON</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'RON')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.09996</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.09953</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>10:05:29 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(6, 78, 59, 0.25); border-color: rgba(16, 185, 129, 0.6);"
+             style="background: rgba(6, 78, 59, 0.15); border-color: rgba(16, 185, 129, 0.4);"
              data-symbol="ENS" data-score="1.8" data-rank="97" onclick="showDetails('ENS')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">ENS</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">ENS</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'ENS')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$6.697</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$6.725</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:50%; background:#10b981"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>1.8</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: 1.8</span>
+                <span>10:05:35 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);"
+             style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
              data-symbol="ANKR" data-score="-0.6" data-rank="98" onclick="showDetails('ANKR')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">ANKR</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">ANKR</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'ANKR')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.004608</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.004624</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-0.6</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -0.6</span>
+                <span>10:05:41 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
-             style="background: rgba(153, 27, 27, 0.3); border-color: rgba(185, 28, 28, 0.6);"
+             style="background: rgba(153, 27, 27, 0.15); border-color: rgba(185, 28, 28, 0.4);"
              data-symbol="MASK" data-score="-1.8" data-rank="99" onclick="showDetails('MASK')">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-bold text-xl font-mono">MASK</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg font-mono">MASK</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'MASK')" class="star-btn">★</button>
             </div>
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-3">$0.4628</div>
-                <div class="h-1.5 bg-gray-700/30 rounded-full relative overflow-hidden">
+            <div class="text-center my-4">
+                <div class="text-xl font-bold">$0.4669</div>
+                <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:20.0%; background:#b91c1c"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 opacity-60 uppercase font-bold">
-                    <span>Bear</span><span>-1.8</span><span>Bull</span>
-                </div>
+            </div>
+            <div class="flex justify-between update-tag">
+                <span>SCORE: -1.8</span>
+                <span>10:05:48 UTC</span>
             </div>
         </div>
         
         </div></div>
         <div id="modal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50" onclick="this.classList.add('hidden')">
-            <div class="bg-gray-900 border border-gray-800 p-8 rounded-2xl max-w-sm w-full" onclick="event.stopPropagation()">
+            <div class="bg-white dark:bg-gray-900 p-8 rounded-2xl max-w-sm w-full" onclick="event.stopPropagation()">
                 <h3 id="m-title" class="text-2xl font-bold mb-6 text-center"></h3>
                 <div id="m-body" class="space-y-4 font-mono"></div>
             </div>
         </div>
         <script>
-            const data = {"BTC": {"RSI": 45.8, "MFI": 37.6, "ADX": 12.7, "Trend": "Bear"}, "ETH": {"RSI": 44.4, "MFI": 36.3, "ADX": 14.4, "Trend": "Bear"}, "BNB": {"RSI": 48.3, "MFI": 34.0, "ADX": 18.6, "Trend": "Bear"}, "SOL": {"RSI": 51.3, "MFI": 32.7, "ADX": 18.4, "Trend": "Bear"}, "XRP": {"RSI": 48.5, "MFI": 21.1, "ADX": 30.9, "Trend": "Bull"}, "USDC": {"RSI": 50.5, "MFI": 35.7, "ADX": 22.7, "Trend": "Bear"}, "ADA": {"RSI": 51.2, "MFI": 39.1, "ADX": 21.7, "Trend": "Bull"}, "AVAX": {"RSI": 46.5, "MFI": 33.1, "ADX": 13.7, "Trend": "Bull"}, "DOGE": {"RSI": 44.1, "MFI": 20.4, "ADX": 19.6, "Trend": "Bull"}, "DOT": {"RSI": 51.7, "MFI": 28.0, "ADX": 18.3, "Trend": "Bull"}, "TRX": {"RSI": 61.3, "MFI": 64.6, "ADX": 21.4, "Trend": "Bull"}, "LINK": {"RSI": 49.6, "MFI": 34.3, "ADX": 17.4, "Trend": "Bull"}, "TON": {"RSI": 45.4, "MFI": 19.8, "ADX": 22.4, "Trend": "Bull"}, "SHIB": {"RSI": 49.5, "MFI": 34.4, "ADX": 25.5, "Trend": "Bull"}, "LTC": {"RSI": 53.1, "MFI": 31.5, "ADX": 15.1, "Trend": "Bear"}, "DAI": {"RSI": 48.7, "MFI": 30.8, "ADX": 22.1, "Trend": "Bear"}, "BCH": {"RSI": 54.5, "MFI": 55.8, "ADX": 30.0, "Trend": "Bull"}, "ATOM": {"RSI": 64.9, "MFI": 72.5, "ADX": 36.1, "Trend": "Bull"}, "UNI": {"RSI": 52.9, "MFI": 39.6, "ADX": 28.7, "Trend": "Bull"}, "NEAR": {"RSI": 52.4, "MFI": 34.0, "ADX": 15.8, "Trend": "Bull"}, "OKB": {"RSI": 52.0, "MFI": 37.3, "ADX": 26.1, "Trend": "Bull"}, "INJ": {"RSI": 44.9, "MFI": 32.0, "ADX": 14.4, "Trend": "Bear"}, "OP": {"RSI": 46.2, "MFI": 24.9, "ADX": 13.1, "Trend": "Bear"}, "ICP": {"RSI": 45.9, "MFI": 27.6, "ADX": 12.3, "Trend": "Bear"}, "FIL": {"RSI": 50.0, "MFI": 22.5, "ADX": 17.8, "Trend": "Bull"}, "LDO": {"RSI": 44.7, "MFI": 38.0, "ADX": 14.8, "Trend": "Bear"}, "TIA": {"RSI": 49.4, "MFI": 33.4, "ADX": 24.9, "Trend": "Bull"}, "STX": {"RSI": 43.1, "MFI": 27.4, "ADX": 10.5, "Trend": "Bear"}, "APT": {"RSI": 43.5, "MFI": 27.4, "ADX": 19.5, "Trend": "Bear"}, "ARB": {"RSI": 46.2, "MFI": 32.8, "ADX": 14.9, "Trend": "Bear"}, "VET": {"RSI": 43.7, "MFI": 31.3, "ADX": 17.5, "Trend": "Bull"}, "KAS": {"RSI": 47.9, "MFI": 45.6, "ADX": 18.5, "Trend": "Bull"}, "ETC": {"RSI": 49.5, "MFI": 38.4, "ADX": 16.5, "Trend": "Bull"}, "MNT": {"RSI": 49.7, "MFI": 53.5, "ADX": 18.7, "Trend": "Bear"}, "CRO": {"RSI": 47.0, "MFI": 25.3, "ADX": 16.5, "Trend": "Bull"}, "ALGO": {"RSI": 44.1, "MFI": 28.8, "ADX": 12.5, "Trend": "Bear"}, "RUNE": {"RSI": 46.5, "MFI": 27.3, "ADX": 16.8, "Trend": "Bear"}, "EGLD": {"RSI": 40.4, "MFI": 24.9, "ADX": 26.0, "Trend": "Bull"}, "SEI": {"RSI": 46.3, "MFI": 39.7, "ADX": 15.3, "Trend": "Bear"}, "SUI": {"RSI": 48.1, "MFI": 36.9, "ADX": 17.7, "Trend": "Bear"}, "AAVE": {"RSI": 53.4, "MFI": 43.1, "ADX": 31.3, "Trend": "Bull"}, "ORDI": {"RSI": 44.0, "MFI": 31.3, "ADX": 11.7, "Trend": "Bear"}, "BEAM": {"RSI": 44.5, "MFI": 34.3, "ADX": 16.5, "Trend": "Bull"}, "FLOW": {"RSI": 36.2, "MFI": 13.4, "ADX": 30.6, "Trend": "Bear"}, "MINA": {"RSI": 40.9, "MFI": 19.4, "ADX": 13.8, "Trend": "Bear"}, "SAND": {"RSI": 44.5, "MFI": 32.3, "ADX": 11.3, "Trend": "Bear"}, "MANA": {"RSI": 43.9, "MFI": 39.1, "ADX": 12.3, "Trend": "Bear"}, "AXS": {"RSI": 45.5, "MFI": 41.2, "ADX": 13.1, "Trend": "Bear"}, "CHZ": {"RSI": 44.7, "MFI": 35.0, "ADX": 15.0, "Trend": "Bear"}, "GALA": {"RSI": 45.0, "MFI": 42.1, "ADX": 17.3, "Trend": "Bear"}, "IOTA": {"RSI": 50.7, "MFI": 51.5, "ADX": 19.9, "Trend": "Bull"}, "KCS": {"RSI": 52.7, "MFI": 53.3, "ADX": 17.7, "Trend": "Bear"}, "GRT": {"RSI": 49.6, "MFI": 51.6, "ADX": 15.0, "Trend": "Bull"}, "NEO": {"RSI": 44.7, "MFI": 39.7, "ADX": 21.1, "Trend": "Bear"}, "SNX": {"RSI": 47.2, "MFI": 45.5, "ADX": 18.4, "Trend": "Bear"}, "DYDX": {"RSI": 44.1, "MFI": 42.2, "ADX": 15.3, "Trend": "Bear"}, "CRV": {"RSI": 50.0, "MFI": 52.6, "ADX": 17.4, "Trend": "Bull"}, "WOO": {"RSI": 49.0, "MFI": 36.6, "ADX": 15.4, "Trend": "Bear"}, "LUNC": {"RSI": 47.9, "MFI": 37.9, "ADX": 27.4, "Trend": "Bear"}, "KAVA": {"RSI": 43.4, "MFI": 50.2, "ADX": 14.7, "Trend": "Bear"}, "IMX": {"RSI": 51.7, "MFI": 43.5, "ADX": 21.3, "Trend": "Bull"}, "HBAR": {"RSI": 51.1, "MFI": 39.3, "ADX": 29.3, "Trend": "Bull"}, "QNT": {"RSI": 42.4, "MFI": 22.9, "ADX": 13.6, "Trend": "Bull"}, "BTT": {"RSI": 44.5, "MFI": 29.9, "ADX": 31.9, "Trend": "Bull"}, "JASMY": {"RSI": 53.5, "MFI": 42.0, "ADX": 17.5, "Trend": "Bull"}, "WIF": {"RSI": 50.9, "MFI": 40.9, "ADX": 15.7, "Trend": "Bull"}, "BONK": {"RSI": 48.6, "MFI": 33.9, "ADX": 23.0, "Trend": "Bull"}, "PYTH": {"RSI": 60.4, "MFI": 29.4, "ADX": 42.6, "Trend": "Bull"}, "FLOKI": {"RSI": 49.1, "MFI": 35.4, "ADX": 24.4, "Trend": "Bull"}, "XLM": {"RSI": 47.2, "MFI": 27.9, "ADX": 32.9, "Trend": "Bull"}, "XMR": {"RSI": 47.7, "MFI": 31.1, "ADX": 17.4, "Trend": "Bear"}, "PEPE": {"RSI": 52.1, "MFI": 41.1, "ADX": 32.3, "Trend": "Bull"}, "AR": {"RSI": 51.3, "MFI": 40.5, "ADX": 18.9, "Trend": "Bear"}, "STRK": {"RSI": 45.8, "MFI": 21.4, "ADX": 14.0, "Trend": "Bear"}, "LRC": {"RSI": 45.5, "MFI": 47.7, "ADX": 22.5, "Trend": "Bear"}, "ZEC": {"RSI": 50.4, "MFI": 41.5, "ADX": 34.9, "Trend": "Bull"}, "BSV": {"RSI": 53.4, "MFI": 60.3, "ADX": 56.5, "Trend": "Bull"}, "PENDLE": {"RSI": 47.5, "MFI": 21.7, "ADX": 20.3, "Trend": "Bear"}, "FET": {"RSI": 51.3, "MFI": 23.2, "ADX": 21.7, "Trend": "Bull"}, "JUP": {"RSI": 57.1, "MFI": 41.2, "ADX": 33.5, "Trend": "Bull"}, "METIS": {"RSI": 45.1, "MFI": 49.6, "ADX": 14.8, "Trend": "Bear"}, "XAI": {"RSI": 50.7, "MFI": 68.5, "ADX": 36.9, "Trend": "Bull"}, "MANTA": {"RSI": 53.9, "MFI": 69.0, "ADX": 18.4, "Trend": "Bull"}, "RON": {"RSI": 45.5, "MFI": 36.2, "ADX": 14.3, "Trend": "Bear"}, "ENS": {"RSI": 54.9, "MFI": 43.6, "ADX": 43.8, "Trend": "Bull"}, "ANKR": {"RSI": 49.0, "MFI": 56.2, "ADX": 13.7, "Trend": "Bear"}, "MASK": {"RSI": 45.1, "MFI": 28.5, "ADX": 29.9, "Trend": "Bear"}};
+            const data = {"BTC": {"RSI": 46.4, "MFI": 37.3, "ADX": 12.7, "Trend": "Bear"}, "ETH": {"RSI": 45.0, "MFI": 36.0, "ADX": 14.4, "Trend": "Bear"}, "BNB": {"RSI": 49.0, "MFI": 33.8, "ADX": 18.5, "Trend": "Bear"}, "SOL": {"RSI": 52.2, "MFI": 32.5, "ADX": 18.4, "Trend": "Bear"}, "XRP": {"RSI": 49.1, "MFI": 21.0, "ADX": 30.8, "Trend": "Bull"}, "USDC": {"RSI": 47.5, "MFI": 32.7, "ADX": 22.7, "Trend": "Bear"}, "ADA": {"RSI": 51.9, "MFI": 38.8, "ADX": 21.6, "Trend": "Bull"}, "AVAX": {"RSI": 46.7, "MFI": 33.0, "ADX": 13.8, "Trend": "Bull"}, "DOGE": {"RSI": 45.1, "MFI": 20.3, "ADX": 19.6, "Trend": "Bull"}, "DOT": {"RSI": 52.0, "MFI": 27.9, "ADX": 18.1, "Trend": "Bull"}, "TRX": {"RSI": 54.6, "MFI": 61.7, "ADX": 19.7, "Trend": "Bull"}, "LINK": {"RSI": 50.4, "MFI": 34.2, "ADX": 17.4, "Trend": "Bull"}, "TON": {"RSI": 46.3, "MFI": 19.7, "ADX": 22.4, "Trend": "Bull"}, "SHIB": {"RSI": 50.1, "MFI": 34.2, "ADX": 25.4, "Trend": "Bull"}, "LTC": {"RSI": 52.7, "MFI": 29.0, "ADX": 15.1, "Trend": "Bear"}, "DAI": {"RSI": 45.9, "MFI": 31.8, "ADX": 22.1, "Trend": "Bear"}, "BCH": {"RSI": 55.2, "MFI": 55.5, "ADX": 30.0, "Trend": "Bull"}, "ATOM": {"RSI": 66.5, "MFI": 71.1, "ADX": 36.1, "Trend": "Bull"}, "UNI": {"RSI": 53.6, "MFI": 39.4, "ADX": 28.7, "Trend": "Bull"}, "NEAR": {"RSI": 53.5, "MFI": 34.2, "ADX": 15.8, "Trend": "Bull"}, "OKB": {"RSI": 52.9, "MFI": 37.2, "ADX": 26.0, "Trend": "Bull"}, "INJ": {"RSI": 46.2, "MFI": 31.7, "ADX": 14.4, "Trend": "Bear"}, "OP": {"RSI": 47.5, "MFI": 24.5, "ADX": 13.1, "Trend": "Bear"}, "ICP": {"RSI": 46.7, "MFI": 27.4, "ADX": 12.3, "Trend": "Bear"}, "FIL": {"RSI": 50.9, "MFI": 23.2, "ADX": 17.8, "Trend": "Bull"}, "LDO": {"RSI": 44.9, "MFI": 37.8, "ADX": 14.8, "Trend": "Bear"}, "TIA": {"RSI": 49.8, "MFI": 33.3, "ADX": 24.9, "Trend": "Bull"}, "STX": {"RSI": 44.1, "MFI": 27.2, "ADX": 10.5, "Trend": "Bear"}, "APT": {"RSI": 44.9, "MFI": 28.4, "ADX": 19.5, "Trend": "Bear"}, "ARB": {"RSI": 46.5, "MFI": 32.6, "ADX": 14.8, "Trend": "Bear"}, "VET": {"RSI": 44.8, "MFI": 30.9, "ADX": 17.6, "Trend": "Bull"}, "KAS": {"RSI": 48.5, "MFI": 45.1, "ADX": 18.5, "Trend": "Bull"}, "ETC": {"RSI": 50.5, "MFI": 38.2, "ADX": 16.5, "Trend": "Bull"}, "MNT": {"RSI": 51.0, "MFI": 53.2, "ADX": 18.7, "Trend": "Bear"}, "CRO": {"RSI": 48.6, "MFI": 25.1, "ADX": 16.6, "Trend": "Bull"}, "ALGO": {"RSI": 43.7, "MFI": 28.6, "ADX": 12.5, "Trend": "Bear"}, "RUNE": {"RSI": 47.4, "MFI": 27.2, "ADX": 16.8, "Trend": "Bear"}, "EGLD": {"RSI": 40.8, "MFI": 24.7, "ADX": 26.0, "Trend": "Bull"}, "SEI": {"RSI": 46.5, "MFI": 39.3, "ADX": 15.4, "Trend": "Bear"}, "SUI": {"RSI": 49.0, "MFI": 36.6, "ADX": 17.7, "Trend": "Bear"}, "AAVE": {"RSI": 53.5, "MFI": 42.7, "ADX": 31.3, "Trend": "Bull"}, "ORDI": {"RSI": 44.8, "MFI": 31.2, "ADX": 11.7, "Trend": "Bear"}, "BEAM": {"RSI": 43.4, "MFI": 35.0, "ADX": 16.5, "Trend": "Bull"}, "FLOW": {"RSI": 35.9, "MFI": 13.2, "ADX": 30.6, "Trend": "Bear"}, "MINA": {"RSI": 43.0, "MFI": 19.3, "ADX": 13.8, "Trend": "Bear"}, "SAND": {"RSI": 44.8, "MFI": 32.0, "ADX": 11.3, "Trend": "Bear"}, "MANA": {"RSI": 43.5, "MFI": 38.9, "ADX": 12.4, "Trend": "Bear"}, "AXS": {"RSI": 44.7, "MFI": 41.7, "ADX": 13.1, "Trend": "Bear"}, "CHZ": {"RSI": 45.1, "MFI": 34.9, "ADX": 15.0, "Trend": "Bear"}, "GALA": {"RSI": 45.6, "MFI": 41.9, "ADX": 17.3, "Trend": "Bear"}, "IOTA": {"RSI": 50.5, "MFI": 50.7, "ADX": 19.7, "Trend": "Bull"}, "KCS": {"RSI": 52.1, "MFI": 53.0, "ADX": 17.7, "Trend": "Bear"}, "GRT": {"RSI": 50.6, "MFI": 50.7, "ADX": 15.0, "Trend": "Bull"}, "NEO": {"RSI": 46.1, "MFI": 39.3, "ADX": 21.1, "Trend": "Bear"}, "SNX": {"RSI": 47.5, "MFI": 45.2, "ADX": 18.4, "Trend": "Bear"}, "DYDX": {"RSI": 44.6, "MFI": 41.9, "ADX": 15.3, "Trend": "Bear"}, "CRV": {"RSI": 51.0, "MFI": 54.0, "ADX": 17.4, "Trend": "Bull"}, "WOO": {"RSI": 49.3, "MFI": 36.4, "ADX": 15.4, "Trend": "Bear"}, "LUNC": {"RSI": 48.0, "MFI": 37.8, "ADX": 27.3, "Trend": "Bear"}, "KAVA": {"RSI": 44.4, "MFI": 50.0, "ADX": 14.7, "Trend": "Bear"}, "IMX": {"RSI": 52.5, "MFI": 43.2, "ADX": 21.2, "Trend": "Bull"}, "HBAR": {"RSI": 51.6, "MFI": 39.1, "ADX": 29.3, "Trend": "Bull"}, "QNT": {"RSI": 44.8, "MFI": 22.8, "ADX": 13.6, "Trend": "Bull"}, "BTT": {"RSI": 45.6, "MFI": 29.5, "ADX": 31.8, "Trend": "Bull"}, "JASMY": {"RSI": 55.0, "MFI": 42.7, "ADX": 17.5, "Trend": "Bull"}, "WIF": {"RSI": 52.1, "MFI": 42.3, "ADX": 15.7, "Trend": "Bull"}, "BONK": {"RSI": 49.9, "MFI": 33.8, "ADX": 23.0, "Trend": "Bull"}, "PYTH": {"RSI": 61.1, "MFI": 29.3, "ADX": 42.6, "Trend": "Bull"}, "FLOKI": {"RSI": 49.9, "MFI": 35.1, "ADX": 24.4, "Trend": "Bull"}, "XLM": {"RSI": 46.9, "MFI": 27.8, "ADX": 32.8, "Trend": "Bull"}, "XMR": {"RSI": 46.1, "MFI": 30.4, "ADX": 17.1, "Trend": "Bear"}, "PEPE": {"RSI": 52.5, "MFI": 40.9, "ADX": 32.3, "Trend": "Bull"}, "AR": {"RSI": 52.8, "MFI": 40.4, "ADX": 18.9, "Trend": "Bear"}, "STRK": {"RSI": 47.6, "MFI": 23.3, "ADX": 14.0, "Trend": "Bear"}, "LRC": {"RSI": 46.5, "MFI": 47.9, "ADX": 22.5, "Trend": "Bear"}, "ZEC": {"RSI": 52.0, "MFI": 41.3, "ADX": 34.9, "Trend": "Bull"}, "BSV": {"RSI": 54.4, "MFI": 60.1, "ADX": 56.5, "Trend": "Bull"}, "PENDLE": {"RSI": 48.1, "MFI": 21.6, "ADX": 20.3, "Trend": "Bear"}, "FET": {"RSI": 51.5, "MFI": 23.1, "ADX": 21.7, "Trend": "Bull"}, "JUP": {"RSI": 58.1, "MFI": 40.9, "ADX": 33.5, "Trend": "Bull"}, "METIS": {"RSI": 46.1, "MFI": 49.2, "ADX": 14.8, "Trend": "Bear"}, "XAI": {"RSI": 51.4, "MFI": 68.0, "ADX": 36.8, "Trend": "Bull"}, "MANTA": {"RSI": 53.9, "MFI": 68.4, "ADX": 18.4, "Trend": "Bull"}, "RON": {"RSI": 44.1, "MFI": 33.5, "ADX": 14.3, "Trend": "Bear"}, "ENS": {"RSI": 56.4, "MFI": 43.4, "ADX": 43.8, "Trend": "Bull"}, "ANKR": {"RSI": 50.2, "MFI": 56.0, "ADX": 13.7, "Trend": "Bear"}, "MASK": {"RSI": 47.8, "MFI": 28.4, "ADX": 29.9, "Trend": "Bear"}};
             let onlyFavs = false;
 
-            function toggleTheme() { document.body.classList.toggle('light'); }
+            function setTheme(isDark) {
+                if(isDark) {
+                    document.body.classList.remove('light');
+                    document.getElementById('theme-toggle').innerText = '🌙';
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    document.body.classList.add('light');
+                    document.getElementById('theme-toggle').innerText = '☀️';
+                    localStorage.setItem('theme', 'light');
+                }
+            }
+
+            function toggleTheme() { setTheme(document.body.classList.contains('light')); }
 
             function toggleFavorite(btn, sym) {
                 let favs = JSON.parse(localStorage.getItem('favs') || '[]');
-                if(favs.includes(sym)) {
-                    favs = favs.filter(f => f !== sym);
-                    btn.classList.remove('active');
-                } else {
-                    favs.push(sym);
-                    btn.classList.add('active');
-                }
+                favs.includes(sym) ? favs = favs.filter(f => f !== sym) : favs.push(sym);
                 localStorage.setItem('favs', JSON.stringify(favs));
-                if(onlyFavs) render();
+                render();
             }
 
             function render() {
                 const term = document.getElementById('search').value.toUpperCase();
                 const sortVal = document.getElementById('sort').value;
-                const layoutVal = document.getElementById('layout').value;
                 const favs = JSON.parse(localStorage.getItem('favs') || '[]');
-                const grid = document.getElementById('grid');
                 const cards = Array.from(document.querySelectorAll('.card'));
-
-                grid.className = `grid gap-4 transition-all ${layoutVal}`;
 
                 cards.forEach(c => {
                     const sym = c.dataset.symbol;
-                    const matchesSearch = sym.includes(term);
                     const isFav = favs.includes(sym);
-                    c.style.display = (matchesSearch && (!onlyFavs || isFav)) ? 'flex' : 'none';
+                    c.style.display = (sym.includes(term) && (!onlyFavs || isFav)) ? 'flex' : 'none';
                     c.querySelector('.star-btn').classList.toggle('active', isFav);
                 });
 
-                cards.sort((a, b) => {
-                    if(sortVal.startsWith('score')) {
-                        return sortVal === 'score-desc' ? b.dataset.score - a.dataset.score : a.dataset.score - b.dataset.score;
-                    } else {
-                        return sortVal === 'cap-desc' ? a.dataset.rank - b.dataset.rank : b.dataset.rank - a.dataset.rank;
-                    }
-                }).forEach(c => grid.appendChild(c));
+                cards.sort((a, b) => sortVal === 'score-desc' ? b.dataset.score - a.dataset.score : a.dataset.score - b.dataset.score)
+                     .forEach(c => document.getElementById('grid').appendChild(c));
             }
 
             function toggleFavView() {
                 onlyFavs = !onlyFavs;
-                document.getElementById('fav-btn').innerText = onlyFavs ? '🌐 Show All' : '⭐ Watchlist';
+                document.getElementById('fav-btn').innerText = onlyFavs ? '🌐 All' : '⭐ Watchlist';
                 render();
             }
 
             function showDetails(sym) {
                 const d = data[sym];
-                document.getElementById('m-title').innerText = sym + " Report";
+                document.getElementById('m-title').innerText = sym;
                 document.getElementById('m-body').innerHTML = Object.entries(d).map(([k,v]) => `
-                    <div class="flex justify-between border-b border-gray-800 pb-2">
-                        <span class="text-gray-400">${k}</span>
-                        <span class="${v === 'Bull' || (typeof v === 'number' && v > 50) ? 'text-green-400' : 'text-red-400'} font-bold">${v}</span>
-                    </div>
-                `).join('');
+                    <div class="flex justify-between border-b border-gray-100 dark:border-gray-800 pb-2">
+                        <span>${k}</span><span class="font-bold">${v}</span>
+                    </div>`).join('');
                 document.getElementById('modal').classList.remove('hidden');
             }
 
             document.getElementById('search').addEventListener('input', render);
             document.getElementById('sort').addEventListener('change', render);
-            document.getElementById('layout').addEventListener('change', render);
-            window.onload = render;
+            
+            window.onload = () => {
+                setTheme(localStorage.getItem('theme') === 'dark' ? true : false);
+                render();
+            };
         </script>
     </body></html>
     
