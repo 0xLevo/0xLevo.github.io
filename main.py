@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 import json 
 import base64
 
-# --- ASSET LIST (İlk 40 Kripto) ---
+# --- ASSET LIST ---
 CMC_TOP_100 = [
     'BTC', 'ETH', 'BNB', 'SOL', 'XRP', 'ADA', 'AVAX', 'DOGE', 'DOT', 'TRX', 
     'LINK', 'MATIC', 'TON', 'SHIB', 'LTC', 'BCH', 'ATOM', 'UNI', 'NEAR', 'INJ', 
@@ -25,13 +25,35 @@ def get_rainbow_status(df):
         current_log_price = y[-1]
         diff = current_log_price - expected_log_price
         
-        # Renkler: Yeşil(Ucuz) -> Gri(Nötr) -> Kırmızı(Pahalı)
-        if diff < -0.4: return "FIRE SALE", "#16a34a"  # Koyu Yeşil
-        elif diff < -0.15: return "BUY", "#86efac"     # Açık Yeşil
-        elif diff < 0.15: return "NEUTRAL", "#94a3b8"  # Gri
-        elif diff < 0.4: return "FOMO", "#facc15"      # Sarı
-        else: return "BUBBLE", "#dc2626"               # Kırmızı
-    except: return "UNKNOWN", "#94a3b8"
+        # Sadece renk ismini döndürür
+        if diff < -0.4: return "FIRE SALE"
+        elif diff < -0.15: return "BUY"
+        elif diff < 0.15: return "NEUTRAL"
+        elif diff < 0.4: return "FOMO"
+        else: return "BUBBLE"
+    except: return "UNKNOWN"
+
+def get_color_by_stars(score, rainbow):
+    """
+    Yıldız sayısına göre renk ve Badge ataması.
+    2-3 Yıldız için Rainbow'a öncelik verir.
+    """
+    # 5 Yıldız: Koyu Yeşil
+    if score == 5: return "#15803d", "STRONG BUY"
+    # 4 Yıldız: Açık Yeşil
+    elif score == 4: return "#22c55e", "BUY"
+    # 0 Yıldız: Koyu Kırmızı
+    elif score == 0: return "#991b1b", "STRONG SELL"
+    # 1 Yıldız: Açık Kırmızı
+    elif score == 1: return "#ef4444", "SELL"
+    
+    # 2 ve 3 Yıldız: Rainbow'a öncelik ver
+    if score in [2, 3]:
+        if rainbow in ["FIRE SALE", "BUY"]: return "#22c55e", "BUY"
+        elif rainbow in ["BUBBLE", "FOMO"]: return "#ef4444", "SELL"
+        else: return "#94a3b8", "NEUTRAL" # Gri
+        
+    return "#94a3b8", "NEUTRAL" # Varsayılan
 
 def get_ai_eval(score, rb):
     # Düzeltilmiş AI Mantığı
@@ -93,17 +115,14 @@ def analyze_market():
             if df['volume'].iloc[-1] > vol_avg: star_count += 1
             if curr_price > sma: star_count += 1
             
-            rb_text, rb_color = get_rainbow_status(df)
+            rb_text = get_rainbow_status(df)
             
-            # Kartın dolgu rengi: Skora göre dinamik
-            if star_count >= 4: card_bg = "rgba(22, 163, 74, 0.15)" # Yeşilimsi
-            elif star_count <= 2: card_bg = "rgba(220, 38, 38, 0.15)" # Kırmızımsı
-            else: card_bg = "var(--card)"
+            # Renk ve Badge'i yıldıza göre belirle
+            card_color, action_text = get_color_by_stars(star_count, rb_text)
 
             results.append({
                 'symbol': symbol, 'price': f"{curr_price:.5g}",
-                'score': star_count, 'rb_text': rb_text, 'rb_color': rb_color,
-                'card_bg': card_bg,
+                'score': star_count, 'action_text': action_text, 'card_color': card_color,
                 'details': {
                     "RSI": round(rsi, 1), "MFI": round(mfi, 1),
                     "SMA20": "Above" if curr_price > sma else "Below",
@@ -125,7 +144,6 @@ def create_html(data):
     for item in data:
         if isinstance(item['details']['BTC_Corr'], float):
             c = item['details']['BTC_Corr']
-            # Renk: Güçlü pozitif=mavi, negatif=turuncu
             color = "border-sky-500" if c > 0.5 else ("border-orange-500" if c < 0 else "border-gray-500")
             corr_html += f'<div class="p-2 rounded-lg text-center border-b-2 {color}" style="background:rgba(100,100,100,0.1)"><div class="text-xs font-bold opacity-70">{item["symbol"]}</div><div class="text-sm font-mono font-bold">{c}</div></div>'
 
@@ -153,7 +171,7 @@ def create_html(data):
         .card {{ border-radius: 16px; border: 1px solid var(--border); cursor: pointer; transition: 0.2s; overflow: hidden; }}
         .card:hover {{ transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }}
         
-        .rainbow-badge {{ font-size: 9px; padding: 2px 8px; border-radius: 99px; font-weight: bold; color: #000; }}
+        .action-badge {{ font-size: 9px; padding: 2px 8px; border-radius: 99px; font-weight: bold; color: #fff; }}
         
         /* Yıldız Renkleri */
         .star-filled {{ color: #eab308; text-shadow: 0 0 5px rgba(234, 179, 8, 0.5); }}
@@ -163,7 +181,7 @@ def create_html(data):
         .ai-box {{ background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 8px; padding: 12px; margin-top: 15px; }}
     </style></head>
     <body>
-        <div class="legal-top"><strong>⚠️ SYSTEM NOTICE:</strong> Combining 5-Star Technicals with Logarithmic Regression & BTC Correlation.</div>
+        <div class="legal-top"><strong>⚠️ SYSTEM NOTICE:</strong> Colors based on 5-Star Technicals + Rainbow Priority.</div>
         <div class="max-w-7xl mx-auto p-4">
             <header class="flex justify-between items-center mb-8">
                 <h1 class="text-4xl italic tracking-tighter brand-logo">BasedVector</h1>
@@ -193,14 +211,15 @@ def create_html(data):
         encoded_info = base64.b64encode(json.dumps(i['details']).encode()).decode()
         stars = "".join(['<span class="star-filled">★</span>' if s < i['score'] else '<span class="star-empty">★</span>' for s in range(5)])
         
+        # Arka plan rengini yıldıza göre doldur
         html += f"""
         <div class="card p-5 flex flex-col justify-between" 
-             style="border-bottom: 4px solid {i['rb_color']}; background: {i['card_bg']};"
+             style="border: 2px solid {i['card_color']}; background: {i['card_color']}20;"
              data-symbol="{i['symbol']}" data-score="{i['score']}" 
              data-info="{encoded_info}" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">{i['symbol']}</span>
-                <span class="rainbow-badge" style="background:{i['rb_color']}">{i['rb_text']}</span>
+                <span class="action-badge" style="background:{i['card_color']}">{i['action_text']}</span>
             </div>
             <div class="text-center my-2">
                 <div class="text-2xl font-black mb-1">${i['price']}</div>
