@@ -49,14 +49,14 @@ def get_color_by_stars(score, rainbow):
     if score == 3:
         if rainbow in ["FIRE SALE", "BUY"]: return "#22c55e", "BUY"
         elif rainbow in ["BUBBLE", "FOMO"]: return "#ef4444", "SELL"
-        else: return "#a3e635", "NEUTRAL" # 3 yıldız, nötr rainbow -> Açık Yeşil
+        else: return "#94a3b8", "NEUTRAL" # Nötr renk GRI
 
     if score == 2:
         if rainbow in ["FIRE SALE", "BUY"]: return "#22c55e", "BUY"
         elif rainbow in ["BUBBLE", "FOMO"]: return "#ef4444", "SELL"
-        else: return "#f87171", "NEUTRAL" # 2 yıldız, nötr rainbow -> Açık Kırmızı
+        else: return "#94a3b8", "NEUTRAL" # Nötr renk GRI
         
-    return "#94a3b8", "NEUTRAL" # Varsayılan
+    return "#94a3b8", "NEUTRAL" # Varsayılan GRI
 
 def get_ai_eval(score, rb):
     if score >= 4:
