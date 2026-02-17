@@ -101,6 +101,7 @@ def create_html(data):
     data_json = json.dumps({item['symbol']: item['details'] for item in data})
     based_color = data[0]['text_color'] if data else "#3b82f6"
     
+    # Hata veren uzun metni küçük parçalara bölerek güvenli hale getiriyoruz
     html_header = f"""
     <!DOCTYPE html>
     <html lang="en">
@@ -232,4 +233,63 @@ def create_html(data):
                 </div>
                 <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
                     <span>-3</span>
-                    <span
+                    <span class="font-bold text-white">{item['score']}</span>
+                    <span>+3</span>
+                </div>
+            </div>
+        </div>
+        """
+            
+    html_footer = f"""
+            </div>
+            
+            <div id="details-modal" class="hidden fixed inset-0 modal-backdrop z-50 flex items-center justify-center p-4" onclick="closeDetails(event)">
+                <div class="card p-6 w-full max-w-sm" onclick="event.stopPropagation()">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 id="modal-title" class="text-xl font-bold text-white"></h3>
+                        <button onclick="closeDetails()" class="text-slate-500 hover:text-white">✕</button>
+                    </div>
+                    <div id="modal-content" class="space-y-2 text-sm text-slate-300 font-mono"></div>
+                </div>
+            </div>
+            
+            <script>
+                const data = {data_json};
+                const grid = document.getElementById('coin-grid');
+                const searchInput = document.getElementById('search');
+                const viewToggle = document.getElementById('view-toggle');
+                const sortSelect = document.getElementById('sort');
+                const themeToggle = document.getElementById('theme-toggle');
+                let showingFavorites = false;
+
+                // --- Theme Switcher ---
+                function toggleTheme() {{
+                    document.body.classList.toggle('light');
+                    const isLight = document.body.classList.contains('light');
+                    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+                    themeToggle.innerText = isLight ? '☀️' : '🌙';
+                }}
+                
+                if (localStorage.getItem('theme') === 'light') {{
+                    toggleTheme();
+                }}
+
+                // Load favorites and update stars
+                function loadFavorites() {{
+                    const favs = JSON.parse(localStorage.getItem('favs') || '[]');
+                    document.querySelectorAll('.card').forEach(card => {{
+                        const symbol = card.dataset.symbol;
+                        const star = card.querySelector('.star-btn');
+                        if (favs.includes(symbol)) {{
+                            star.classList.add('active');
+                        }}
+                    }});
+                }}
+                loadFavorites();
+
+                // Toggle Favorite
+                function toggleFavorite(btn, symbol) {{
+                    let favs = JSON.parse(localStorage.getItem('favs') || '[]');
+                    if (favs.includes(symbol)) {{
+                        favs = favs.filter(f => f !== symbol);
+                        btn.classList.remove('active');
