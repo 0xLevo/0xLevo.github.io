@@ -61,7 +61,7 @@ def analyze_market():
             s3 = get_cci_score(cci)
             avg_score = (s1 + s2 + s3) / 3
             
-            # Colors based on score
+            # Colors
             if avg_score == 0:
                 bg_color = "rgba(148, 163, 184, 0.1)"; border_color = "rgba(148, 163, 184, 0.3)"
                 bar_color = "#94a3b8"
@@ -99,7 +99,108 @@ def create_html(data):
     now = datetime.now().strftime('%Y-%m-%d %H:%M')
     data_json = json.dumps({item['symbol']: item['details'] for item in data})
     
-    # CSS ve HTML yapısını string olarak hazırlıyoruz
+    # 1. BÖLÜM: CSS ve HEAD (Python değişkeni yok, düz string)
+    css_style = """
+        :root {
+            /* Dark Mode Variables */
+            --bg-body: #050505;
+            --bg-card: #0a0a0a;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-card: #171717;
+            --bg-panel: #0a0a0a;
+            --border-panel: #171717;
+            --input-bg: #000000;
+            --input-border: #262626;
+            --star-idle: #334155;
+            --modal-bg: #0a0a0a;
+            --modal-border: #262626;
+        }
+        
+        .light {
+            /* Light Mode Variables */
+            --bg-body: #f1f5f9;
+            --bg-card: #ffffff;
+            --text-primary: #0f172a; 
+            --text-secondary: #475569;
+            --border-card: #cbd5e1;
+            --bg-panel: #ffffff;
+            --border-panel: #cbd5e1;
+            --input-bg: #f8fafc;
+            --input-border: #cbd5e1;
+            --star-idle: #94a3b8;
+            --modal-bg: #ffffff;
+            --modal-border: #e2e8f0;
+        }
+        
+        body { 
+            background-color: var(--bg-body); 
+            color: var(--text-primary); 
+            font-family: 'Space Grotesk', sans-serif; 
+            transition: all 0.3s ease; 
+        }
+        
+        .card { 
+            background: var(--bg-card); 
+            border: 1px solid var(--border-card); 
+            transition: all 0.2s ease; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            position: relative;
+            overflow: hidden;
+        }
+        .card:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1); 
+        }
+        
+        .glass-panel {
+            background-color: var(--bg-panel);
+            border: 1px solid var(--border-panel);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        
+        .based-gradient {
+            background: linear-gradient(90deg, 
+                #ef4444 0%, 
+                #f87171 25%, 
+                #94a3b8 50%, 
+                #4ade80 75%, 
+                #10b981 100%
+            );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+        }
+
+        .star-btn { 
+            font-size: 1.25rem; 
+            cursor: pointer; 
+            color: var(--star-idle); 
+            transition: color 0.2s;
+            z-index: 20;
+        }
+        .star-btn:hover { color: #eab308; opacity: 0.8; }
+        .star-btn.active { color: #eab308; opacity: 1; }
+        
+        .custom-input {
+            background-color: var(--input-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--input-border);
+        }
+        .custom-input::placeholder { color: var(--text-secondary); opacity: 0.7; }
+        
+        .score-bar-bg { background-color: #1f2937; }
+        .light .score-bar-bg { background-color: #e2e8f0; }
+        .score-center-line { background-color: #4b5563; }
+        .light .score-center-line { background-color: #94a3b8; }
+        
+        .modal-backdrop { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); }
+        .light .modal-backdrop { background: rgba(0, 0, 0, 0.3); }
+    """
+
+    # 2. BÖLÜM: Header HTML (f-string ile zamanı ekliyoruz)
     html_header = f"""
     <!DOCTYPE html>
     <html lang="en">
@@ -109,113 +210,10 @@ def create_html(data):
         <title>BasedVector | Alpha Terminal</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-        <style>
-            :root {{
-                /* Dark Mode Variables (Default) */
-                --bg-body: #050505;
-                --bg-card: #0a0a0a;
-                --text-primary: #f8fafc;
-                --text-secondary: #94a3b8;
-                --border-card: #171717;
-                --bg-panel: #0a0a0a;
-                --border-panel: #171717;
-                --input-bg: #000000;
-                --input-border: #262626;
-                --star-idle: #334155;
-            }}
-            
-            .light {{
-                /* Light Mode Variables */
-                --bg-body: #f0f2f5;
-                --bg-card: #ffffff;
-                --text-primary: #0f172a; /* Slate 900 - Dark Black/Blue */
-                --text-secondary: #475569;
-                --border-card: #e2e8f0;
-                --bg-panel: #ffffff;
-                --border-panel: #cbd5e1;
-                --input-bg: #f8fafc;
-                --input-border: #cbd5e1;
-                --star-idle: #94a3b8;
-            }}
-            
-            body {{ 
-                background-color: var(--bg-body); 
-                color: var(--text-primary); 
-                font-family: 'Space Grotesk', sans-serif; 
-                transition: all 0.3s ease; 
-            }}
-            
-            /* Professional Card Style */
-            .card {{ 
-                background: var(--bg-card); 
-                border: 1px solid var(--border-card); 
-                transition: all 0.2s ease; 
-                border-radius: 12px; 
-                cursor: pointer; 
-                position: relative;
-                overflow: hidden;
-            }}
-            .card:hover {{ 
-                transform: translateY(-2px); 
-                box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1); 
-            }}
-            
-            /* The Search/Filter Panel */
-            .glass-panel {{
-                background-color: var(--bg-panel);
-                border: 1px solid var(--border-panel);
-                transition: background-color 0.3s, border-color 0.3s;
-            }}
-            
-            /* Gradient Text Logic */
-            .based-gradient {{
-                background: linear-gradient(90deg, 
-                    #ef4444 0%,   /* Red */
-                    #f87171 25%,  /* Light Red */
-                    #94a3b8 50%,  /* Gray */
-                    #4ade80 75%,  /* Light Green */
-                    #10b981 100%  /* Green */
-                );
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                background-clip: text;
-                font-weight: 800;
-            }}
-
-            /* Star Button Logic */
-            .star-btn {{ 
-                font-size: 1.25rem; 
-                cursor: pointer; 
-                color: var(--star-idle); 
-                transition: color 0.2s;
-                z-index: 20;
-            }}
-            .star-btn:hover {{ color: #eab308; opacity: 0.7; }}
-            .star-btn.active {{ color: #eab308; opacity: 1; }}
-            
-            /* Inputs */
-            .custom-input {{
-                background-color: var(--input-bg);
-                color: var(--text-primary);
-                border: 1px solid var(--input-border);
-            }}
-            .custom-input::placeholder {{ color: var(--text-secondary); opacity: 0.7; }}
-            
-            /* Score Bars */
-            .score-bar-bg {{ background-color: #1f2937; }}
-            .light .score-bar-bg {{ background-color: #e2e8f0; }}
-            .score-center-line {{ background-color: #4b5563; }}
-            .light .score-center-line {{ background-color: #94a3b8; }}
-            
-            /* Modal */
-            .modal-backdrop {{ background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); }}
-            .light .modal-backdrop {{ background: rgba(0, 0, 0, 0.3); }}
-            
-        </style>
+        <style>{css_style}</style>
     </head>
     <body class="p-4 md:p-8">
         <div class="max-w-7xl mx-auto">
-            
             <header class="mb-8">
                 <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
                     <div class="flex items-center gap-3">
@@ -224,7 +222,6 @@ def create_html(data):
                         </h1>
                         <span class="text-xs font-bold font-mono px-2 py-1 rounded bg-blue-500/10 text-blue-500 border border-blue-500/20">ALPHA</span>
                     </div>
-                    
                     <div class="flex items-center gap-4">
                         <div class="text-right hidden md:block">
                             <p class="text-xs uppercase tracking-wider" style="color: var(--text-secondary)">Market Status</p>
@@ -245,15 +242,14 @@ def create_html(data):
                     </button>
                 </div>
             </header>
-
             <div id="coin-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
     """
     
+    # 3. BÖLÜM: Grid İçeriği
     html_content = ""
     for item in data:
         intensity = abs(item['score']) / 3 * 50 
         
-        # Determine bar styles based on score
         if item['score'] >= 0:
             bar_style = f"width: {intensity}%; left: 50%; background-color: {item['bar_color']};"
         else:
@@ -265,19 +261,161 @@ def create_html(data):
              data-symbol="{item['symbol']}" data-score="{item['score']}"
              onclick="showDetails('{item['symbol']}')">
              
-             <div class="flex justify-between items-start mb-2">
+            <div class="flex justify-between items-start mb-2">
                 <span class="font-bold text-lg font-mono tracking-tight" style="color: var(--text-primary)">{item['symbol']}</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, '{item['symbol']}')" class="star-btn">★</button>
             </div>
             
             <div class="text-center mt-1">
                 <p class="text-2xl font-bold font-mono mb-2" style="color: var(--text-primary)">${item['price']}</p>
-                
                 <div class="score-bar-bg h-2 rounded-full relative overflow-hidden w-full">
                     <div class="score-center-line absolute top-0 left-1/2 w-0.5 h-full transform -translate-x-1/2 z-10"></div>
                     <div class="absolute top-0 h-full rounded-full transition-all duration-500" style="{bar_style}"></div>
                 </div>
-                
                 <div class="flex justify-between text-[10px] font-mono mt-1" style="color: var(--text-secondary)">
                     <span>Bear</span>
-                    <span
+                    <span class="font-bold" style="color: {item['bar_color']}">{item['score']}</span>
+                    <span>Bull</span>
+                </div>
+            </div>
+        </div>
+        """
+    
+    # 4. BÖLÜM: Javascript ve Footer (Dikkat: JS süslü parantezleri çiftlenmiştir {{ }})
+    html_footer = f"""
+            </div>
+            
+            <div id="details-modal" class="hidden fixed inset-0 modal-backdrop z-50 flex items-center justify-center p-4" onclick="closeDetails(event)">
+                <div class="card p-6 w-full max-w-sm shadow-2xl transform transition-all scale-100" style="background: var(--modal-bg); border-color: var(--modal-border);" onclick="event.stopPropagation()">
+                    <div class="flex justify-between items-center mb-6 border-b border-gray-700/20 pb-4">
+                        <h3 id="modal-title" class="text-xl font-bold" style="color: var(--text-primary)"></h3>
+                        <button onclick="closeDetails()" class="text-2xl leading-none hover:text-red-500" style="color: var(--text-secondary)">×</button>
+                    </div>
+                    <div id="modal-content" class="space-y-3 text-sm font-mono"></div>
+                </div>
+            </div>
+            
+            <script>
+                const data = {data_json};
+                const grid = document.getElementById('coin-grid');
+                const searchInput = document.getElementById('search');
+                const viewToggle = document.getElementById('view-toggle');
+                const sortSelect = document.getElementById('sort');
+                const themeToggle = document.getElementById('theme-toggle');
+                let showingFavorites = false;
+
+                function toggleTheme() {{
+                    document.body.classList.toggle('light');
+                    const isLight = document.body.classList.contains('light');
+                    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+                    themeToggle.innerText = isLight ? '☀️' : '🌙';
+                    themeToggle.className = isLight ? 
+                        'w-10 h-10 rounded-full flex items-center justify-center bg-yellow-400 text-white hover:bg-yellow-500 transition-colors shadow-lg' : 
+                        'w-10 h-10 rounded-full flex items-center justify-center bg-gray-800 text-white hover:bg-gray-700 transition-colors';
+                }}
+                
+                if (localStorage.getItem('theme') === 'light') {{
+                    toggleTheme();
+                }}
+
+                function loadFavorites() {{
+                    const favs = JSON.parse(localStorage.getItem('favs') || '[]');
+                    document.querySelectorAll('.card').forEach(card => {{
+                        const symbol = card.dataset.symbol;
+                        const star = card.querySelector('.star-btn');
+                        if (favs.includes(symbol)) star.classList.add('active');
+                    }});
+                }}
+                loadFavorites();
+
+                function toggleFavorite(btn, symbol) {{
+                    let favs = JSON.parse(localStorage.getItem('favs') || '[]');
+                    if (favs.includes(symbol)) {{
+                        favs = favs.filter(f => f !== symbol);
+                        btn.classList.remove('active');
+                    }} else {{
+                        favs.push(symbol);
+                        btn.classList.add('active');
+                    }}
+                    localStorage.setItem('favs', JSON.stringify(favs));
+                    if (showingFavorites) renderGrid();
+                }}
+
+                function renderGrid() {{
+                    const term = searchInput.value.toUpperCase();
+                    const favs = JSON.parse(localStorage.getItem('favs') || '[]');
+                    const sortOrder = sortSelect.value;
+                    
+                    let cards = Array.from(document.querySelectorAll('.card'));
+                    
+                    cards.forEach(card => {{
+                        const symbol = card.dataset.symbol;
+                        const matchesSearch = symbol.includes(term);
+                        const matchesFav = favs.includes(symbol);
+                        card.style.display = (showingFavorites ? (matchesSearch && matchesFav) : matchesSearch) ? 'flex' : 'none';
+                    }});
+                    
+                    cards.sort((a, b) => {{
+                        const scoreA = parseFloat(a.dataset.score);
+                        const scoreB = parseFloat(b.dataset.score);
+                        return sortOrder === 'score-desc' ? scoreB - scoreA : scoreA - scoreB;
+                    }});
+                    
+                    cards.forEach(card => {{
+                        if (card.style.display !== 'none') grid.appendChild(card);
+                    }});
+                }}
+
+                searchInput.addEventListener('input', renderGrid);
+                sortSelect.addEventListener('change', renderGrid);
+
+                function toggleView() {{
+                    showingFavorites = !showingFavorites;
+                    viewToggle.innerHTML = showingFavorites ? '🌐 Show All' : '⭐ My Watchlist';
+                    viewToggle.className = showingFavorites ? 
+                        'bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg text-sm font-bold shadow-lg transition-all flex items-center gap-2 whitespace-nowrap' :
+                        'bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg text-sm font-bold shadow-lg transition-all flex items-center gap-2 whitespace-nowrap';
+                    renderGrid();
+                }}
+                
+                function showDetails(symbol) {{
+                    const details = data[symbol];
+                    document.getElementById('modal-title').innerText = symbol + ' Analysis';
+                    let content = '';
+                    for (const [key, value] of Object.entries(details)) {{
+                        let colorClass = 'text-gray-500';
+                        if(value > 0) colorClass = 'text-green-500 font-bold';
+                        if(value < 0) colorClass = 'text-red-500 font-bold';
+                        
+                        content += `<div class='flex justify-between items-center p-2 rounded hover:bg-gray-500/5 transition'>
+                            <span style="color: var(--text-secondary)">${{key}}</span>
+                            <span class='${{colorClass}} text-lg'>${{value}}</span>
+                        </div>`;
+                    }}
+                    document.getElementById('modal-content').innerHTML = content;
+                    document.getElementById('details-modal').classList.remove('hidden');
+                }}
+                
+                function closeDetails(event) {{
+                    if (event && event.target.id !== 'details-modal') return;
+                    document.getElementById('details-modal').classList.add('hidden');
+                }}
+            </script>
+            
+            <footer class="mt-16 mb-8 text-center">
+                <p class="text-xs font-bold opacity-50 tracking-widest" style="color: var(--text-secondary)">
+                    ENGINEERED BY BASED VECTOR | {now}
+                </p>
+            </footer>
+        </div>
+    </body>
+    </html>
+    """
+    
+    final_html = html_header + html_content + html_footer
+    with open("index.html", "w", encoding="utf-8") as f:
+        f.write(final_html)
+
+if __name__ == "__main__":
+    market_data = analyze_market()
+    create_html(market_data)
