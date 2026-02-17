@@ -11,7 +11,7 @@
             --bg: #f1f5f9; --card: #ffffff; --text: #0f172a; --border: #cbd5e1; 
             --modal-bg: #fff; --modal-text: #0f172a; 
         }
-        body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; padding-top: 100px; transition: 0.3s; }
+        body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; padding-top: 120px; transition: 0.3s; }
         
         .brand-logo {
             background: linear-gradient(90deg, #8b0000, #ff0000, #808080, #008000, #006400);
@@ -24,21 +24,24 @@
         
         .action-badge { font-size: 9px; padding: 2px 8px; border-radius: 99px; font-weight: bold; color: #fff; }
         
-        /* Yıldız Renkleri */
-        .star-filled { color: #eab308; text-shadow: 0 0 5px rgba(234, 179, 8, 0.5); }
-        .star-empty { color: #ef4444; opacity: 0.6; } /* Kırmızı Boş Yıldızlar */
+        /* Yıldız Renkleri - Yeşil ve Kırmızı */
+        .star-filled { color: #22c55e; text-shadow: 0 0 5px rgba(34, 197, 94, 0.5); }
+        .star-empty { color: #ef4444; opacity: 0.6; }
         
         #modal-content { background: var(--modal-bg); color: var(--modal-text); border: 1px solid var(--border); }
         .ai-box { background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 8px; padding: 12px; margin-top: 15px; }
     </style></head>
     <body>
-        <div class="legal-top"><strong>⚠️ SYSTEM NOTICE:</strong> Colors based on 5-Star Technicals + Rainbow Priority.</div>
+        <div class="legal-top">
+            <strong>⚠️ SYSTEM NOTICE:</strong> Colors based on 5-Star Technicals + Rainbow Priority. 
+            <br><em>Stars (5:Strong Buy, 0:Strong Sell). Action Text & Colors based on technical score + historical price position.</em>
+        </div>
         <div class="max-w-7xl mx-auto p-4">
             <header class="flex justify-between items-center mb-8">
                 <h1 class="text-4xl italic tracking-tighter brand-logo">BasedVector</h1>
                 <div class="flex items-center gap-4">
                     <button onclick="toggleTheme()" class="p-2 bg-gray-800 text-white rounded-full w-10 h-10 flex items-center justify-center" id="theme-toggle">🌙</button>
-                    <div class="text-[10px] font-mono opacity-60">UPDATED: 2026-02-17 19:12:58 UTC</div>
+                    <div class="text-[10px] font-mono opacity-60">UPDATED: 2026-02-17 19:24:54 UTC</div>
                 </div>
             </header>
 
@@ -60,427 +63,427 @@
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid #a3e635; background: #a3e63520;"
              data-symbol="BTC" data-score="3" 
-             data-info="eyJSU0kiOiA0Ni45LCAiTUZJIjogMzIuMywgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
+             data-info="eyJSU0kiOiA0Ny4wLCAiTUZJIjogMzIuOCwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">BTC</span>
                 <span class="action-badge" style="background:#a3e635">NEUTRAL</span>
             </div>
             <div class="text-center my-2">
-                <div class="text-2xl font-black mb-1">$68067</div>
+                <div class="text-2xl font-black mb-1">$68080</div>
                 <div class="flex justify-center gap-1">
                     <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
                 </div>
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>3/5 Score</span>
-                <span>19:12:50</span>
+                <span>19:24:46</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid #a3e635; background: #a3e63520;"
              data-symbol="ETH" data-score="3" 
-             data-info="eyJSU0kiOiA1Mi4wLCAiTUZJIjogMzQuMiwgIlNNQTIwIjogIkFib3ZlIiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAwLjgyLCAiQUlfRXZhbCI6ICJORVVUUkFMOiBNaXhlZCBzaWduYWxzLiBNYXJrZXQgaXMgY29uc29saWRhdGluZy4ifQ==" onclick="showDetails(this)">
+             data-info="eyJSU0kiOiA1Mi4yLCAiTUZJIjogMzQuNiwgIlNNQTIwIjogIkFib3ZlIiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAwLjgyLCAiQUlfRXZhbCI6ICJORVVUUkFMOiBNaXhlZCBzaWduYWxzLiBNYXJrZXQgaXMgY29uc29saWRhdGluZy4ifQ==" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">ETH</span>
                 <span class="action-badge" style="background:#a3e635">NEUTRAL</span>
             </div>
             <div class="text-center my-2">
-                <div class="text-2xl font-black mb-1">$2008.5</div>
+                <div class="text-2xl font-black mb-1">$2009.7</div>
                 <div class="flex justify-center gap-1">
                     <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
                 </div>
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>3/5 Score</span>
-                <span>19:12:50</span>
+                <span>19:24:47</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid #f87171; background: #f8717120;"
              data-symbol="BNB" data-score="2" 
-             data-info="eyJSU0kiOiA1MS4yLCAiTUZJIjogMzAuOCwgIlNNQTIwIjogIkFib3ZlIiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIyLzUiLCAiQlRDX0NvcnIiOiAwLjc5LCAiQUlfRXZhbCI6ICJDQVVUSU9OOiBCb3RoIHRlY2huaWNhbHMgYW5kIGhpc3RvcmljYWwgdHJlbmQgc3VnZ2VzdCB3ZWFrbmVzcyBvciBvdmVydmFsdWF0aW9uLiJ9" onclick="showDetails(this)">
+             data-info="eyJSU0kiOiA1MS4yLCAiTUZJIjogMzEuMCwgIlNNQTIwIjogIkFib3ZlIiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIyLzUiLCAiQlRDX0NvcnIiOiAwLjc5LCAiQUlfRXZhbCI6ICJDQVVUSU9OOiBCb3RoIHRlY2huaWNhbHMgYW5kIGhpc3RvcmljYWwgdHJlbmQgc3VnZ2VzdCB3ZWFrbmVzcyBvciBvdmVydmFsdWF0aW9uLiJ9" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">BNB</span>
                 <span class="action-badge" style="background:#f87171">NEUTRAL</span>
             </div>
             <div class="text-center my-2">
-                <div class="text-2xl font-black mb-1">$623.05</div>
+                <div class="text-2xl font-black mb-1">$623.01</div>
                 <div class="flex justify-center gap-1">
                     <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
                 </div>
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>2/5 Score</span>
-                <span>19:12:50</span>
+                <span>19:24:47</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid #a3e635; background: #a3e63520;"
              data-symbol="SOL" data-score="3" 
-             data-info="eyJSU0kiOiA1MC40LCAiTUZJIjogMjkuMCwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAwLjgzLCAiQUlfRXZhbCI6ICJORVVUUkFMOiBNaXhlZCBzaWduYWxzLiBNYXJrZXQgaXMgY29uc29saWRhdGluZy4ifQ==" onclick="showDetails(this)">
+             data-info="eyJSU0kiOiA0OS43LCAiTUZJIjogMjkuMiwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAwLjgzLCAiQUlfRXZhbCI6ICJORVVUUkFMOiBNaXhlZCBzaWduYWxzLiBNYXJrZXQgaXMgY29uc29saWRhdGluZy4ifQ==" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">SOL</span>
                 <span class="action-badge" style="background:#a3e635">NEUTRAL</span>
             </div>
             <div class="text-center my-2">
-                <div class="text-2xl font-black mb-1">$85.31</div>
+                <div class="text-2xl font-black mb-1">$85.1</div>
                 <div class="flex justify-center gap-1">
                     <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
                 </div>
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>3/5 Score</span>
-                <span>19:12:51</span>
+                <span>19:24:47</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid #a3e635; background: #a3e63520;"
              data-symbol="XRP" data-score="3" 
-             data-info="eyJSU0kiOiA1My42LCAiTUZJIjogMTcuNiwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAwLjUsICJBSV9FdmFsIjogIk5FVVRSQUw6IE1peGVkIHNpZ25hbHMuIE1hcmtldCBpcyBjb25zb2xpZGF0aW5nLiJ9" onclick="showDetails(this)">
+             data-info="eyJSU0kiOiA1My42LCAiTUZJIjogMTcuNywgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAwLjUsICJBSV9FdmFsIjogIk5FVVRSQUw6IE1peGVkIHNpZ25hbHMuIE1hcmtldCBpcyBjb25zb2xpZGF0aW5nLiJ9" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">XRP</span>
                 <span class="action-badge" style="background:#a3e635">NEUTRAL</span>
             </div>
             <div class="text-center my-2">
-                <div class="text-2xl font-black mb-1">$1.4849</div>
+                <div class="text-2xl font-black mb-1">$1.4851</div>
                 <div class="flex justify-center gap-1">
                     <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
                 </div>
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>3/5 Score</span>
-                <span>19:12:51</span>
+                <span>19:24:47</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid #f87171; background: #f8717120;"
              data-symbol="ADA" data-score="2" 
-             data-info="eyJSU0kiOiA1NS4yLCAiTUZJIjogMzYuMCwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIyLzUiLCAiQlRDX0NvcnIiOiAwLjU2LCAiQUlfRXZhbCI6ICJDQVVUSU9OOiBCb3RoIHRlY2huaWNhbHMgYW5kIGhpc3RvcmljYWwgdHJlbmQgc3VnZ2VzdCB3ZWFrbmVzcyBvciBvdmVydmFsdWF0aW9uLiJ9" onclick="showDetails(this)">
+             data-info="eyJSU0kiOiA1NC44LCAiTUZJIjogMzYuMSwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIyLzUiLCAiQlRDX0NvcnIiOiAwLjU2LCAiQUlfRXZhbCI6ICJDQVVUSU9OOiBCb3RoIHRlY2huaWNhbHMgYW5kIGhpc3RvcmljYWwgdHJlbmQgc3VnZ2VzdCB3ZWFrbmVzcyBvciBvdmVydmFsdWF0aW9uLiJ9" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">ADA</span>
                 <span class="action-badge" style="background:#f87171">NEUTRAL</span>
             </div>
             <div class="text-center my-2">
-                <div class="text-2xl font-black mb-1">$0.2852</div>
+                <div class="text-2xl font-black mb-1">$0.2848</div>
                 <div class="flex justify-center gap-1">
                     <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
                 </div>
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>2/5 Score</span>
-                <span>19:12:51</span>
+                <span>19:24:47</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid #a3e635; background: #a3e63520;"
              data-symbol="AVAX" data-score="3" 
-             data-info="eyJSU0kiOiA1MS40LCAiTUZJIjogMzUuMywgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAwLjg1LCAiQUlfRXZhbCI6ICJORVVUUkFMOiBNaXhlZCBzaWduYWxzLiBNYXJrZXQgaXMgY29uc29saWRhdGluZy4ifQ==" onclick="showDetails(this)">
+             data-info="eyJSU0kiOiA1MS44LCAiTUZJIjogMzUuNSwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAwLjg1LCAiQUlfRXZhbCI6ICJORVVUUkFMOiBNaXhlZCBzaWduYWxzLiBNYXJrZXQgaXMgY29uc29saWRhdGluZy4ifQ==" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">AVAX</span>
                 <span class="action-badge" style="background:#a3e635">NEUTRAL</span>
             </div>
             <div class="text-center my-2">
-                <div class="text-2xl font-black mb-1">$9.22</div>
+                <div class="text-2xl font-black mb-1">$9.23</div>
                 <div class="flex justify-center gap-1">
                     <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
                 </div>
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>3/5 Score</span>
-                <span>19:12:51</span>
+                <span>19:24:48</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid #a3e635; background: #a3e63520;"
              data-symbol="DOGE" data-score="3" 
-             data-info="eyJSU0kiOiA1Mi4zLCAiTUZJIjogMjAuMywgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAwLjYyLCAiQUlfRXZhbCI6ICJORVVUUkFMOiBNaXhlZCBzaWduYWxzLiBNYXJrZXQgaXMgY29uc29saWRhdGluZy4ifQ==" onclick="showDetails(this)">
+             data-info="eyJSU0kiOiA1Mi4zLCAiTUZJIjogMjAuNCwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAwLjYyLCAiQUlfRXZhbCI6ICJORVVUUkFMOiBNaXhlZCBzaWduYWxzLiBNYXJrZXQgaXMgY29uc29saWRhdGluZy4ifQ==" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">DOGE</span>
                 <span class="action-badge" style="background:#a3e635">NEUTRAL</span>
             </div>
             <div class="text-center my-2">
-                <div class="text-2xl font-black mb-1">$0.10185</div>
+                <div class="text-2xl font-black mb-1">$0.10183</div>
                 <div class="flex justify-center gap-1">
                     <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
                 </div>
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>3/5 Score</span>
-                <span>19:12:51</span>
+                <span>19:24:48</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid #a3e635; background: #a3e63520;"
              data-symbol="DOT" data-score="3" 
-             data-info="eyJSU0kiOiA1NC4wLCAiTUZJIjogMjUuOCwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAwLjY1LCAiQUlfRXZhbCI6ICJORVVUUkFMOiBNaXhlZCBzaWduYWxzLiBNYXJrZXQgaXMgY29uc29saWRhdGluZy4ifQ==" onclick="showDetails(this)">
+             data-info="eyJSU0kiOiA1My43LCAiTUZJIjogMjYuMSwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAwLjY1LCAiQUlfRXZhbCI6ICJORVVUUkFMOiBNaXhlZCBzaWduYWxzLiBNYXJrZXQgaXMgY29uc29saWRhdGluZy4ifQ==" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">DOT</span>
                 <span class="action-badge" style="background:#a3e635">NEUTRAL</span>
             </div>
             <div class="text-center my-2">
-                <div class="text-2xl font-black mb-1">$1.368</div>
+                <div class="text-2xl font-black mb-1">$1.367</div>
                 <div class="flex justify-center gap-1">
                     <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
                 </div>
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>3/5 Score</span>
-                <span>19:12:52</span>
+                <span>19:24:48</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid #f87171; background: #f8717120;"
              data-symbol="TRX" data-score="2" 
-             data-info="eyJSU0kiOiA1Mi45LCAiTUZJIjogNTYuNCwgIlNNQTIwIjogIkFib3ZlIiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIyLzUiLCAiQlRDX0NvcnIiOiAwLjEzLCAiQUlfRXZhbCI6ICJDQVVUSU9OOiBCb3RoIHRlY2huaWNhbHMgYW5kIGhpc3RvcmljYWwgdHJlbmQgc3VnZ2VzdCB3ZWFrbmVzcyBvciBvdmVydmFsdWF0aW9uLiJ9" onclick="showDetails(this)">
+             data-info="eyJSU0kiOiA1My4yLCAiTUZJIjogNTYuNCwgIlNNQTIwIjogIkFib3ZlIiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIyLzUiLCAiQlRDX0NvcnIiOiAwLjEzLCAiQUlfRXZhbCI6ICJDQVVUSU9OOiBCb3RoIHRlY2huaWNhbHMgYW5kIGhpc3RvcmljYWwgdHJlbmQgc3VnZ2VzdCB3ZWFrbmVzcyBvciBvdmVydmFsdWF0aW9uLiJ9" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">TRX</span>
                 <span class="action-badge" style="background:#f87171">NEUTRAL</span>
             </div>
             <div class="text-center my-2">
-                <div class="text-2xl font-black mb-1">$0.2821</div>
+                <div class="text-2xl font-black mb-1">$0.2822</div>
                 <div class="flex justify-center gap-1">
                     <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
                 </div>
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>2/5 Score</span>
-                <span>19:12:52</span>
+                <span>19:24:48</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid #a3e635; background: #a3e63520;"
              data-symbol="LINK" data-score="3" 
-             data-info="eyJSU0kiOiA1NC44LCAiTUZJIjogMzMuMSwgIlNNQTIwIjogIkFib3ZlIiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
+             data-info="eyJSU0kiOiA1NS4yLCAiTUZJIjogMzMuMywgIlNNQTIwIjogIkFib3ZlIiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">LINK</span>
                 <span class="action-badge" style="background:#a3e635">NEUTRAL</span>
             </div>
             <div class="text-center my-2">
-                <div class="text-2xl font-black mb-1">$8.91</div>
+                <div class="text-2xl font-black mb-1">$8.92</div>
                 <div class="flex justify-center gap-1">
                     <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
                 </div>
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>3/5 Score</span>
-                <span>19:12:52</span>
+                <span>19:24:48</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid #a3e635; background: #a3e63520;"
              data-symbol="TON" data-score="3" 
-             data-info="eyJSU0kiOiA0Ny44LCAiTUZJIjogMjguMCwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
+             data-info="eyJSU0kiOiA0OC4xLCAiTUZJIjogMjguMSwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">TON</span>
                 <span class="action-badge" style="background:#a3e635">NEUTRAL</span>
             </div>
             <div class="text-center my-2">
-                <div class="text-2xl font-black mb-1">$1.431</div>
+                <div class="text-2xl font-black mb-1">$1.432</div>
                 <div class="flex justify-center gap-1">
                     <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
                 </div>
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>3/5 Score</span>
-                <span>19:12:52</span>
+                <span>19:24:49</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid #a3e635; background: #a3e63520;"
              data-symbol="SHIB" data-score="3" 
-             data-info="eyJSU0kiOiA1NC4wLCAiTUZJIjogMjkuMCwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
+             data-info="eyJSU0kiOiA1My43LCAiTUZJIjogMjkuMSwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">SHIB</span>
                 <span class="action-badge" style="background:#a3e635">NEUTRAL</span>
             </div>
             <div class="text-center my-2">
-                <div class="text-2xl font-black mb-1">$6.567e-06</div>
+                <div class="text-2xl font-black mb-1">$6.56e-06</div>
                 <div class="flex justify-center gap-1">
                     <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
                 </div>
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>3/5 Score</span>
-                <span>19:12:53</span>
+                <span>19:24:49</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid #f87171; background: #f8717120;"
              data-symbol="LTC" data-score="2" 
-             data-info="eyJSU0kiOiA0OS43LCAiTUZJIjogMjUuNCwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIyLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiQ0FVVElPTjogQm90aCB0ZWNobmljYWxzIGFuZCBoaXN0b3JpY2FsIHRyZW5kIHN1Z2dlc3Qgd2Vha25lc3Mgb3Igb3ZlcnZhbHVhdGlvbi4ifQ==" onclick="showDetails(this)">
+             data-info="eyJSU0kiOiA0OS4zLCAiTUZJIjogMjUuNiwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIyLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiQ0FVVElPTjogQm90aCB0ZWNobmljYWxzIGFuZCBoaXN0b3JpY2FsIHRyZW5kIHN1Z2dlc3Qgd2Vha25lc3Mgb3Igb3ZlcnZhbHVhdGlvbi4ifQ==" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">LTC</span>
                 <span class="action-badge" style="background:#f87171">NEUTRAL</span>
             </div>
             <div class="text-center my-2">
-                <div class="text-2xl font-black mb-1">$54.56</div>
+                <div class="text-2xl font-black mb-1">$54.5</div>
                 <div class="flex justify-center gap-1">
                     <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
                 </div>
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>2/5 Score</span>
-                <span>19:12:53</span>
+                <span>19:24:49</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid #ef4444; background: #ef444420;"
              data-symbol="BCH" data-score="1" 
-             data-info="eyJSU0kiOiA2MS43LCAiTUZJIjogNjIuOCwgIlNNQTIwIjogIkFib3ZlIiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIxLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiQ0FVVElPTjogQm90aCB0ZWNobmljYWxzIGFuZCBoaXN0b3JpY2FsIHRyZW5kIHN1Z2dlc3Qgd2Vha25lc3Mgb3Igb3ZlcnZhbHVhdGlvbi4ifQ==" onclick="showDetails(this)">
+             data-info="eyJSU0kiOiA2Mi4zLCAiTUZJIjogNjIuOSwgIlNNQTIwIjogIkFib3ZlIiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIxLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiQ0FVVElPTjogQm90aCB0ZWNobmljYWxzIGFuZCBoaXN0b3JpY2FsIHRyZW5kIHN1Z2dlc3Qgd2Vha25lc3Mgb3Igb3ZlcnZhbHVhdGlvbi4ifQ==" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">BCH</span>
                 <span class="action-badge" style="background:#ef4444">SELL</span>
             </div>
             <div class="text-center my-2">
-                <div class="text-2xl font-black mb-1">$568.7</div>
+                <div class="text-2xl font-black mb-1">$569.6</div>
                 <div class="flex justify-center gap-1">
                     <span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
                 </div>
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>1/5 Score</span>
-                <span>19:12:53</span>
+                <span>19:24:49</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid #ef4444; background: #ef444420;"
              data-symbol="ATOM" data-score="1" 
-             data-info="eyJSU0kiOiA2NC4wLCAiTUZJIjogNjkuOSwgIlNNQTIwIjogIkFib3ZlIiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIxLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiQ0FVVElPTjogQm90aCB0ZWNobmljYWxzIGFuZCBoaXN0b3JpY2FsIHRyZW5kIHN1Z2dlc3Qgd2Vha25lc3Mgb3Igb3ZlcnZhbHVhdGlvbi4ifQ==" onclick="showDetails(this)">
+             data-info="eyJSU0kiOiA2My4yLCAiTUZJIjogNjkuNywgIlNNQTIwIjogIkFib3ZlIiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIxLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiQ0FVVElPTjogQm90aCB0ZWNobmljYWxzIGFuZCBoaXN0b3JpY2FsIHRyZW5kIHN1Z2dlc3Qgd2Vha25lc3Mgb3Igb3ZlcnZhbHVhdGlvbi4ifQ==" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">ATOM</span>
                 <span class="action-badge" style="background:#ef4444">SELL</span>
             </div>
             <div class="text-center my-2">
-                <div class="text-2xl font-black mb-1">$2.264</div>
+                <div class="text-2xl font-black mb-1">$2.26</div>
                 <div class="flex justify-center gap-1">
                     <span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
                 </div>
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>1/5 Score</span>
-                <span>19:12:53</span>
+                <span>19:24:50</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid #f87171; background: #f8717120;"
              data-symbol="UNI" data-score="2" 
-             data-info="eyJSU0kiOiA1NC4zLCAiTUZJIjogMzYuNywgIlNNQTIwIjogIkFib3ZlIiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIyLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiQ0FVVElPTjogQm90aCB0ZWNobmljYWxzIGFuZCBoaXN0b3JpY2FsIHRyZW5kIHN1Z2dlc3Qgd2Vha25lc3Mgb3Igb3ZlcnZhbHVhdGlvbi4ifQ==" onclick="showDetails(this)">
+             data-info="eyJSU0kiOiA1My44LCAiTUZJIjogMzYuOCwgIlNNQTIwIjogIkFib3ZlIiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIyLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiQ0FVVElPTjogQm90aCB0ZWNobmljYWxzIGFuZCBoaXN0b3JpY2FsIHRyZW5kIHN1Z2dlc3Qgd2Vha25lc3Mgb3Igb3ZlcnZhbHVhdGlvbi4ifQ==" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">UNI</span>
                 <span class="action-badge" style="background:#f87171">NEUTRAL</span>
             </div>
             <div class="text-center my-2">
-                <div class="text-2xl font-black mb-1">$3.558</div>
+                <div class="text-2xl font-black mb-1">$3.551</div>
                 <div class="flex justify-center gap-1">
                     <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
                 </div>
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>2/5 Score</span>
-                <span>19:12:53</span>
+                <span>19:24:50</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid #a3e635; background: #a3e63520;"
              data-symbol="NEAR" data-score="3" 
-             data-info="eyJSU0kiOiA1NC4zLCAiTUZJIjogMzMuNSwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
+             data-info="eyJSU0kiOiA1My40LCAiTUZJIjogMzMuNywgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">NEAR</span>
                 <span class="action-badge" style="background:#a3e635">NEUTRAL</span>
             </div>
             <div class="text-center my-2">
-                <div class="text-2xl font-black mb-1">$1.0551</div>
+                <div class="text-2xl font-black mb-1">$1.052</div>
                 <div class="flex justify-center gap-1">
                     <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
                 </div>
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>3/5 Score</span>
-                <span>19:12:54</span>
+                <span>19:24:50</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid #a3e635; background: #a3e63520;"
              data-symbol="INJ" data-score="3" 
-             data-info="eyJSU0kiOiA1MS41LCAiTUZJIjogNDAuOSwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
+             data-info="eyJSU0kiOiA1MC44LCAiTUZJIjogNDAuOSwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">INJ</span>
                 <span class="action-badge" style="background:#a3e635">NEUTRAL</span>
             </div>
             <div class="text-center my-2">
-                <div class="text-2xl font-black mb-1">$3.149</div>
+                <div class="text-2xl font-black mb-1">$3.143</div>
                 <div class="flex justify-center gap-1">
                     <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
                 </div>
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>3/5 Score</span>
-                <span>19:12:54</span>
+                <span>19:24:50</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid #a3e635; background: #a3e63520;"
              data-symbol="OP" data-score="3" 
-             data-info="eyJSU0kiOiA1MC4xLCAiTUZJIjogMTcuNSwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
+             data-info="eyJSU0kiOiA0OS45LCAiTUZJIjogMTcuNiwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">OP</span>
                 <span class="action-badge" style="background:#a3e635">NEUTRAL</span>
             </div>
             <div class="text-center my-2">
-                <div class="text-2xl font-black mb-1">$0.1887</div>
+                <div class="text-2xl font-black mb-1">$0.1886</div>
                 <div class="flex justify-center gap-1">
                     <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
                 </div>
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>3/5 Score</span>
-                <span>19:12:54</span>
+                <span>19:24:50</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid #f87171; background: #f8717120;"
              data-symbol="ICP" data-score="2" 
-             data-info="eyJSU0kiOiA1MC41LCAiTUZJIjogMjUuOCwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIyLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiQ0FVVElPTjogQm90aCB0ZWNobmljYWxzIGFuZCBoaXN0b3JpY2FsIHRyZW5kIHN1Z2dlc3Qgd2Vha25lc3Mgb3Igb3ZlcnZhbHVhdGlvbi4ifQ==" onclick="showDetails(this)">
+             data-info="eyJSU0kiOiA1MC40LCAiTUZJIjogMjUuOSwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIyLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiQ0FVVElPTjogQm90aCB0ZWNobmljYWxzIGFuZCBoaXN0b3JpY2FsIHRyZW5kIHN1Z2dlc3Qgd2Vha25lc3Mgb3Igb3ZlcnZhbHVhdGlvbi4ifQ==" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">ICP</span>
                 <span class="action-badge" style="background:#f87171">NEUTRAL</span>
             </div>
             <div class="text-center my-2">
-                <div class="text-2xl font-black mb-1">$2.412</div>
+                <div class="text-2xl font-black mb-1">$2.411</div>
                 <div class="flex justify-center gap-1">
                     <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
                 </div>
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>2/5 Score</span>
-                <span>19:12:54</span>
+                <span>19:24:51</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid #a3e635; background: #a3e63520;"
              data-symbol="FIL" data-score="3" 
-             data-info="eyJSU0kiOiA1NC4xLCAiTUZJIjogMjEuNiwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
+             data-info="eyJSU0kiOiA1NC4xLCAiTUZJIjogMjEuOCwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">FIL</span>
                 <span class="action-badge" style="background:#a3e635">NEUTRAL</span>
@@ -493,94 +496,94 @@
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>3/5 Score</span>
-                <span>19:12:54</span>
+                <span>19:24:51</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid #f87171; background: #f8717120;"
              data-symbol="LDO" data-score="2" 
-             data-info="eyJSU0kiOiA0OS43LCAiTUZJIjogNDkuNywgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIyLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiQ0FVVElPTjogQm90aCB0ZWNobmljYWxzIGFuZCBoaXN0b3JpY2FsIHRyZW5kIHN1Z2dlc3Qgd2Vha25lc3Mgb3Igb3ZlcnZhbHVhdGlvbi4ifQ==" onclick="showDetails(this)">
+             data-info="eyJSU0kiOiA1MC41LCAiTUZJIjogNTAuMSwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIyLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiQ0FVVElPTjogQm90aCB0ZWNobmljYWxzIGFuZCBoaXN0b3JpY2FsIHRyZW5kIHN1Z2dlc3Qgd2Vha25lc3Mgb3Igb3ZlcnZhbHVhdGlvbi4ifQ==" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">LDO</span>
                 <span class="action-badge" style="background:#f87171">NEUTRAL</span>
             </div>
             <div class="text-center my-2">
-                <div class="text-2xl font-black mb-1">$0.343</div>
+                <div class="text-2xl font-black mb-1">$0.3439</div>
                 <div class="flex justify-center gap-1">
                     <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
                 </div>
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>2/5 Score</span>
-                <span>19:12:55</span>
+                <span>19:24:51</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid #a3e635; background: #a3e63520;"
              data-symbol="TIA" data-score="3" 
-             data-info="eyJSU0kiOiA1NC45LCAiTUZJIjogMzYuMiwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
+             data-info="eyJSU0kiOiA1NC4zLCAiTUZJIjogMzYuMywgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">TIA</span>
                 <span class="action-badge" style="background:#a3e635">NEUTRAL</span>
             </div>
             <div class="text-center my-2">
-                <div class="text-2xl font-black mb-1">$0.3444</div>
+                <div class="text-2xl font-black mb-1">$0.3438</div>
                 <div class="flex justify-center gap-1">
                     <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
                 </div>
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>3/5 Score</span>
-                <span>19:12:55</span>
+                <span>19:24:51</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid #f87171; background: #f8717120;"
              data-symbol="STX" data-score="2" 
-             data-info="eyJSU0kiOiA0Ny4zLCAiTUZJIjogMjMuNiwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIyLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiQ0FVVElPTjogQm90aCB0ZWNobmljYWxzIGFuZCBoaXN0b3JpY2FsIHRyZW5kIHN1Z2dlc3Qgd2Vha25lc3Mgb3Igb3ZlcnZhbHVhdGlvbi4ifQ==" onclick="showDetails(this)">
+             data-info="eyJSU0kiOiA0Ny4wLCAiTUZJIjogMjMuNywgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIyLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiQ0FVVElPTjogQm90aCB0ZWNobmljYWxzIGFuZCBoaXN0b3JpY2FsIHRyZW5kIHN1Z2dlc3Qgd2Vha25lc3Mgb3Igb3ZlcnZhbHVhdGlvbi4ifQ==" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">STX</span>
                 <span class="action-badge" style="background:#f87171">NEUTRAL</span>
             </div>
             <div class="text-center my-2">
-                <div class="text-2xl font-black mb-1">$0.264</div>
+                <div class="text-2xl font-black mb-1">$0.2638</div>
                 <div class="flex justify-center gap-1">
                     <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
                 </div>
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>2/5 Score</span>
-                <span>19:12:55</span>
+                <span>19:24:51</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
-             style="border: 2px solid #a3e635; background: #a3e63520;"
-             data-symbol="APT" data-score="3" 
-             data-info="eyJSU0kiOiA0NC42LCAiTUZJIjogMjAuMywgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
+             style="border: 2px solid #f87171; background: #f8717120;"
+             data-symbol="APT" data-score="2" 
+             data-info="eyJSU0kiOiA0NS4yLCAiTUZJIjogMjAuMywgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIyLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiQ0FVVElPTjogQm90aCB0ZWNobmljYWxzIGFuZCBoaXN0b3JpY2FsIHRyZW5kIHN1Z2dlc3Qgd2Vha25lc3Mgb3Igb3ZlcnZhbHVhdGlvbi4ifQ==" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">APT</span>
-                <span class="action-badge" style="background:#a3e635">NEUTRAL</span>
+                <span class="action-badge" style="background:#f87171">NEUTRAL</span>
             </div>
             <div class="text-center my-2">
-                <div class="text-2xl font-black mb-1">$0.925</div>
+                <div class="text-2xl font-black mb-1">$0.927</div>
                 <div class="flex justify-center gap-1">
-                    <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
+                    <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
                 </div>
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
-                <span>3/5 Score</span>
-                <span>19:12:55</span>
+                <span>2/5 Score</span>
+                <span>19:24:52</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid #a3e635; background: #a3e63520;"
              data-symbol="ARB" data-score="3" 
-             data-info="eyJSU0kiOiA1MC4wLCAiTUZJIjogMzAuNCwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
+             data-info="eyJSU0kiOiA1MC4wLCAiTUZJIjogMzAuNywgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">ARB</span>
                 <span class="action-badge" style="background:#a3e635">NEUTRAL</span>
@@ -593,54 +596,54 @@
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>3/5 Score</span>
-                <span>19:12:55</span>
+                <span>19:24:52</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid #a3e635; background: #a3e63520;"
              data-symbol="VET" data-score="3" 
-             data-info="eyJSU0kiOiA0OS43LCAiTUZJIjogMjguMywgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
+             data-info="eyJSU0kiOiA0OS44LCAiTUZJIjogMjguNCwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">VET</span>
                 <span class="action-badge" style="background:#a3e635">NEUTRAL</span>
             </div>
             <div class="text-center my-2">
-                <div class="text-2xl font-black mb-1">$0.008222</div>
+                <div class="text-2xl font-black mb-1">$0.008226</div>
                 <div class="flex justify-center gap-1">
                     <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
                 </div>
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>3/5 Score</span>
-                <span>19:12:56</span>
+                <span>19:24:52</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid #a3e635; background: #a3e63520;"
              data-symbol="KAS" data-score="3" 
-             data-info="eyJSU0kiOiA1MC40LCAiTUZJIjogNDIuOCwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
+             data-info="eyJSU0kiOiA1MC4wLCAiTUZJIjogNDIuOSwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">KAS</span>
                 <span class="action-badge" style="background:#a3e635">NEUTRAL</span>
             </div>
             <div class="text-center my-2">
-                <div class="text-2xl font-black mb-1">$0.032092</div>
+                <div class="text-2xl font-black mb-1">$0.032057</div>
                 <div class="flex justify-center gap-1">
                     <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
                 </div>
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>3/5 Score</span>
-                <span>19:12:56</span>
+                <span>19:24:52</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid #f87171; background: #f8717120;"
              data-symbol="ETC" data-score="2" 
-             data-info="eyJSU0kiOiA1NC4wLCAiTUZJIjogMzQuOCwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIyLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiQ0FVVElPTjogQm90aCB0ZWNobmljYWxzIGFuZCBoaXN0b3JpY2FsIHRyZW5kIHN1Z2dlc3Qgd2Vha25lc3Mgb3Igb3ZlcnZhbHVhdGlvbi4ifQ==" onclick="showDetails(this)">
+             data-info="eyJSU0kiOiA1NC4wLCAiTUZJIjogMzQuOSwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIyLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiQ0FVVElPTjogQm90aCB0ZWNobmljYWxzIGFuZCBoaXN0b3JpY2FsIHRyZW5kIHN1Z2dlc3Qgd2Vha25lc3Mgb3Igb3ZlcnZhbHVhdGlvbi4ifQ==" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">ETC</span>
                 <span class="action-badge" style="background:#f87171">NEUTRAL</span>
@@ -653,147 +656,147 @@
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>2/5 Score</span>
-                <span>19:12:56</span>
+                <span>19:24:52</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
-             style="border: 2px solid #f87171; background: #f8717120;"
-             data-symbol="ALGO" data-score="2" 
-             data-info="eyJSU0kiOiA0OS4zLCAiTUZJIjogMzUuOCwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIyLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiQ0FVVElPTjogQm90aCB0ZWNobmljYWxzIGFuZCBoaXN0b3JpY2FsIHRyZW5kIHN1Z2dlc3Qgd2Vha25lc3Mgb3Igb3ZlcnZhbHVhdGlvbi4ifQ==" onclick="showDetails(this)">
+             style="border: 2px solid #a3e635; background: #a3e63520;"
+             data-symbol="ALGO" data-score="3" 
+             data-info="eyJSU0kiOiA0OC44LCAiTUZJIjogMzYuMCwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">ALGO</span>
-                <span class="action-badge" style="background:#f87171">NEUTRAL</span>
+                <span class="action-badge" style="background:#a3e635">NEUTRAL</span>
             </div>
             <div class="text-center my-2">
-                <div class="text-2xl font-black mb-1">$0.09468</div>
+                <div class="text-2xl font-black mb-1">$0.09458</div>
                 <div class="flex justify-center gap-1">
-                    <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
+                    <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
                 </div>
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
-                <span>2/5 Score</span>
-                <span>19:12:56</span>
+                <span>3/5 Score</span>
+                <span>19:24:53</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid #a3e635; background: #a3e63520;"
              data-symbol="RUNE" data-score="3" 
-             data-info="eyJSU0kiOiA1Mi4xLCAiTUZJIjogMjguMiwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
+             data-info="eyJSU0kiOiA1Mi4wLCAiTUZJIjogMjguNCwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">RUNE</span>
                 <span class="action-badge" style="background:#a3e635">NEUTRAL</span>
             </div>
             <div class="text-center my-2">
-                <div class="text-2xl font-black mb-1">$0.4082</div>
+                <div class="text-2xl font-black mb-1">$0.4081</div>
                 <div class="flex justify-center gap-1">
                     <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
                 </div>
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>3/5 Score</span>
-                <span>19:12:57</span>
+                <span>19:24:53</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid #a3e635; background: #a3e63520;"
              data-symbol="EGLD" data-score="3" 
-             data-info="eyJSU0kiOiA0My44LCAiTUZJIjogMjAuNywgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
+             data-info="eyJSU0kiOiA0My4wLCAiTUZJIjogMjEuMCwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">EGLD</span>
                 <span class="action-badge" style="background:#a3e635">NEUTRAL</span>
             </div>
             <div class="text-center my-2">
-                <div class="text-2xl font-black mb-1">$4.74</div>
+                <div class="text-2xl font-black mb-1">$4.729</div>
                 <div class="flex justify-center gap-1">
                     <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
                 </div>
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>3/5 Score</span>
-                <span>19:12:57</span>
+                <span>19:24:53</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid #a3e635; background: #a3e63520;"
              data-symbol="SEI" data-score="3" 
-             data-info="eyJSU0kiOiA0OS4xLCAiTUZJIjogMzkuMSwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
+             data-info="eyJSU0kiOiA0OS4wLCAiTUZJIjogMzkuMiwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">SEI</span>
                 <span class="action-badge" style="background:#a3e635">NEUTRAL</span>
             </div>
             <div class="text-center my-2">
-                <div class="text-2xl font-black mb-1">$0.07498</div>
+                <div class="text-2xl font-black mb-1">$0.07496</div>
                 <div class="flex justify-center gap-1">
                     <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
                 </div>
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>3/5 Score</span>
-                <span>19:12:57</span>
+                <span>19:24:53</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid #a3e635; background: #a3e63520;"
              data-symbol="SUI" data-score="3" 
-             data-info="eyJSU0kiOiA1MS4zLCAiTUZJIjogMzYuMCwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
+             data-info="eyJSU0kiOiA1MS4wLCAiTUZJIjogMzYuMSwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">SUI</span>
                 <span class="action-badge" style="background:#a3e635">NEUTRAL</span>
             </div>
             <div class="text-center my-2">
-                <div class="text-2xl font-black mb-1">$0.9755</div>
+                <div class="text-2xl font-black mb-1">$0.9747</div>
                 <div class="flex justify-center gap-1">
                     <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
                 </div>
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>3/5 Score</span>
-                <span>19:12:57</span>
+                <span>19:24:53</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid #f87171; background: #f8717120;"
              data-symbol="AAVE" data-score="2" 
-             data-info="eyJSU0kiOiA2MS4wLCAiTUZJIjogNDkuOSwgIlNNQTIwIjogIkFib3ZlIiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIyLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiQ0FVVElPTjogQm90aCB0ZWNobmljYWxzIGFuZCBoaXN0b3JpY2FsIHRyZW5kIHN1Z2dlc3Qgd2Vha25lc3Mgb3Igb3ZlcnZhbHVhdGlvbi4ifQ==" onclick="showDetails(this)">
+             data-info="eyJSU0kiOiA2MS4wLCAiTUZJIjogNTAuMSwgIlNNQTIwIjogIkFib3ZlIiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIyLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiQ0FVVElPTjogQm90aCB0ZWNobmljYWxzIGFuZCBoaXN0b3JpY2FsIHRyZW5kIHN1Z2dlc3Qgd2Vha25lc3Mgb3Igb3ZlcnZhbHVhdGlvbi4ifQ==" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">AAVE</span>
                 <span class="action-badge" style="background:#f87171">NEUTRAL</span>
             </div>
             <div class="text-center my-2">
-                <div class="text-2xl font-black mb-1">$128.36</div>
+                <div class="text-2xl font-black mb-1">$128.35</div>
                 <div class="flex justify-center gap-1">
                     <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
                 </div>
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>2/5 Score</span>
-                <span>19:12:57</span>
+                <span>19:24:54</span>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid #a3e635; background: #a3e63520;"
              data-symbol="SAND" data-score="3" 
-             data-info="eyJSU0kiOiA0Ny45LCAiTUZJIjogMzIuNywgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
+             data-info="eyJSU0kiOiA0Ny41LCAiTUZJIjogMzIuOCwgIlNNQTIwIjogIkJlbG93IiwgIlJhaW5ib3ciOiAiTkVVVFJBTCIsICJTdGFycyI6ICIzLzUiLCAiQlRDX0NvcnIiOiAiTi9BIiwgIkFJX0V2YWwiOiAiTkVVVFJBTDogTWl4ZWQgc2lnbmFscy4gTWFya2V0IGlzIGNvbnNvbGlkYXRpbmcuIn0=" onclick="showDetails(this)">
             <div class="flex justify-between items-start mb-4">
                 <span class="font-bold text-xl font-mono">SAND</span>
                 <span class="action-badge" style="background:#a3e635">NEUTRAL</span>
             </div>
             <div class="text-center my-2">
-                <div class="text-2xl font-black mb-1">$0.08668</div>
+                <div class="text-2xl font-black mb-1">$0.08657</div>
                 <div class="flex justify-center gap-1">
                     <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
                 </div>
             </div>
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>3/5 Score</span>
-                <span>19:12:58</span>
+                <span>19:24:54</span>
             </div>
         </div>
         
