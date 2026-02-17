@@ -25,7 +25,6 @@ def get_rainbow_status(df):
         current_log_price = y[-1]
         diff = current_log_price - expected_log_price
         
-        # Sadece renk ismini döndürür
         if diff < -0.4: return "FIRE SALE"
         elif diff < -0.15: return "BUY"
         elif diff < 0.15: return "NEUTRAL"
@@ -36,7 +35,6 @@ def get_rainbow_status(df):
 def get_color_by_stars(score, rainbow):
     """
     Yıldız sayısına göre renk ve Badge ataması.
-    2-3 Yıldız için Rainbow'a öncelik verir.
     """
     # 5 Yıldız: Koyu Yeşil
     if score == 5: return "#15803d", "STRONG BUY"
@@ -47,16 +45,21 @@ def get_color_by_stars(score, rainbow):
     # 1 Yıldız: Açık Kırmızı
     elif score == 1: return "#ef4444", "SELL"
     
-    # 2 ve 3 Yıldız: Rainbow'a öncelik ver
-    if score in [2, 3]:
+    # --- YENİ MANTIK ---
+    # 2 ve 3 Yıldız için özel durumlar
+    if score == 3:
         if rainbow in ["FIRE SALE", "BUY"]: return "#22c55e", "BUY"
         elif rainbow in ["BUBBLE", "FOMO"]: return "#ef4444", "SELL"
-        else: return "#94a3b8", "NEUTRAL" # Gri
+        else: return "#a3e635", "NEUTRAL" # 3 yıldız, nötr rainbow -> Açık Yeşil
+
+    if score == 2:
+        if rainbow in ["FIRE SALE", "BUY"]: return "#22c55e", "BUY"
+        elif rainbow in ["BUBBLE", "FOMO"]: return "#ef4444", "SELL"
+        else: return "#f87171", "NEUTRAL" # 2 yıldız, nötr rainbow -> Açık Kırmızı
         
     return "#94a3b8", "NEUTRAL" # Varsayılan
 
 def get_ai_eval(score, rb):
-    # Düzeltilmiş AI Mantığı
     if score >= 4:
         if rb == "BUBBLE": return "HIGH CONFIDENCE: Strong technicals, but historical price is overheated. Proceed with caution."
         return "STRONG BUY: Technical indicators align with historical value. High probability setup."
