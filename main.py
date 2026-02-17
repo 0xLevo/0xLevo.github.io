@@ -163,9 +163,9 @@ def create_html(data):
     <style>{css}</style></head><body>
     <div class="legal-top">
         <div class="legal-text">
-            <strong>⚠️ YASAL UYARI:</strong> Bu site yatırım tavsiyesi vermez. 
-            <strong>Puanlama Mantığı:</strong> Teknik göstergeler (RSI, MFI, Bollinger), piyasa hacmi, Bitcoin korelasyonu ve haber duyarlılığı analiz edilerek otomatik hesaplanır. 
-            <span class="highlight-risk">Kripto para piyasaları yüksek risk içerir.</span>
+            <strong>⚠️ LEGAL DISCLAIMER:</strong> This site does not provide financial advice. 
+            <strong>Scoring Logic:</strong> Automatically calculated based on technical indicators (RSI, MFI, Bollinger), market volume, Bitcoin correlation, and news sentiment analysis. 
+            <span class="highlight-risk">Crypto markets involve high risk.</span>
         </div>
     </div>
     <div class="max-w-7xl mx-auto p-4">
