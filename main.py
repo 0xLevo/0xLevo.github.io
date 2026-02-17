@@ -22,23 +22,23 @@ def get_news_sentiment(symbol):
         if any(word in headline.lower() for word in negative_keywords): score -= 0.5
     return max(min(score, 1), -1)
 
-# --- CONFIDENCE INDEX (Revised) ---
+# --- CONFIDENCE INDEX (Revised - v16.5) ---
 def calculate_confidence(df):
-    """0 ile 3 arası güven skoru döner"""
+    """0 ile 3 arası güven skoru döner (Gevşetilmiş filtreler)"""
     confidence = 0
     
-    # RSI süreklilik kontrolü (Son 3 mum)
+    # 1. RSI Kontrolü (Son 2 mumda 40 altı veya 60 üstü - Gevşetildi)
     rsi = ta.rsi(df['close'], length=14)
-    if all(rsi.iloc[-3:] < 35) or all(rsi.iloc[-3:] > 65): confidence += 1
-        
-    # Bollinger Band süreklilik kontrolü (Son 2 mum)
-    bb = ta.bbands(df['close'], length=20, std=2)
-    if (df['close'].iloc[-1] < bb.iloc[-1, 0] and df['close'].iloc[-2] < bb.iloc[-2, 0]) or \
-       (df['close'].iloc[-1] > bb.iloc[-1, 2] and df['close'].iloc[-2] > bb.iloc[-2, 2]):
+    if all(rsi.iloc[-2:] < 40) or all(rsi.iloc[-2:] > 60): 
         confidence += 1
         
-    # Hacim artış kontrolü (Basit)
-    if df['volume'].iloc[-1] > df['volume'].iloc[-2] * 1.5:
+    # 2. Bollinger Band Kontrolü (Sadece son mumda dışına çıkması yeterli - Gevşetildi)
+    bb = ta.bbands(df['close'], length=20, std=2)
+    if (df['close'].iloc[-1] < bb.iloc[-1, 0]) or (df['close'].iloc[-1] > bb.iloc[-1, 2]):
+        confidence += 1
+        
+    # 3. Hacim Kontrolü (Son mumun hacmi, 10 mumluk ortalamadan yüksek mi?)
+    if df['volume'].iloc[-1] > df['volume'].rolling(window=10).mean().iloc[-1]:
         confidence += 1
         
     return confidence # 0 ile 3 arası
@@ -65,7 +65,7 @@ def get_pro_score(df, symbol):
     try:
         rsi = ta.rsi(df['close'], length=14).iloc[-1]
         mfi = ta.mfi(df['high'], df['low'], df['close'], df['volume'], length=14).iloc[-1]
-        m_score = 1.5 if (rsi < 30 or mfi < 25) else (-1.5 if (rsi > 70 or mfi > 75) else 0)
+        m_score = 1.5 if (rsi < 35 or mfi < 30) else (-1.5 if (rsi > 65 or mfi > 70) else 0)
         bb = ta.bbands(df['close'], length=20, std=2)
         curr_price = df['close'].iloc[-1]
         l_band, u_band = bb.iloc[-1, 0], bb.iloc[-1, 2]
@@ -79,14 +79,14 @@ def get_pro_score(df, symbol):
         news_score = get_news_sentiment(symbol)
         confidence = calculate_confidence(df) # 0-3 arası
         
-        # Skor hesaplaması: güven ne kadar yüksekse skoru o kadar çarpar
+        # Skor: Güven endeksi sonucu ağırlıklandırır
         final_score = round(max(min((m_score + v_score + (t_dir * strength) + news_score) * (1 + confidence*0.1), 3), -3), 1)
         
         details = {
             "RSI": round(rsi,1), "MFI": round(mfi,1), 
             "News": "Bull" if news_score > 0 else ("Bear" if news_score < 0 else "Neutral"),
             "Trend": "Bull" if ema20 > ema50 else "Bear",
-            "Confidence": confidence # Rakam olarak tutuyoruz
+            "Confidence": confidence # Yıldız sayısı için rakam
         }
         return final_score, details
     except: return 0, {"Error": "Calc"}
@@ -110,7 +110,7 @@ def analyze_market():
             
             coin_time = datetime.now(timezone.utc).strftime('%H:%M:%S')
             
-            # --- YENİ RENK SKALASI: Daha Yüksek Kontrast ---
+            # --- YENİ RENK SKALASI ---
             if score >= 1.5: bg, border, bar = "rgba(16, 185, 129, 0.25)", "rgba(16, 185, 129, 0.8)", "#34d399"
             elif 0 < score < 1.5: bg, border, bar = "rgba(16, 185, 129, 0.1)", "rgba(16, 185, 129, 0.4)", "#10b981"
             elif -1.5 < score < 0: bg, border, bar = "rgba(239, 68, 68, 0.1)", "rgba(239, 68, 68, 0.4)", "#ef4444"
@@ -158,7 +158,6 @@ def create_html(data):
         .update-tag { font-size: 10px; opacity: 0.5; font-weight: bold; font-family: monospace; }
         .news-pos { color: #10b981; }
         .news-neg { color: #ef4444; }
-        /* Yıldızlar için yeni stiller */
         .star { font-size: 12px; }
         .star-filled { color: #f59e0b; }
         .star-empty { color: #475569; }
@@ -202,7 +201,7 @@ def create_html(data):
         bar_pos = f"width:{intensity}%; left:50%;" if i['score'] >= 0 else f"width:{intensity}%; left:{50-intensity}%;"
         news_color = "news-pos" if i['details']['News'] == "Bull" else ("news-neg" if i['details']['News'] == "Bear" else "")
         
-        # --- DİNAMİK YILDIZ SİSTEMİ (3 üzerinden) ---
+        # --- 3 YILDIZ SİSTEMİ ---
         confidence = i['details']['Confidence']
         stars = ""
         for s in range(3):
