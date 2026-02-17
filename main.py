@@ -16,6 +16,7 @@ CMC_TOP_100 = [
 ]
 
 def get_rainbow_status(df):
+    """Logaritmik Regresyon (Rainbow) Hesaplama"""
     try:
         y = np.log(df['close'].values)
         x = np.arange(len(y))
@@ -23,6 +24,7 @@ def get_rainbow_status(df):
         expected_log_price = slope * x[-1] + intercept
         current_log_price = y[-1]
         diff = current_log_price - expected_log_price
+        
         if diff < -0.4: return "FIRE SALE"
         elif diff < -0.15: return "BUY"
         elif diff < 0.15: return "NEUTRAL"
@@ -30,20 +32,20 @@ def get_rainbow_status(df):
         else: return "BUBBLE"
     except: return "UNKNOWN"
 
-def get_ui_colors(score, action_text):
-    # KART RENGİ (Skora göre kenarlık ve gölge)
+def get_ui_colors(score, rainbow):
+    """
+    1. KART RENGİ (Skora göre kenarlık)
+    2. AKSİYON Rozet Rengi (Buy/Sell/Neutral)
+    """
+    # KART RENGİ (Skora göre)
     if score >= 4: card_color = "#22c55e" # Yeşil
     elif score == 3: card_color = "#84cc16" # Açık Yeşil
     elif score == 2: card_color = "#f97316" # Turuncu/Açık Kırmızı
     else: card_color = "#ef4444" # Kırmızı
 
-    # ROZET RENGİ (Aksiyon yazısına göre küçük kutucuk)
-    text = action_text.upper()
-    if "BUY" in text: badge_color = "#22c55e"
-    elif "SELL" in text: badge_color = "#ef4444"
-    else: badge_color = "#64748b" # NEUTRAL -> GRİ
-
-    return card_color, badge_color
+    # AKSİYON Rozet Rengi (Yazıya göre belirlenecek)
+    # Bu fonksiyon sadece kart rengini döndürüyor, rozet rengi `analyze_market` içinde belirleniyor.
+    return card_color
 
 def analyze_market():
     exchange = ccxt.mexc({'enableRateLimit': True})
@@ -56,46 +58,54 @@ def analyze_market():
             if len(bars) < 40: continue
             df = pd.DataFrame(bars, columns=['time', 'open', 'high', 'low', 'close', 'volume'])
             
-            # Göstergeler
+            # --- 5 KRİTER HESAPLAMA ---
             rsi = ta.rsi(df['close'], length=14).iloc[-1]
             mfi = ta.mfi(df['high'], df['low'], df['close'], df['volume'], length=14).iloc[-1]
             bb = ta.bbands(df['close'], length=20, std=2)
             sma = ta.sma(df['close'], length=20).iloc[-1]
+            vol_avg = df['volume'].rolling(10).mean().iloc[-1]
             curr_price = df['close'].iloc[-1]
             
-            # Puanlama (5 Üzerinden)
-            score = 0
-            if rsi < 45: score += 1
-            if mfi < 45: score += 1
-            if not bb.empty and curr_price < bb.iloc[-1, 1]: score += 1
-            if curr_price > sma: score += 1
-            if df['volume'].iloc[-1] > df['volume'].rolling(10).mean().iloc[-1]: score += 1
+            star_count = 0
+            if rsi < 45: star_count += 1
+            if mfi < 45: star_count += 1
+            if not bb.empty and curr_price < bb.iloc[-1, 1]: star_count += 1
+            if df['volume'].iloc[-1] > vol_avg: star_count += 1
+            if curr_price > sma: star_count += 1
             
-            rb = get_rainbow_status(df)
+            rb_text = get_rainbow_status(df)
             
-            # Aksiyon Kararı
-            if score >= 4: action_text = "Strong Buy" if rb != "BUBBLE" else "Buy"
-            elif score <= 1: action_text = "Strong Sell"
-            elif score == 3: action_text = "Buy" if rb in ["BUY", "FIRE SALE"] else "Neutral"
-            elif score == 2: action_text = "Sell" if rb in ["BUBBLE", "FOMO"] else "Neutral"
+            # --- AKSİYON & ROZET RENGİ ---
+            # Skora ve Rainbow'a göre karar
+            if star_count >= 4: action_text = "Strong Buy" if rb_text != "BUBBLE" else "Buy"
+            elif star_count <= 1: action_text = "Strong Sell"
+            elif star_count == 3: action_text = "Buy" if rb_text in ["BUY", "FIRE SALE"] else "Neutral"
+            elif star_count == 2: action_text = "Sell" if rb_text in ["BUBBLE", "FOMO"] else "Neutral"
             else: action_text = "Neutral"
 
-            c_color, b_color = get_ui_colors(score, action_text)
+            # Renk mantığı
+            card_c = get_ui_colors(star_count, rb_text)
+            
+            # Rozet Rengi (Kelimeye göre - Nötr ise Gri)
+            if "BUY" in action_text.upper(): badge_c = "#22c55e"
+            elif "SELL" in action_text.upper(): badge_c = "#ef4444"
+            else: badge_c = "#64748b" # NEUTRAL = GRİ
 
             results.append({
                 'symbol': symbol, 'price': f"{curr_price:.5g}",
-                'score': score, 'action_text': action_text, 
-                'card_color': c_color, 'badge_color': b_color,
+                'score': star_count, 'action_text': action_text, 
+                'card_color': card_c, 'badge_color': badge_c,
                 'details': {
                     "RSI (14)": round(rsi, 2),
                     "MFI (14)": round(mfi, 2),
                     "SMA 20": "Above" if curr_price > sma else "Below",
-                    "Rainbow": rb,
-                    "Volatility": "High" if (bb.iloc[-1, 2] - bb.iloc[-1, 0])/curr_price > 0.1 else "Normal"
+                    "Rainbow": rb_text,
+                    "Stars": f"{star_count}/5",
+                    "Volume": "High" if df['volume'].iloc[-1] > vol_avg else "Low"
                 },
                 'update_time': datetime.now(timezone.utc).strftime('%H:%M:%S')
             })
-            time.sleep(0.02)
+            time.sleep(0.05)
         except: continue
     return results
 
