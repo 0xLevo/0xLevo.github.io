@@ -15,16 +15,72 @@
         .custom-input { background: var(--input-bg); border: 1px solid #ddd; color: var(--text); }
         .light .custom-input { border-color: #e2e8f0; }
         .update-tag { font-size: 10px; opacity: 0.5; font-weight: bold; font-family: monospace; }
+        .news-pos { color: #10b981; }
+        .news-neg { color: #ef4444; }
+        .conf-high { color: #f59e0b; }
     </style></head><body>
-    <div class="legal-top">⚠️ TRADING RISK WARNING: Analysis is mathematical, not financial advice.</div>
+    <div class="legal-top">⚠️ TRADING RISK WARNING: Analysis includes News, Confidence, and Correlation.</div>
     <div class="max-w-7xl mx-auto p-4">
         <header class="flex justify-between items-center mb-8 mt-4">
             <h1 class="text-4xl based-gradient tracking-tighter">BasedVector</h1>
             <div class="flex gap-4 items-center">
                 <button onclick="toggleTheme()" class="p-2 bg-gray-200 dark:bg-gray-800 rounded-full" id="theme-toggle">🌙</button>
-                <div class="text-right text-[10px] font-mono opacity-60">BATCH END: 2026-02-17 10:05 UTC</div>
+                <div class="text-right text-[10px] font-mono opacity-60">BATCH END: 2026-02-17 10:19 UTC</div>
             </div>
         </header>
+        
+        <div class="mb-8">
+            <h2 class="text-sm font-bold text-gray-500 mb-3 uppercase tracking-wider">Top 10 Correlation to BTC</h2>
+            <div class="grid grid-cols-5 md:grid-cols-10 gap-2">
+                
+                <div class="p-2 bg-gray-900 rounded-lg text-center border-b-2 border-green-500">
+                    <div class="text-xs font-bold text-gray-400">ETH</div>
+                    <div class="text-sm font-mono text-white">0.82</div>
+                </div>
+            
+                <div class="p-2 bg-gray-900 rounded-lg text-center border-b-2 border-yellow-500">
+                    <div class="text-xs font-bold text-gray-400">BNB</div>
+                    <div class="text-sm font-mono text-white">0.61</div>
+                </div>
+            
+                <div class="p-2 bg-gray-900 rounded-lg text-center border-b-2 border-green-500">
+                    <div class="text-xs font-bold text-gray-400">SOL</div>
+                    <div class="text-sm font-mono text-white">0.85</div>
+                </div>
+            
+                <div class="p-2 bg-gray-900 rounded-lg text-center border-b-2 border-green-500">
+                    <div class="text-xs font-bold text-gray-400">XRP</div>
+                    <div class="text-sm font-mono text-white">0.83</div>
+                </div>
+            
+                <div class="p-2 bg-gray-900 rounded-lg text-center border-b-2 border-yellow-500">
+                    <div class="text-xs font-bold text-gray-400">ADA</div>
+                    <div class="text-sm font-mono text-white">0.69</div>
+                </div>
+            
+                <div class="p-2 bg-gray-900 rounded-lg text-center border-b-2 border-green-500">
+                    <div class="text-xs font-bold text-gray-400">AVAX</div>
+                    <div class="text-sm font-mono text-white">0.97</div>
+                </div>
+            
+                <div class="p-2 bg-gray-900 rounded-lg text-center border-b-2 border-green-500">
+                    <div class="text-xs font-bold text-gray-400">DOGE</div>
+                    <div class="text-sm font-mono text-white">0.84</div>
+                </div>
+            
+                <div class="p-2 bg-gray-900 rounded-lg text-center border-b-2 border-green-500">
+                    <div class="text-xs font-bold text-gray-400">DOT</div>
+                    <div class="text-sm font-mono text-white">0.74</div>
+                </div>
+            
+                <div class="p-2 bg-gray-900 rounded-lg text-center border-b-2 border-red-500">
+                    <div class="text-xs font-bold text-gray-400">TRX</div>
+                    <div class="text-sm font-mono text-white">-0.23</div>
+                </div>
+            
+            </div>
+        </div>
+
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
             <input type="text" id="search" placeholder="Search..." class="custom-input p-3 rounded-lg outline-none">
             <select id="sort" class="custom-input p-3 rounded-lg outline-none cursor-pointer">
@@ -43,14 +99,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'BTC')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$68152</div>
+                <div class="text-xl font-bold">$67837</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>09:56:54 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:31 UTC</span>
             </div>
         </div>
         
@@ -62,14 +119,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'ETH')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$1976.5</div>
+                <div class="text-xl font-bold">$1964.5</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>09:57:01 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:32 UTC</span>
             </div>
         </div>
         
@@ -81,14 +139,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'BNB')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$619.76</div>
+                <div class="text-xl font-bold">$616.84</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>09:57:07 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:32 UTC</span>
             </div>
         </div>
         
@@ -100,14 +159,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'SOL')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$86.05</div>
+                <div class="text-xl font-bold">$85.29</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>09:57:13 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:33 UTC</span>
             </div>
         </div>
         
@@ -119,14 +179,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'XRP')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$1.4611</div>
+                <div class="text-xl font-bold">$1.4546</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:50.0%; left:50%; background:#10b981"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 3</span>
-                <span>09:57:19 UTC</span>
+                <span class="">3</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:34 UTC</span>
             </div>
         </div>
         
@@ -138,14 +199,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'USDC')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$1.0004</div>
+                <div class="text-xl font-bold">$1.0005</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>09:57:25 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:35 UTC</span>
             </div>
         </div>
         
@@ -157,14 +219,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'ADA')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.2824</div>
+                <div class="text-xl font-bold">$0.2804</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 0.6</span>
-                <span>09:57:32 UTC</span>
+                <span class="">0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:35 UTC</span>
             </div>
         </div>
         
@@ -176,14 +239,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'AVAX')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$9.136</div>
+                <div class="text-xl font-bold">$9.06</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 0.6</span>
-                <span>09:57:38 UTC</span>
+                <span class="">0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:36 UTC</span>
             </div>
         </div>
         
@@ -195,14 +259,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'DOGE')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.09928</div>
+                <div class="text-xl font-bold">$0.09869</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:35.0%; left:50%; background:#10b981"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 2.1</span>
-                <span>09:57:44 UTC</span>
+                <span class="">2.1</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:37 UTC</span>
             </div>
         </div>
         
@@ -214,14 +279,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'DOT')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$1.362</div>
+                <div class="text-xl font-bold">$1.354</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 0.6</span>
-                <span>09:57:50 UTC</span>
+                <span class="">0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:37 UTC</span>
             </div>
         </div>
         
@@ -233,14 +299,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'TRX')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.2825</div>
+                <div class="text-xl font-bold">$0.2817</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 0.6</span>
-                <span>09:57:56 UTC</span>
+                <span class="">0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:38 UTC</span>
             </div>
         </div>
         
@@ -252,14 +319,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'LINK')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$8.82</div>
+                <div class="text-xl font-bold">$8.759</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 0.6</span>
-                <span>09:58:03 UTC</span>
+                <span class="">0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:39 UTC</span>
             </div>
         </div>
         
@@ -271,14 +339,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'TON')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$1.43</div>
+                <div class="text-xl font-bold">$1.424</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:35.0%; left:50%; background:#10b981"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 2.1</span>
-                <span>09:58:09 UTC</span>
+                <span class="">2.1</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:39 UTC</span>
             </div>
         </div>
         
@@ -290,14 +359,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'SHIB')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$6.496e-06</div>
+                <div class="text-xl font-bold">$6.467e-06</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:50%; background:#10b981"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 1.8</span>
-                <span>09:58:15 UTC</span>
+                <span class="">1.8</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:40 UTC</span>
             </div>
         </div>
         
@@ -309,14 +379,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'LTC')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$55.05</div>
+                <div class="text-xl font-bold">$54.68</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>09:58:21 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:41 UTC</span>
             </div>
         </div>
         
@@ -328,14 +399,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'DAI')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$1.0003</div>
+                <div class="text-xl font-bold">$1.0004</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>09:58:27 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:42 UTC</span>
             </div>
         </div>
         
@@ -347,14 +419,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'BCH')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$559.6</div>
+                <div class="text-xl font-bold">$558.8</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:50%; background:#10b981"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 1.8</span>
-                <span>09:58:33 UTC</span>
+                <span class="">1.8</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:42 UTC</span>
             </div>
         </div>
         
@@ -366,14 +439,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'ATOM')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$2.258</div>
+                <div class="text-xl font-bold">$2.237</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:50%; background:#10b981"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 1.8</span>
-                <span>09:58:40 UTC</span>
+                <span class="">1.8</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:43 UTC</span>
             </div>
         </div>
         
@@ -385,14 +459,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'UNI')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$3.553</div>
+                <div class="text-xl font-bold">$3.52</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:50%; background:#10b981"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 1.8</span>
-                <span>09:58:46 UTC</span>
+                <span class="">1.8</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:44 UTC</span>
             </div>
         </div>
         
@@ -404,14 +479,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'NEAR')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$1.0524</div>
+                <div class="text-xl font-bold">$1.0453</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 0.6</span>
-                <span>09:58:52 UTC</span>
+                <span class="">0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:44 UTC</span>
             </div>
         </div>
         
@@ -423,14 +499,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'OKB')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$79.23</div>
+                <div class="text-xl font-bold">$78.834</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:50%; background:#10b981"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 1.8</span>
-                <span>09:58:58 UTC</span>
+                <span class="">1.8</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:45 UTC</span>
             </div>
         </div>
         
@@ -442,14 +519,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'INJ')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$3.111</div>
+                <div class="text-xl font-bold">$3.089</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>09:59:04 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:46 UTC</span>
             </div>
         </div>
         
@@ -461,14 +539,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'OP')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.1877</div>
+                <div class="text-xl font-bold">$0.1869</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:15.0%; left:50%; background:#22c55e"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 0.9</span>
-                <span>09:59:11 UTC</span>
+                <span class="">0.9</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:46 UTC</span>
             </div>
         </div>
         
@@ -480,14 +559,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'ICP')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$2.389</div>
+                <div class="text-xl font-bold">$2.373</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>09:59:17 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:47 UTC</span>
             </div>
         </div>
         
@@ -499,14 +579,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'FIL')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.9654</div>
+                <div class="text-xl font-bold">$0.9608</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:35.0%; left:50%; background:#10b981"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 2.1</span>
-                <span>09:59:23 UTC</span>
+                <span class="">2.1</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:48 UTC</span>
             </div>
         </div>
         
@@ -518,14 +599,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'LDO')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.3388</div>
+                <div class="text-xl font-bold">$0.3367</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>09:59:29 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:49 UTC</span>
             </div>
         </div>
         
@@ -537,14 +619,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'TIA')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.3395</div>
+                <div class="text-xl font-bold">$0.3376</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 0.6</span>
-                <span>09:59:36 UTC</span>
+                <span class="">0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:49 UTC</span>
             </div>
         </div>
         
@@ -556,14 +639,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'STX')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.2626</div>
+                <div class="text-xl font-bold">$0.2604</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>09:59:42 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:50 UTC</span>
             </div>
         </div>
         
@@ -575,14 +659,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'APT')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.928</div>
+                <div class="text-xl font-bold">$0.92</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>09:59:48 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:51 UTC</span>
             </div>
         </div>
         
@@ -594,14 +679,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'ARB')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.1135</div>
+                <div class="text-xl font-bold">$0.1127</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>09:59:54 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:51 UTC</span>
             </div>
         </div>
         
@@ -613,14 +699,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'VET')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.00812</div>
+                <div class="text-xl font-bold">$0.008053</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 0.6</span>
-                <span>10:00:01 UTC</span>
+                <span class="">0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:52 UTC</span>
             </div>
         </div>
         
@@ -632,14 +719,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'KAS')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.031965</div>
+                <div class="text-xl font-bold">$0.031804</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 0.6</span>
-                <span>10:00:07 UTC</span>
+                <span class="">0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:53 UTC</span>
             </div>
         </div>
         
@@ -651,14 +739,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'ETC')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$8.71</div>
+                <div class="text-xl font-bold">$8.66</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 0.6</span>
-                <span>10:00:13 UTC</span>
+                <span class="">0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:53 UTC</span>
             </div>
         </div>
         
@@ -670,14 +759,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'MNT')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.6403</div>
+                <div class="text-xl font-bold">$0.6376</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>10:00:19 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:54 UTC</span>
             </div>
         </div>
         
@@ -689,14 +779,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'CRO')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.07963</div>
+                <div class="text-xl font-bold">$0.07919</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 0.6</span>
-                <span>10:00:25 UTC</span>
+                <span class="">0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:55 UTC</span>
             </div>
         </div>
         
@@ -708,14 +799,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'ALGO')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.09342</div>
+                <div class="text-xl font-bold">$0.09298</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>10:00:31 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:56 UTC</span>
             </div>
         </div>
         
@@ -727,14 +819,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'RUNE')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.4037</div>
+                <div class="text-xl font-bold">$0.402</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>10:00:38 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:56 UTC</span>
             </div>
         </div>
         
@@ -746,14 +839,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'EGLD')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$4.709</div>
+                <div class="text-xl font-bold">$4.685</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:50.0%; left:50%; background:#10b981"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 3</span>
-                <span>10:00:44 UTC</span>
+                <span class="">3</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:57 UTC</span>
             </div>
         </div>
         
@@ -765,14 +859,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'SEI')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.07463</div>
+                <div class="text-xl font-bold">$0.07438</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>10:00:50 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:58 UTC</span>
             </div>
         </div>
         
@@ -784,14 +879,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'SUI')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.9699</div>
+                <div class="text-xl font-bold">$0.963</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>10:00:56 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:58 UTC</span>
             </div>
         </div>
         
@@ -803,14 +899,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'AAVE')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$124.73</div>
+                <div class="text-xl font-bold">$123.95</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:50%; background:#10b981"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 1.8</span>
-                <span>10:01:02 UTC</span>
+                <span class="">1.8</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:18:59 UTC</span>
             </div>
         </div>
         
@@ -822,14 +919,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'ORDI')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$2.781</div>
+                <div class="text-xl font-bold">$2.764</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>10:01:09 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:00 UTC</span>
             </div>
         </div>
         
@@ -841,33 +939,35 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'BEAM')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.02402</div>
+                <div class="text-xl font-bold">$0.02404</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 0.6</span>
-                <span>10:01:15 UTC</span>
+                <span class="">0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:00 UTC</span>
             </div>
         </div>
         
         <div class="card p-4 flex flex-col justify-between" 
              style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"
-             data-symbol="FLOW" data-score="-0.3" data-rank="48" onclick="showDetails('FLOW')">
+             data-symbol="FLOW" data-score="-0.8" data-rank="48" onclick="showDetails('FLOW')">
             <div class="flex justify-between items-center">
                 <span class="font-bold text-lg font-mono">FLOW</span>
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'FLOW')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.03916</div>
+                <div class="text-xl font-bold">$0.03902</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
-                    <div class="absolute h-full transition-all" style="width:5.0%; left:45.0%; background:#ef4444"></div>
+                    <div class="absolute h-full transition-all" style="width:13.333333333333334%; left:36.666666666666664%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.3</span>
-                <span>10:01:21 UTC</span>
+                <span class="news-neg">-0.8</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:01 UTC</span>
             </div>
         </div>
         
@@ -879,14 +979,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'MINA')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.06553</div>
+                <div class="text-xl font-bold">$0.06506</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:15.0%; left:50%; background:#22c55e"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 0.9</span>
-                <span>10:01:27 UTC</span>
+                <span class="">0.9</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:02 UTC</span>
             </div>
         </div>
         
@@ -898,14 +999,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'SAND')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.08606</div>
+                <div class="text-xl font-bold">$0.08552</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>10:01:33 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:02 UTC</span>
             </div>
         </div>
         
@@ -917,14 +1019,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'MANA')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.10073</div>
+                <div class="text-xl font-bold">$0.09994</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>10:01:39 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:03 UTC</span>
             </div>
         </div>
         
@@ -936,14 +1039,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'AXS')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$1.3809</div>
+                <div class="text-xl font-bold">$1.3751</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>10:01:46 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:04 UTC</span>
             </div>
         </div>
         
@@ -955,14 +1059,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'CHZ')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.04044</div>
+                <div class="text-xl font-bold">$0.0402</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>10:01:52 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:05 UTC</span>
             </div>
         </div>
         
@@ -974,14 +1079,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'GALA')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.004055</div>
+                <div class="text-xl font-bold">$0.004033</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>10:01:58 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:05 UTC</span>
             </div>
         </div>
         
@@ -993,14 +1099,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'IOTA')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.0695</div>
+                <div class="text-xl font-bold">$0.06919</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 0.6</span>
-                <span>10:02:04 UTC</span>
+                <span class="">0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:06 UTC</span>
             </div>
         </div>
         
@@ -1012,14 +1119,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'KCS')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$8.412</div>
+                <div class="text-xl font-bold">$8.393</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>10:02:10 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:07 UTC</span>
             </div>
         </div>
         
@@ -1031,14 +1139,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'GRT')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.02785</div>
+                <div class="text-xl font-bold">$0.02768</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 0.6</span>
-                <span>10:02:17 UTC</span>
+                <span class="">0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:07 UTC</span>
             </div>
         </div>
         
@@ -1050,14 +1159,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'NEO')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$2.799</div>
+                <div class="text-xl font-bold">$2.791</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>10:02:23 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:08 UTC</span>
             </div>
         </div>
         
@@ -1069,14 +1179,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'SNX')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.2928</div>
+                <div class="text-xl font-bold">$0.2898</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>10:02:29 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:09 UTC</span>
             </div>
         </div>
         
@@ -1088,14 +1199,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'DYDX')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.1058</div>
+                <div class="text-xl font-bold">$0.1051</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>10:02:35 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:09 UTC</span>
             </div>
         </div>
         
@@ -1107,14 +1219,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'CRV')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.2532</div>
+                <div class="text-xl font-bold">$0.2511</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 0.6</span>
-                <span>10:02:41 UTC</span>
+                <span class="">0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:10 UTC</span>
             </div>
         </div>
         
@@ -1126,14 +1239,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'WOO')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.01724</div>
+                <div class="text-xl font-bold">$0.01718</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>10:02:48 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:11 UTC</span>
             </div>
         </div>
         
@@ -1145,14 +1259,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'LUNC')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$3.426e-05</div>
+                <div class="text-xl font-bold">$3.415e-05</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:20.0%; background:#b91c1c"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -1.8</span>
-                <span>10:02:54 UTC</span>
+                <span class="">-1.8</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:12 UTC</span>
             </div>
         </div>
         
@@ -1164,14 +1279,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'KAVA')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.05431</div>
+                <div class="text-xl font-bold">$0.05405</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>10:03:00 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:12 UTC</span>
             </div>
         </div>
         
@@ -1183,14 +1299,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'IMX')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.1691</div>
+                <div class="text-xl font-bold">$0.1679</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 0.6</span>
-                <span>10:03:06 UTC</span>
+                <span class="">0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:13 UTC</span>
             </div>
         </div>
         
@@ -1202,14 +1319,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'HBAR')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.09984</div>
+                <div class="text-xl font-bold">$0.09943</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:50%; background:#10b981"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 1.8</span>
-                <span>10:03:13 UTC</span>
+                <span class="">1.8</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:14 UTC</span>
             </div>
         </div>
         
@@ -1221,14 +1339,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'QNT')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$69.26</div>
+                <div class="text-xl font-bold">$68.94</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:35.0%; left:50%; background:#10b981"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 2.1</span>
-                <span>10:03:19 UTC</span>
+                <span class="">2.1</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:14 UTC</span>
             </div>
         </div>
         
@@ -1240,14 +1359,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'BTT')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$3.427e-07</div>
+                <div class="text-xl font-bold">$3.422e-07</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:50%; background:#10b981"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 1.8</span>
-                <span>10:03:25 UTC</span>
+                <span class="">1.8</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:15 UTC</span>
             </div>
         </div>
         
@@ -1259,14 +1379,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'JASMY')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.006047</div>
+                <div class="text-xl font-bold">$0.00601</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 0.6</span>
-                <span>10:03:31 UTC</span>
+                <span class="">0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:16 UTC</span>
             </div>
         </div>
         
@@ -1278,14 +1399,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'WIF')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.2329</div>
+                <div class="text-xl font-bold">$0.231</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 0.6</span>
-                <span>10:03:38 UTC</span>
+                <span class="">0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:17 UTC</span>
             </div>
         </div>
         
@@ -1297,14 +1419,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'BONK')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$6.513e-06</div>
+                <div class="text-xl font-bold">$6.465e-06</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 0.6</span>
-                <span>10:03:44 UTC</span>
+                <span class="">0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:17 UTC</span>
             </div>
         </div>
         
@@ -1316,14 +1439,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'PYTH')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.05632</div>
+                <div class="text-xl font-bold">$0.05587</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:50%; background:#10b981"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 1.8</span>
-                <span>10:03:50 UTC</span>
+                <span class="">1.8</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:18 UTC</span>
             </div>
         </div>
         
@@ -1335,14 +1459,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'FLOKI')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$3.187e-05</div>
+                <div class="text-xl font-bold">$3.167e-05</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 0.6</span>
-                <span>10:03:56 UTC</span>
+                <span class="">0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:19 UTC</span>
             </div>
         </div>
         
@@ -1354,14 +1479,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'XLM')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.1659</div>
+                <div class="text-xl font-bold">$0.1652</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:50%; background:#10b981"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 1.8</span>
-                <span>10:04:02 UTC</span>
+                <span class="">1.8</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:19 UTC</span>
             </div>
         </div>
         
@@ -1373,14 +1499,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'XMR')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$331.59</div>
+                <div class="text-xl font-bold">$329.1</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>10:04:09 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:20 UTC</span>
             </div>
         </div>
         
@@ -1392,14 +1519,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'PEPE')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$4.347e-06</div>
+                <div class="text-xl font-bold">$4.295e-06</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:50%; background:#10b981"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 1.8</span>
-                <span>10:04:15 UTC</span>
+                <span class="">1.8</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:21 UTC</span>
             </div>
         </div>
         
@@ -1411,14 +1539,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'AR')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$2.033</div>
+                <div class="text-xl font-bold">$2.011</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>10:04:21 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:21 UTC</span>
             </div>
         </div>
         
@@ -1430,14 +1559,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'STRK')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.04866</div>
+                <div class="text-xl font-bold">$0.04821</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:15.0%; left:50%; background:#22c55e"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 0.9</span>
-                <span>10:04:27 UTC</span>
+                <span class="">0.9</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:22 UTC</span>
             </div>
         </div>
         
@@ -1449,14 +1579,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'LRC')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.03425</div>
+                <div class="text-xl font-bold">$0.03418</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>10:04:33 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:23 UTC</span>
             </div>
         </div>
         
@@ -1468,14 +1599,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'ZEC')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$286.23</div>
+                <div class="text-xl font-bold">$284.98</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:50%; background:#10b981"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 1.8</span>
-                <span>10:04:39 UTC</span>
+                <span class="">1.8</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:24 UTC</span>
             </div>
         </div>
         
@@ -1487,14 +1619,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'BSV')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$16.95</div>
+                <div class="text-xl font-bold">$16.87</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:50%; background:#10b981"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 1.8</span>
-                <span>10:04:46 UTC</span>
+                <span class="">1.8</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:24 UTC</span>
             </div>
         </div>
         
@@ -1506,14 +1639,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'PENDLE')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$1.22</div>
+                <div class="text-xl font-bold">$1.208</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:15.0%; left:50%; background:#22c55e"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 0.9</span>
-                <span>10:04:52 UTC</span>
+                <span class="">0.9</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:25 UTC</span>
             </div>
         </div>
         
@@ -1525,14 +1659,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'FET')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.1712</div>
+                <div class="text-xl font-bold">$0.1695</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:35.0%; left:50%; background:#10b981"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 2.1</span>
-                <span>10:04:58 UTC</span>
+                <span class="">2.1</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:26 UTC</span>
             </div>
         </div>
         
@@ -1544,14 +1679,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'JUP')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.1657</div>
+                <div class="text-xl font-bold">$0.1638</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:50%; background:#10b981"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 1.8</span>
-                <span>10:05:04 UTC</span>
+                <span class="">1.8</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:26 UTC</span>
             </div>
         </div>
         
@@ -1563,14 +1699,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'METIS')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$3.596</div>
+                <div class="text-xl font-bold">$3.573</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>10:05:10 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:27 UTC</span>
             </div>
         </div>
         
@@ -1582,14 +1719,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'XAI')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.0106</div>
+                <div class="text-xl font-bold">$0.01053</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:50%; background:#10b981"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 1.8</span>
-                <span>10:05:17 UTC</span>
+                <span class="">1.8</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:28 UTC</span>
             </div>
         </div>
         
@@ -1601,14 +1739,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'MANTA')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.07992</div>
+                <div class="text-xl font-bold">$0.07946</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:50%; background:#22c55e"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 0.6</span>
-                <span>10:05:23 UTC</span>
+                <span class="">0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:28 UTC</span>
             </div>
         </div>
         
@@ -1620,14 +1759,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'RON')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.09953</div>
+                <div class="text-xl font-bold">$0.09906</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>10:05:29 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:29 UTC</span>
             </div>
         </div>
         
@@ -1639,14 +1779,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'ENS')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$6.725</div>
+                <div class="text-xl font-bold">$6.669</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:50%; background:#10b981"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: 1.8</span>
-                <span>10:05:35 UTC</span>
+                <span class="">1.8</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:30 UTC</span>
             </div>
         </div>
         
@@ -1658,14 +1799,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'ANKR')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.004624</div>
+                <div class="text-xl font-bold">$0.004592</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:10.0%; left:40.0%; background:#ef4444"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -0.6</span>
-                <span>10:05:41 UTC</span>
+                <span class="">-0.6</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:30 UTC</span>
             </div>
         </div>
         
@@ -1677,14 +1819,15 @@
                 <button onclick="event.stopPropagation(); toggleFavorite(this, 'MASK')" class="star-btn">★</button>
             </div>
             <div class="text-center my-4">
-                <div class="text-xl font-bold">$0.4669</div>
+                <div class="text-xl font-bold">$0.4647</div>
                 <div class="h-1 bg-gray-300/20 rounded-full mt-2 relative">
                     <div class="absolute h-full transition-all" style="width:30.0%; left:20.0%; background:#b91c1c"></div>
                 </div>
             </div>
             <div class="flex justify-between update-tag">
-                <span>SCORE: -1.8</span>
-                <span>10:05:48 UTC</span>
+                <span class="">-1.8</span>
+                <span class="conf-high">☆☆</span>
+                <span>10:19:31 UTC</span>
             </div>
         </div>
         
@@ -1696,7 +1839,7 @@
             </div>
         </div>
         <script>
-            const data = {"BTC": {"RSI": 46.4, "MFI": 37.3, "ADX": 12.7, "Trend": "Bear"}, "ETH": {"RSI": 45.0, "MFI": 36.0, "ADX": 14.4, "Trend": "Bear"}, "BNB": {"RSI": 49.0, "MFI": 33.8, "ADX": 18.5, "Trend": "Bear"}, "SOL": {"RSI": 52.2, "MFI": 32.5, "ADX": 18.4, "Trend": "Bear"}, "XRP": {"RSI": 49.1, "MFI": 21.0, "ADX": 30.8, "Trend": "Bull"}, "USDC": {"RSI": 47.5, "MFI": 32.7, "ADX": 22.7, "Trend": "Bear"}, "ADA": {"RSI": 51.9, "MFI": 38.8, "ADX": 21.6, "Trend": "Bull"}, "AVAX": {"RSI": 46.7, "MFI": 33.0, "ADX": 13.8, "Trend": "Bull"}, "DOGE": {"RSI": 45.1, "MFI": 20.3, "ADX": 19.6, "Trend": "Bull"}, "DOT": {"RSI": 52.0, "MFI": 27.9, "ADX": 18.1, "Trend": "Bull"}, "TRX": {"RSI": 54.6, "MFI": 61.7, "ADX": 19.7, "Trend": "Bull"}, "LINK": {"RSI": 50.4, "MFI": 34.2, "ADX": 17.4, "Trend": "Bull"}, "TON": {"RSI": 46.3, "MFI": 19.7, "ADX": 22.4, "Trend": "Bull"}, "SHIB": {"RSI": 50.1, "MFI": 34.2, "ADX": 25.4, "Trend": "Bull"}, "LTC": {"RSI": 52.7, "MFI": 29.0, "ADX": 15.1, "Trend": "Bear"}, "DAI": {"RSI": 45.9, "MFI": 31.8, "ADX": 22.1, "Trend": "Bear"}, "BCH": {"RSI": 55.2, "MFI": 55.5, "ADX": 30.0, "Trend": "Bull"}, "ATOM": {"RSI": 66.5, "MFI": 71.1, "ADX": 36.1, "Trend": "Bull"}, "UNI": {"RSI": 53.6, "MFI": 39.4, "ADX": 28.7, "Trend": "Bull"}, "NEAR": {"RSI": 53.5, "MFI": 34.2, "ADX": 15.8, "Trend": "Bull"}, "OKB": {"RSI": 52.9, "MFI": 37.2, "ADX": 26.0, "Trend": "Bull"}, "INJ": {"RSI": 46.2, "MFI": 31.7, "ADX": 14.4, "Trend": "Bear"}, "OP": {"RSI": 47.5, "MFI": 24.5, "ADX": 13.1, "Trend": "Bear"}, "ICP": {"RSI": 46.7, "MFI": 27.4, "ADX": 12.3, "Trend": "Bear"}, "FIL": {"RSI": 50.9, "MFI": 23.2, "ADX": 17.8, "Trend": "Bull"}, "LDO": {"RSI": 44.9, "MFI": 37.8, "ADX": 14.8, "Trend": "Bear"}, "TIA": {"RSI": 49.8, "MFI": 33.3, "ADX": 24.9, "Trend": "Bull"}, "STX": {"RSI": 44.1, "MFI": 27.2, "ADX": 10.5, "Trend": "Bear"}, "APT": {"RSI": 44.9, "MFI": 28.4, "ADX": 19.5, "Trend": "Bear"}, "ARB": {"RSI": 46.5, "MFI": 32.6, "ADX": 14.8, "Trend": "Bear"}, "VET": {"RSI": 44.8, "MFI": 30.9, "ADX": 17.6, "Trend": "Bull"}, "KAS": {"RSI": 48.5, "MFI": 45.1, "ADX": 18.5, "Trend": "Bull"}, "ETC": {"RSI": 50.5, "MFI": 38.2, "ADX": 16.5, "Trend": "Bull"}, "MNT": {"RSI": 51.0, "MFI": 53.2, "ADX": 18.7, "Trend": "Bear"}, "CRO": {"RSI": 48.6, "MFI": 25.1, "ADX": 16.6, "Trend": "Bull"}, "ALGO": {"RSI": 43.7, "MFI": 28.6, "ADX": 12.5, "Trend": "Bear"}, "RUNE": {"RSI": 47.4, "MFI": 27.2, "ADX": 16.8, "Trend": "Bear"}, "EGLD": {"RSI": 40.8, "MFI": 24.7, "ADX": 26.0, "Trend": "Bull"}, "SEI": {"RSI": 46.5, "MFI": 39.3, "ADX": 15.4, "Trend": "Bear"}, "SUI": {"RSI": 49.0, "MFI": 36.6, "ADX": 17.7, "Trend": "Bear"}, "AAVE": {"RSI": 53.5, "MFI": 42.7, "ADX": 31.3, "Trend": "Bull"}, "ORDI": {"RSI": 44.8, "MFI": 31.2, "ADX": 11.7, "Trend": "Bear"}, "BEAM": {"RSI": 43.4, "MFI": 35.0, "ADX": 16.5, "Trend": "Bull"}, "FLOW": {"RSI": 35.9, "MFI": 13.2, "ADX": 30.6, "Trend": "Bear"}, "MINA": {"RSI": 43.0, "MFI": 19.3, "ADX": 13.8, "Trend": "Bear"}, "SAND": {"RSI": 44.8, "MFI": 32.0, "ADX": 11.3, "Trend": "Bear"}, "MANA": {"RSI": 43.5, "MFI": 38.9, "ADX": 12.4, "Trend": "Bear"}, "AXS": {"RSI": 44.7, "MFI": 41.7, "ADX": 13.1, "Trend": "Bear"}, "CHZ": {"RSI": 45.1, "MFI": 34.9, "ADX": 15.0, "Trend": "Bear"}, "GALA": {"RSI": 45.6, "MFI": 41.9, "ADX": 17.3, "Trend": "Bear"}, "IOTA": {"RSI": 50.5, "MFI": 50.7, "ADX": 19.7, "Trend": "Bull"}, "KCS": {"RSI": 52.1, "MFI": 53.0, "ADX": 17.7, "Trend": "Bear"}, "GRT": {"RSI": 50.6, "MFI": 50.7, "ADX": 15.0, "Trend": "Bull"}, "NEO": {"RSI": 46.1, "MFI": 39.3, "ADX": 21.1, "Trend": "Bear"}, "SNX": {"RSI": 47.5, "MFI": 45.2, "ADX": 18.4, "Trend": "Bear"}, "DYDX": {"RSI": 44.6, "MFI": 41.9, "ADX": 15.3, "Trend": "Bear"}, "CRV": {"RSI": 51.0, "MFI": 54.0, "ADX": 17.4, "Trend": "Bull"}, "WOO": {"RSI": 49.3, "MFI": 36.4, "ADX": 15.4, "Trend": "Bear"}, "LUNC": {"RSI": 48.0, "MFI": 37.8, "ADX": 27.3, "Trend": "Bear"}, "KAVA": {"RSI": 44.4, "MFI": 50.0, "ADX": 14.7, "Trend": "Bear"}, "IMX": {"RSI": 52.5, "MFI": 43.2, "ADX": 21.2, "Trend": "Bull"}, "HBAR": {"RSI": 51.6, "MFI": 39.1, "ADX": 29.3, "Trend": "Bull"}, "QNT": {"RSI": 44.8, "MFI": 22.8, "ADX": 13.6, "Trend": "Bull"}, "BTT": {"RSI": 45.6, "MFI": 29.5, "ADX": 31.8, "Trend": "Bull"}, "JASMY": {"RSI": 55.0, "MFI": 42.7, "ADX": 17.5, "Trend": "Bull"}, "WIF": {"RSI": 52.1, "MFI": 42.3, "ADX": 15.7, "Trend": "Bull"}, "BONK": {"RSI": 49.9, "MFI": 33.8, "ADX": 23.0, "Trend": "Bull"}, "PYTH": {"RSI": 61.1, "MFI": 29.3, "ADX": 42.6, "Trend": "Bull"}, "FLOKI": {"RSI": 49.9, "MFI": 35.1, "ADX": 24.4, "Trend": "Bull"}, "XLM": {"RSI": 46.9, "MFI": 27.8, "ADX": 32.8, "Trend": "Bull"}, "XMR": {"RSI": 46.1, "MFI": 30.4, "ADX": 17.1, "Trend": "Bear"}, "PEPE": {"RSI": 52.5, "MFI": 40.9, "ADX": 32.3, "Trend": "Bull"}, "AR": {"RSI": 52.8, "MFI": 40.4, "ADX": 18.9, "Trend": "Bear"}, "STRK": {"RSI": 47.6, "MFI": 23.3, "ADX": 14.0, "Trend": "Bear"}, "LRC": {"RSI": 46.5, "MFI": 47.9, "ADX": 22.5, "Trend": "Bear"}, "ZEC": {"RSI": 52.0, "MFI": 41.3, "ADX": 34.9, "Trend": "Bull"}, "BSV": {"RSI": 54.4, "MFI": 60.1, "ADX": 56.5, "Trend": "Bull"}, "PENDLE": {"RSI": 48.1, "MFI": 21.6, "ADX": 20.3, "Trend": "Bear"}, "FET": {"RSI": 51.5, "MFI": 23.1, "ADX": 21.7, "Trend": "Bull"}, "JUP": {"RSI": 58.1, "MFI": 40.9, "ADX": 33.5, "Trend": "Bull"}, "METIS": {"RSI": 46.1, "MFI": 49.2, "ADX": 14.8, "Trend": "Bear"}, "XAI": {"RSI": 51.4, "MFI": 68.0, "ADX": 36.8, "Trend": "Bull"}, "MANTA": {"RSI": 53.9, "MFI": 68.4, "ADX": 18.4, "Trend": "Bull"}, "RON": {"RSI": 44.1, "MFI": 33.5, "ADX": 14.3, "Trend": "Bear"}, "ENS": {"RSI": 56.4, "MFI": 43.4, "ADX": 43.8, "Trend": "Bull"}, "ANKR": {"RSI": 50.2, "MFI": 56.0, "ADX": 13.7, "Trend": "Bear"}, "MASK": {"RSI": 47.8, "MFI": 28.4, "ADX": 29.9, "Trend": "Bear"}};
+            const data = {"BTC": {"RSI": 44.5, "MFI": 37.1, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "ETH": {"RSI": 43.2, "MFI": 35.8, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606", "BTC_Corr": 0.82}, "BNB": {"RSI": 47.1, "MFI": 33.6, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606", "BTC_Corr": 0.61}, "SOL": {"RSI": 49.5, "MFI": 32.4, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606", "BTC_Corr": 0.85}, "XRP": {"RSI": 48.0, "MFI": 20.9, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606", "BTC_Corr": 0.83}, "USDC": {"RSI": 50.5, "MFI": 32.4, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "ADA": {"RSI": 49.7, "MFI": 38.6, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606", "BTC_Corr": 0.69}, "AVAX": {"RSI": 43.8, "MFI": 32.8, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606", "BTC_Corr": 0.97}, "DOGE": {"RSI": 43.8, "MFI": 20.2, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606", "BTC_Corr": 0.84}, "DOT": {"RSI": 49.9, "MFI": 27.7, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606", "BTC_Corr": 0.74}, "TRX": {"RSI": 51.1, "MFI": 60.3, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606", "BTC_Corr": -0.23}, "LINK": {"RSI": 48.0, "MFI": 34.1, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "TON": {"RSI": 44.6, "MFI": 19.5, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "SHIB": {"RSI": 48.8, "MFI": 33.9, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "LTC": {"RSI": 49.8, "MFI": 28.8, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "DAI": {"RSI": 48.7, "MFI": 32.3, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "BCH": {"RSI": 54.5, "MFI": 55.4, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "ATOM": {"RSI": 62.5, "MFI": 70.6, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "UNI": {"RSI": 51.1, "MFI": 39.2, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "NEAR": {"RSI": 51.0, "MFI": 32.7, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "OKB": {"RSI": 51.1, "MFI": 37.1, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "INJ": {"RSI": 44.0, "MFI": 31.6, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "OP": {"RSI": 46.2, "MFI": 21.0, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "ICP": {"RSI": 44.8, "MFI": 27.4, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "FIL": {"RSI": 49.3, "MFI": 22.4, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "LDO": {"RSI": 43.2, "MFI": 37.6, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "TIA": {"RSI": 48.1, "MFI": 33.1, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "STX": {"RSI": 41.6, "MFI": 26.6, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "APT": {"RSI": 42.7, "MFI": 27.4, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "ARB": {"RSI": 44.5, "MFI": 32.5, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "VET": {"RSI": 42.7, "MFI": 30.8, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "KAS": {"RSI": 47.0, "MFI": 44.8, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "ETC": {"RSI": 48.1, "MFI": 38.0, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "MNT": {"RSI": 49.4, "MFI": 53.1, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "CRO": {"RSI": 46.7, "MFI": 25.1, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "ALGO": {"RSI": 42.3, "MFI": 28.3, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "RUNE": {"RSI": 45.9, "MFI": 27.0, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "EGLD": {"RSI": 39.7, "MFI": 24.6, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "SEI": {"RSI": 45.4, "MFI": 38.9, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "SUI": {"RSI": 47.1, "MFI": 36.5, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "AAVE": {"RSI": 51.7, "MFI": 42.3, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "ORDI": {"RSI": 42.9, "MFI": 31.1, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "BEAM": {"RSI": 43.6, "MFI": 35.3, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "FLOW": {"RSI": 35.6, "MFI": 13.2, "News": "Bear", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "MINA": {"RSI": 40.5, "MFI": 19.2, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "SAND": {"RSI": 43.2, "MFI": 31.9, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "MANA": {"RSI": 41.2, "MFI": 38.7, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "AXS": {"RSI": 43.8, "MFI": 41.8, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "CHZ": {"RSI": 43.5, "MFI": 34.8, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "GALA": {"RSI": 44.1, "MFI": 41.7, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "IOTA": {"RSI": 49.2, "MFI": 50.5, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "KCS": {"RSI": 51.1, "MFI": 52.9, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "GRT": {"RSI": 48.6, "MFI": 50.6, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "NEO": {"RSI": 45.0, "MFI": 39.2, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "SNX": {"RSI": 44.9, "MFI": 45.0, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "DYDX": {"RSI": 42.8, "MFI": 41.8, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "CRV": {"RSI": 48.2, "MFI": 52.2, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "WOO": {"RSI": 48.3, "MFI": 36.0, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "LUNC": {"RSI": 47.0, "MFI": 37.8, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "KAVA": {"RSI": 42.9, "MFI": 49.9, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "IMX": {"RSI": 50.8, "MFI": 43.1, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "HBAR": {"RSI": 50.4, "MFI": 38.9, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "QNT": {"RSI": 43.0, "MFI": 22.8, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "BTT": {"RSI": 44.9, "MFI": 29.4, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "JASMY": {"RSI": 52.9, "MFI": 43.0, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "WIF": {"RSI": 49.9, "MFI": 40.4, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "BONK": {"RSI": 47.9, "MFI": 33.8, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "PYTH": {"RSI": 58.6, "MFI": 29.2, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "FLOKI": {"RSI": 48.3, "MFI": 35.0, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "XLM": {"RSI": 45.8, "MFI": 27.7, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "XMR": {"RSI": 44.6, "MFI": 30.4, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "PEPE": {"RSI": 50.0, "MFI": 40.8, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "AR": {"RSI": 49.8, "MFI": 40.2, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "STRK": {"RSI": 44.8, "MFI": 21.2, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "LRC": {"RSI": 45.9, "MFI": 48.1, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "ZEC": {"RSI": 51.3, "MFI": 41.2, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "BSV": {"RSI": 53.2, "MFI": 60.0, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "PENDLE": {"RSI": 45.9, "MFI": 21.5, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "FET": {"RSI": 48.3, "MFI": 23.0, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "JUP": {"RSI": 55.5, "MFI": 40.8, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "METIS": {"RSI": 44.5, "MFI": 49.1, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "XAI": {"RSI": 48.9, "MFI": 67.9, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "MANTA": {"RSI": 52.3, "MFI": 68.3, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "RON": {"RSI": 42.7, "MFI": 33.4, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "ENS": {"RSI": 53.5, "MFI": 43.1, "News": "Neutral", "Trend": "Bull", "Confidence": "\u2606\u2606"}, "ANKR": {"RSI": 47.9, "MFI": 55.7, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}, "MASK": {"RSI": 46.3, "MFI": 28.4, "News": "Neutral", "Trend": "Bear", "Confidence": "\u2606\u2606"}};
             let onlyFavs = false;
 
             function setTheme(isDark) {
