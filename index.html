@@ -1,590 +1,1563 @@
 
-    <!DOCTYPE html><html><head><meta charset="UTF-8"><title>BasedVector Rainbow</title>
+    <!DOCTYPE html><html><head><meta charset="UTF-8"><title>BasedVector Alpha</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #050505; --card: #0a0a0a; --text: #f8fafc; --border: #333; }
-        .light { --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --border: #cbd5e1; }
+        :root { --bg: #050505; --card: #0a0a0a; --text: #f8fafc; --border: #333; --modal-bg: #111; --modal-text: #f8fafc; }
+        .light { --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --border: #e2e8f0; --modal-bg: #fff; --modal-text: #0f172a; }
         body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; padding-top: 100px; transition: 0.3s; }
-        .brand-logo { background: linear-gradient(90deg, #8b0000, #ff0000, #808080, #008000, #006400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; }
-        .card { border-radius: 16px; border: 1px solid var(--border); cursor: pointer; transition: 0.2s; background: var(--card); overflow: hidden; }
-        .card:hover { transform: scale(1.02); box-shadow: 0 20px 30px -10px rgba(0,0,0,0.5); }
-        .rainbow-badge { font-size: 10px; padding: 2px 8px; border-radius: 99px; font-weight: bold; color: #000; text-transform: uppercase; }
-        .star-filled { color: #eab308; }
-        .star-empty { color: #4b5563; opacity: 0.2; }
+        .brand-logo {
+            background: linear-gradient(90deg, #8b0000, #ff0000, #808080, #008000, #006400);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900;
+        }
         .legal-top { background: #1f2937; color: #e5e7eb; text-align: center; padding: 10px; font-size: 11px; position: fixed; top: 0; width: 100%; z-index: 100; border-bottom: 2px solid #dc2626; }
+        .card { border-radius: 12px; border: 1px solid var(--border); cursor: pointer; transition: 0.2s; background: var(--card); overflow: hidden; }
+        .card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+        #modal-content { background: var(--modal-bg); color: var(--modal-text); border: 1px solid var(--border); }
+        .ai-box { background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 8px; padding: 12px; margin-top: 15px; }
+        .star-filled { color: #eab308; }
+        .star-empty { color: #4b5563; opacity: 0.3; }
+        .live-indicator { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; display: inline-block; margin-right: 5px; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); } 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); } }
     </style></head>
     <body>
-        <div class="legal-top"><strong>⚠️ RAINBOW ALGORITHM ACTIVE:</strong> Regression models are probabilistic, not certain.</div>
+        <div class="legal-top"><strong>⚠️ LEGAL DISCLAIMER:</strong> Not financial advice. Technicals + AI Logic.</div>
         <div class="max-w-7xl mx-auto p-4">
             <header class="flex justify-between items-center mb-8">
                 <h1 class="text-4xl italic tracking-tighter brand-logo">BasedVector</h1>
-                <button onclick="toggleTheme()" class="p-2 bg-gray-800 text-white rounded-full">🌙</button>
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleTheme()" class="p-2 bg-gray-800 text-white rounded-full w-10 h-10 flex items-center justify-center" id="theme-toggle">🌙</button>
+                    <div class="text-[10px] font-mono opacity-60">UPDATED: 2026-02-17 18:51:42 UTC</div>
+                </div>
             </header>
-            <div id="grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                <input type="text" id="search" placeholder="Search..." class="bg-transparent border border-gray-500 p-3 rounded-lg w-full text-current outline-none">
+                <select id="sort" class="bg-transparent border border-gray-500 p-3 rounded-lg cursor-pointer w-full text-current">
+                    <option value="score-desc">🔥 Stars: High</option>
+                    <option value="score-asc">❄️ Stars: Low</option>
+                </select>
+            </div>
+            <div id="grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
     
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: BTC')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">BTC</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #4ade80;"
+             data-symbol="BTC" data-score="4" 
+             data-info="eyJSU0kiOiA0Ni4yLCAiTUZJIjogMzEuNiwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIlNUUk9ORyBCVVk6IE11bHRpcGxlIHRlY2huaWNhbCBjb25maXJtYXRpb25zLiBUcmVuZCBpcyB5b3VyIGZyaWVuZC4ifQ==" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">BTC</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$67920</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$67982</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 3/5</span>
-                <span>18:48:13</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">4/5 Criteria</span>
+                <span>18:51:23</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: ETH')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">ETH</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #4ade80;"
+             data-symbol="ETH" data-score="4" 
+             data-info="eyJSU0kiOiA0OS42LCAiTUZJIjogMzMuNywgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIlNUUk9ORyBCVVk6IE11bHRpcGxlIHRlY2huaWNhbCBjb25maXJtYXRpb25zLiBUcmVuZCBpcyB5b3VyIGZyaWVuZC4ifQ==" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">ETH</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$1998.9</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$1998.6</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 3/5</span>
-                <span>18:48:13</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">4/5 Criteria</span>
+                <span>18:51:23</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: BNB')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">BNB</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #fb7185;"
+             data-symbol="BNB" data-score="2" 
+             data-info="eyJSU0kiOiA1MS4zLCAiTUZJIjogMzAuNSwgIlByaWNlX3ZzX1NNQSI6ICJBYm92ZSIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJORVVUUkFMOiBNaXhlZCBzaWduYWxzLiBXYXRjaCBmb3IgYSBicmVha291dC4ifQ==" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">BNB</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$622.78</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$623.02</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 2/5</span>
-                <span>18:48:13</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">2/5 Criteria</span>
+                <span>18:51:23</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: SOL')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">SOL</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #4ade80;"
+             data-symbol="SOL" data-score="4" 
+             data-info="eyJSU0kiOiA0OS40LCAiTUZJIjogMjguMiwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIlNUUk9ORyBCVVk6IE11bHRpcGxlIHRlY2huaWNhbCBjb25maXJtYXRpb25zLiBUcmVuZCBpcyB5b3VyIGZyaWVuZC4ifQ==" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">SOL</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$85.15</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$85.22</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 3/5</span>
-                <span>18:48:14</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">4/5 Criteria</span>
+                <span>18:51:24</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: XRP')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">XRP</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="XRP" data-score="3" 
+             data-info="eyJSU0kiOiA1My44LCAiTUZJIjogMTcuMywgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIkJVTExJU0g6IFBvc2l0aXZlIGFsaWdubWVudC4gR29vZCBlbnRyeSBwb3RlbnRpYWwuIn0=" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">XRP</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$1.4856</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$1.4872</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 3/5</span>
-                <span>18:48:14</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:24</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: ADA')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">ADA</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="USDC" data-score="3" 
+             data-info="eyJSU0kiOiA0OC4zLCAiTUZJIjogMjQuNSwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJCVUxMSVNIOiBQb3NpdGl2ZSBhbGlnbm1lbnQuIEdvb2QgZW50cnkgcG90ZW50aWFsLiJ9" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">USDC</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$0.2854</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$1.0004</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 2/5</span>
-                <span>18:48:14</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:24</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: AVAX')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">AVAX</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #fb7185;"
+             data-symbol="ADA" data-score="2" 
+             data-info="eyJSU0kiOiA1NC42LCAiTUZJIjogMzUuNywgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJORVVUUkFMOiBNaXhlZCBzaWduYWxzLiBXYXRjaCBmb3IgYSBicmVha291dC4ifQ==" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">ADA</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$9.22</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$0.2852</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 3/5</span>
-                <span>18:48:14</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">2/5 Criteria</span>
+                <span>18:51:24</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: DOGE')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">DOGE</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="AVAX" data-score="3" 
+             data-info="eyJSU0kiOiA1MC44LCAiTUZJIjogMzUuMSwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIkJVTExJU0g6IFBvc2l0aXZlIGFsaWdubWVudC4gR29vZCBlbnRyeSBwb3RlbnRpYWwuIn0=" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">AVAX</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$0.10197</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$9.23</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 3/5</span>
-                <span>18:48:14</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:24</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: DOT')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">DOT</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="DOGE" data-score="3" 
+             data-info="eyJSU0kiOiA1Mi4wLCAiTUZJIjogMjAuMSwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIkJVTExJU0g6IFBvc2l0aXZlIGFsaWdubWVudC4gR29vZCBlbnRyeSBwb3RlbnRpYWwuIn0=" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">DOGE</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$1.371</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$0.102</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 3/5</span>
-                <span>18:48:15</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:25</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: TRX')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">TRX</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="DOT" data-score="3" 
+             data-info="eyJSU0kiOiA1My4yLCAiTUZJIjogMjUuMiwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIkJVTExJU0g6IFBvc2l0aXZlIGFsaWdubWVudC4gR29vZCBlbnRyeSBwb3RlbnRpYWwuIn0=" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">DOT</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$0.2821</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$1.37</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 2/5</span>
-                <span>18:48:15</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:25</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: LINK')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">LINK</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #fb7185;"
+             data-symbol="TRX" data-score="2" 
+             data-info="eyJSU0kiOiA1Mi4wLCAiTUZJIjogNTYuMiwgIlByaWNlX3ZzX1NNQSI6ICJBYm92ZSIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIk5FVVRSQUw6IE1peGVkIHNpZ25hbHMuIFdhdGNoIGZvciBhIGJyZWFrb3V0LiJ9" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">TRX</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$8.888</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$0.2821</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 3/5</span>
-                <span>18:48:15</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">2/5 Criteria</span>
+                <span>18:51:25</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: TON')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">TON</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="LINK" data-score="3" 
+             data-info="eyJSU0kiOiA1My41LCAiTUZJIjogMzIuMiwgIlByaWNlX3ZzX1NNQSI6ICJBYm92ZSIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIkJVTExJU0g6IFBvc2l0aXZlIGFsaWdubWVudC4gR29vZCBlbnRyeSBwb3RlbnRpYWwuIn0=" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">LINK</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$1.428</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$8.9</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 3/5</span>
-                <span>18:48:15</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:25</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: SHIB')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">SHIB</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #4ade80;"
+             data-symbol="TON" data-score="4" 
+             data-info="eyJSU0kiOiA0NC4zLCAiTUZJIjogMjcuMiwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIlNUUk9ORyBCVVk6IE11bHRpcGxlIHRlY2huaWNhbCBjb25maXJtYXRpb25zLiBUcmVuZCBpcyB5b3VyIGZyaWVuZC4ifQ==" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">TON</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$6.56e-06</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$1.429</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 3/5</span>
-                <span>18:48:15</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">4/5 Criteria</span>
+                <span>18:51:26</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: LTC')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">LTC</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="SHIB" data-score="3" 
+             data-info="eyJSU0kiOiA1Mi40LCAiTUZJIjogMjguNCwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIkJVTExJU0g6IFBvc2l0aXZlIGFsaWdubWVudC4gR29vZCBlbnRyeSBwb3RlbnRpYWwuIn0=" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">SHIB</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$54.68</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$6.56e-06</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 2/5</span>
-                <span>18:48:15</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:26</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: BCH')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">BCH</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #fb7185;"
+             data-symbol="LTC" data-score="2" 
+             data-info="eyJSU0kiOiA1MC4wLCAiTUZJIjogMjUuMCwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJORVVUUkFMOiBNaXhlZCBzaWduYWxzLiBXYXRjaCBmb3IgYSBicmVha291dC4ifQ==" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">LTC</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$566.6</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$54.69</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 1/5</span>
-                <span>18:48:16</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">2/5 Criteria</span>
+                <span>18:51:26</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: ATOM')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">ATOM</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="DAI" data-score="3" 
+             data-info="eyJSU0kiOiA0My4yLCAiTUZJIjogMjUuMCwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJCVUxMSVNIOiBQb3NpdGl2ZSBhbGlnbm1lbnQuIEdvb2QgZW50cnkgcG90ZW50aWFsLiJ9" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">DAI</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$2.266</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$1.0002</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 1/5</span>
-                <span>18:48:16</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:26</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: UNI')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">UNI</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #ef4444;"
+             data-symbol="BCH" data-score="1" 
+             data-info="eyJSU0kiOiA1OS4zLCAiTUZJIjogNjIuOCwgIlByaWNlX3ZzX1NNQSI6ICJBYm92ZSIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJDQVVUSU9OOiBXZWFrIHRlY2huaWNhbHMuIFdhaXQgZm9yIHZvbHVtZSBjb25maXJtYXRpb24uIn0=" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">BCH</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$3.549</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$566.8</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 2/5</span>
-                <span>18:48:16</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">1/5 Criteria</span>
+                <span>18:51:26</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: NEAR')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">NEAR</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #ef4444;"
+             data-symbol="ATOM" data-score="1" 
+             data-info="eyJSU0kiOiA2My4wLCAiTUZJIjogNzAuMiwgIlByaWNlX3ZzX1NNQSI6ICJBYm92ZSIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJDQVVUSU9OOiBXZWFrIHRlY2huaWNhbHMuIFdhaXQgZm9yIHZvbHVtZSBjb25maXJtYXRpb24uIn0=" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">ATOM</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$1.0555</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$2.261</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 2/5</span>
-                <span>18:48:16</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">1/5 Criteria</span>
+                <span>18:51:27</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: INJ')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">INJ</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #fb7185;"
+             data-symbol="UNI" data-score="2" 
+             data-info="eyJSU0kiOiA1Mi45LCAiTUZJIjogMzYuNCwgIlByaWNlX3ZzX1NNQSI6ICJBYm92ZSIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJORVVUUkFMOiBNaXhlZCBzaWduYWxzLiBXYXRjaCBmb3IgYSBicmVha291dC4ifQ==" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">UNI</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$3.154</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$3.55</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 3/5</span>
-                <span>18:48:16</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">2/5 Criteria</span>
+                <span>18:51:27</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: OP')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">OP</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #fb7185;"
+             data-symbol="NEAR" data-score="2" 
+             data-info="eyJSU0kiOiA1My4xLCAiTUZJIjogMzMuMSwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJORVVUUkFMOiBNaXhlZCBzaWduYWxzLiBXYXRjaCBmb3IgYSBicmVha291dC4ifQ==" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">NEAR</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$0.1893</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$1.0546</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 2/5</span>
-                <span>18:48:17</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">2/5 Criteria</span>
+                <span>18:51:27</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: ICP')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">ICP</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #fb7185;"
+             data-symbol="OKB" data-score="2" 
+             data-info="eyJSU0kiOiA1Ni42LCAiTUZJIjogNDIuNSwgIlByaWNlX3ZzX1NNQSI6ICJBYm92ZSIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJORVVUUkFMOiBNaXhlZCBzaWduYWxzLiBXYXRjaCBmb3IgYSBicmVha291dC4ifQ==" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">OKB</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$2.407</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$80.224</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 2/5</span>
-                <span>18:48:17</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">2/5 Criteria</span>
+                <span>18:51:27</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: FIL')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">FIL</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="INJ" data-score="3" 
+             data-info="eyJSU0kiOiA1MC41LCAiTUZJIjogNDAuNiwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIkJVTExJU0g6IFBvc2l0aXZlIGFsaWdubWVudC4gR29vZCBlbnRyeSBwb3RlbnRpYWwuIn0=" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">INJ</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$0.975</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$3.152</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 3/5</span>
-                <span>18:48:17</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:27</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: LDO')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">LDO</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="OP" data-score="3" 
+             data-info="eyJSU0kiOiA0OS44LCAiTUZJIjogMTUuNywgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJCVUxMSVNIOiBQb3NpdGl2ZSBhbGlnbm1lbnQuIEdvb2QgZW50cnkgcG90ZW50aWFsLiJ9" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">OP</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$0.3439</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$0.1891</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 2/5</span>
-                <span>18:48:17</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:28</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: TIA')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">TIA</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="ICP" data-score="3" 
+             data-info="eyJSU0kiOiA0Ny4xLCAiTUZJIjogMjUuNSwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJCVUxMSVNIOiBQb3NpdGl2ZSBhbGlnbm1lbnQuIEdvb2QgZW50cnkgcG90ZW50aWFsLiJ9" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">ICP</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$0.3443</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$2.406</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 3/5</span>
-                <span>18:48:18</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:28</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: STX')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">STX</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="FIL" data-score="3" 
+             data-info="eyJSU0kiOiA1NC4wLCAiTUZJIjogMjEuMCwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIkJVTExJU0g6IFBvc2l0aXZlIGFsaWdubWVudC4gR29vZCBlbnRyeSBwb3RlbnRpYWwuIn0=" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">FIL</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$0.2644</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$0.9761</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 2/5</span>
-                <span>18:48:18</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:28</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: APT')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">APT</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #4ade80;"
+             data-symbol="LDO" data-score="4" 
+             data-info="eyJSU0kiOiA0OS4zLCAiTUZJIjogNDkuNiwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIlNUUk9ORyBCVVk6IE11bHRpcGxlIHRlY2huaWNhbCBjb25maXJtYXRpb25zLiBUcmVuZCBpcyB5b3VyIGZyaWVuZC4ifQ==" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">LDO</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$0.929</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$0.344</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 2/5</span>
-                <span>18:48:18</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">4/5 Criteria</span>
+                <span>18:51:28</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: ARB')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">ARB</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="TIA" data-score="3" 
+             data-info="eyJSU0kiOiA1My4zLCAiTUZJIjogMzUuOSwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIkJVTExJU0g6IFBvc2l0aXZlIGFsaWdubWVudC4gR29vZCBlbnRyeSBwb3RlbnRpYWwuIn0=" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">TIA</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$0.1146</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$0.3442</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 2/5</span>
-                <span>18:48:18</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:29</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: VET')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">VET</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="STX" data-score="3" 
+             data-info="eyJSU0kiOiA0OC41LCAiTUZJIjogMjMuMCwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJCVUxMSVNIOiBQb3NpdGl2ZSBhbGlnbm1lbnQuIEdvb2QgZW50cnkgcG90ZW50aWFsLiJ9" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">STX</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$0.008228</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$0.264</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 2/5</span>
-                <span>18:48:18</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:29</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: KAS')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">KAS</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="APT" data-score="3" 
+             data-info="eyJSU0kiOiA0NC4wLCAiTUZJIjogMjAuNCwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJCVUxMSVNIOiBQb3NpdGl2ZSBhbGlnbm1lbnQuIEdvb2QgZW50cnkgcG90ZW50aWFsLiJ9" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">APT</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$0.032111</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$0.928</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 3/5</span>
-                <span>18:48:19</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:29</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: ETC')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">ETC</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="ARB" data-score="3" 
+             data-info="eyJSU0kiOiA0OS40LCAiTUZJIjogMjkuOCwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJCVUxMSVNIOiBQb3NpdGl2ZSBhbGlnbm1lbnQuIEdvb2QgZW50cnkgcG90ZW50aWFsLiJ9" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">ARB</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$8.78</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$0.1146</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 2/5</span>
-                <span>18:48:19</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:29</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: ALGO')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">ALGO</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="VET" data-score="3" 
+             data-info="eyJSU0kiOiA0OC44LCAiTUZJIjogMjcuOCwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJCVUxMSVNIOiBQb3NpdGl2ZSBhbGlnbm1lbnQuIEdvb2QgZW50cnkgcG90ZW50aWFsLiJ9" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">VET</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$0.09483</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$0.008222</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 2/5</span>
-                <span>18:48:19</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:30</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: RUNE')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">RUNE</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #4ade80;"
+             data-symbol="KAS" data-score="4" 
+             data-info="eyJSU0kiOiA0OS40LCAiTUZJIjogNDIuNiwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIlNUUk9ORyBCVVk6IE11bHRpcGxlIHRlY2huaWNhbCBjb25maXJtYXRpb25zLiBUcmVuZCBpcyB5b3VyIGZyaWVuZC4ifQ==" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">KAS</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$0.4074</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$0.032049</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 3/5</span>
-                <span>18:48:19</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">4/5 Criteria</span>
+                <span>18:51:30</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: EGLD')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">EGLD</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #fb7185;"
+             data-symbol="ETC" data-score="2" 
+             data-info="eyJSU0kiOiA1My42LCAiTUZJIjogMzQuNiwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJORVVUUkFMOiBNaXhlZCBzaWduYWxzLiBXYXRjaCBmb3IgYSBicmVha291dC4ifQ==" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">ETC</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$4.75</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$8.78</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 3/5</span>
-                <span>18:48:19</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">2/5 Criteria</span>
+                <span>18:51:30</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: SEI')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">SEI</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #4ade80;"
+             data-symbol="MNT" data-score="4" 
+             data-info="eyJSU0kiOiA0Ny42LCAiTUZJIjogMzcuNywgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIlNUUk9ORyBCVVk6IE11bHRpcGxlIHRlY2huaWNhbCBjb25maXJtYXRpb25zLiBUcmVuZCBpcyB5b3VyIGZyaWVuZC4ifQ==" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">MNT</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$0.07499</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$0.6339</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 3/5</span>
-                <span>18:48:20</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">4/5 Criteria</span>
+                <span>18:51:30</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: SUI')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">SUI</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #4ade80;"
+             data-symbol="CRO" data-score="4" 
+             data-info="eyJSU0kiOiA0OC42LCAiTUZJIjogMjUuNCwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIlNUUk9ORyBCVVk6IE11bHRpcGxlIHRlY2huaWNhbCBjb25maXJtYXRpb25zLiBUcmVuZCBpcyB5b3VyIGZyaWVuZC4ifQ==" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">CRO</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$0.9771</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$0.07981</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 3/5</span>
-                <span>18:48:20</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">4/5 Criteria</span>
+                <span>18:51:31</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: AAVE')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">AAVE</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="ALGO" data-score="3" 
+             data-info="eyJSU0kiOiA0Ny44LCAiTUZJIjogMzUuNCwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJCVUxMSVNIOiBQb3NpdGl2ZSBhbGlnbm1lbnQuIEdvb2QgZW50cnkgcG90ZW50aWFsLiJ9" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">ALGO</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$128.35</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$0.09472</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 2/5</span>
-                <span>18:48:20</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:31</span>
             </div>
         </div>
         
-        <div class="card p-5 flex flex-col justify-between" onclick="alert('Symbol: SAND')">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl">SAND</span>
-                <span class="rainbow-badge" style="background:#94a3b8">NEUTRAL</span>
-            </div>
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="RUNE" data-score="3" 
+             data-info="eyJSU0kiOiA1MS4xLCAiTUZJIjogMjcuMiwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIkJVTExJU0g6IFBvc2l0aXZlIGFsaWdubWVudC4gR29vZCBlbnRyeSBwb3RlbnRpYWwuIn0=" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">RUNE</div>
             <div class="text-center">
-                <div class="text-2xl font-black mb-1">$0.08657</div>
-                <div class="flex justify-center gap-1 mb-4"><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                <div class="text-2xl font-bold">$0.4075</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] opacity-50 border-t border-gray-800 pt-3">
-                <span>TECH: 3/5</span>
-                <span>18:48:20</span>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:31</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="EGLD" data-score="3" 
+             data-info="eyJSU0kiOiA0MS40LCAiTUZJIjogMjAuNCwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJCVUxMSVNIOiBQb3NpdGl2ZSBhbGlnbm1lbnQuIEdvb2QgZW50cnkgcG90ZW50aWFsLiJ9" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">EGLD</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$4.744</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:31</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #4ade80;"
+             data-symbol="SEI" data-score="4" 
+             data-info="eyJSU0kiOiA0OC4zLCAiTUZJIjogMzguOSwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIlNUUk9ORyBCVVk6IE11bHRpcGxlIHRlY2huaWNhbCBjb25maXJtYXRpb25zLiBUcmVuZCBpcyB5b3VyIGZyaWVuZC4ifQ==" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">SEI</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$0.07496</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">4/5 Criteria</span>
+                <span>18:51:31</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #4ade80;"
+             data-symbol="SUI" data-score="4" 
+             data-info="eyJSU0kiOiA1MC4wLCAiTUZJIjogMzUuNywgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIlNUUk9ORyBCVVk6IE11bHRpcGxlIHRlY2huaWNhbCBjb25maXJtYXRpb25zLiBUcmVuZCBpcyB5b3VyIGZyaWVuZC4ifQ==" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">SUI</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$0.9756</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">4/5 Criteria</span>
+                <span>18:51:32</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="AAVE" data-score="3" 
+             data-info="eyJSU0kiOiA2MC4xLCAiTUZJIjogNDkuNiwgIlByaWNlX3ZzX1NNQSI6ICJBYm92ZSIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIkJVTExJU0g6IFBvc2l0aXZlIGFsaWdubWVudC4gR29vZCBlbnRyeSBwb3RlbnRpYWwuIn0=" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">AAVE</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$128.25</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:32</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #4ade80;"
+             data-symbol="ORDI" data-score="4" 
+             data-info="eyJSU0kiOiA0OS4zLCAiTUZJIjogMzAuMiwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIlNUUk9ORyBCVVk6IE11bHRpcGxlIHRlY2huaWNhbCBjb25maXJtYXRpb25zLiBUcmVuZCBpcyB5b3VyIGZyaWVuZC4ifQ==" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">ORDI</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$2.82</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">4/5 Criteria</span>
+                <span>18:51:32</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="BEAM" data-score="3" 
+             data-info="eyJSU0kiOiA0NC42LCAiTUZJIjogMjkuOSwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJCVUxMSVNIOiBQb3NpdGl2ZSBhbGlnbm1lbnQuIEdvb2QgZW50cnkgcG90ZW50aWFsLiJ9" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">BEAM</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$0.02403</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:32</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="FLOW" data-score="3" 
+             data-info="eyJSU0kiOiAzNi42LCAiTUZJIjogMjAuMSwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJCVUxMSVNIOiBQb3NpdGl2ZSBhbGlnbm1lbnQuIEdvb2QgZW50cnkgcG90ZW50aWFsLiJ9" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">FLOW</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$0.03943</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:32</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="MINA" data-score="3" 
+             data-info="eyJSU0kiOiA0NS40LCAiTUZJIjogMjMuOCwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJCVUxMSVNIOiBQb3NpdGl2ZSBhbGlnbm1lbnQuIEdvb2QgZW50cnkgcG90ZW50aWFsLiJ9" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">MINA</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$0.06604</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:33</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #4ade80;"
+             data-symbol="SAND" data-score="4" 
+             data-info="eyJSU0kiOiA0Ni4xLCAiTUZJIjogMzIuNSwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIlNUUk9ORyBCVVk6IE11bHRpcGxlIHRlY2huaWNhbCBjb25maXJtYXRpb25zLiBUcmVuZCBpcyB5b3VyIGZyaWVuZC4ifQ==" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">SAND</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$0.08654</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">4/5 Criteria</span>
+                <span>18:51:33</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #4ade80;"
+             data-symbol="MANA" data-score="4" 
+             data-info="eyJSU0kiOiA0OC41LCAiTUZJIjogMzguOCwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIlNUUk9ORyBCVVk6IE11bHRpcGxlIHRlY2huaWNhbCBjb25maXJtYXRpb25zLiBUcmVuZCBpcyB5b3VyIGZyaWVuZC4ifQ==" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">MANA</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$0.10245</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">4/5 Criteria</span>
+                <span>18:51:33</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="AXS" data-score="3" 
+             data-info="eyJSU0kiOiA0MC4zLCAiTUZJIjogNDQuMiwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJCVUxMSVNIOiBQb3NpdGl2ZSBhbGlnbm1lbnQuIEdvb2QgZW50cnkgcG90ZW50aWFsLiJ9" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">AXS</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$1.3511</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:33</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="CHZ" data-score="3" 
+             data-info="eyJSU0kiOiA0Ny44LCAiTUZJIjogMzAuNiwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJCVUxMSVNIOiBQb3NpdGl2ZSBhbGlnbm1lbnQuIEdvb2QgZW50cnkgcG90ZW50aWFsLiJ9" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">CHZ</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$0.04084</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:34</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #4ade80;"
+             data-symbol="GALA" data-score="4" 
+             data-info="eyJSU0kiOiA0OC4yLCAiTUZJIjogNDkuNCwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIlNUUk9ORyBCVVk6IE11bHRpcGxlIHRlY2huaWNhbCBjb25maXJtYXRpb25zLiBUcmVuZCBpcyB5b3VyIGZyaWVuZC4ifQ==" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">GALA</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$0.004096</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">4/5 Criteria</span>
+                <span>18:51:34</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="IOTA" data-score="3" 
+             data-info="eyJSU0kiOiA1MC40LCAiTUZJIjogNDUuNCwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIkJVTExJU0g6IFBvc2l0aXZlIGFsaWdubWVudC4gR29vZCBlbnRyeSBwb3RlbnRpYWwuIn0=" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">IOTA</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$0.0696</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:34</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #4ade80;"
+             data-symbol="KCS" data-score="4" 
+             data-info="eyJSU0kiOiA0OC40LCAiTUZJIjogNDkuNywgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIlNUUk9ORyBCVVk6IE11bHRpcGxlIHRlY2huaWNhbCBjb25maXJtYXRpb25zLiBUcmVuZCBpcyB5b3VyIGZyaWVuZC4ifQ==" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">KCS</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$8.3433</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">4/5 Criteria</span>
+                <span>18:51:34</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #fb7185;"
+             data-symbol="GRT" data-score="2" 
+             data-info="eyJSU0kiOiA1Mi4yLCAiTUZJIjogNDUuNiwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJORVVUUkFMOiBNaXhlZCBzaWduYWxzLiBXYXRjaCBmb3IgYSBicmVha291dC4ifQ==" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">GRT</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$0.02805</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">2/5 Criteria</span>
+                <span>18:51:34</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #fb7185;"
+             data-symbol="NEO" data-score="2" 
+             data-info="eyJSU0kiOiA1MS4wLCAiTUZJIjogNDMuMiwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJORVVUUkFMOiBNaXhlZCBzaWduYWxzLiBXYXRjaCBmb3IgYSBicmVha291dC4ifQ==" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">NEO</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$2.825</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">2/5 Criteria</span>
+                <span>18:51:35</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="SNX" data-score="3" 
+             data-info="eyJSU0kiOiA1My4wLCAiTUZJIjogNDQuMSwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIkJVTExJU0g6IFBvc2l0aXZlIGFsaWdubWVudC4gR29vZCBlbnRyeSBwb3RlbnRpYWwuIn0=" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">SNX</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$0.2978</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:35</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="DYDX" data-score="3" 
+             data-info="eyJSU0kiOiA1MC41LCAiTUZJIjogNDguMSwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIkJVTExJU0g6IFBvc2l0aXZlIGFsaWdubWVudC4gR29vZCBlbnRyeSBwb3RlbnRpYWwuIn0=" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">DYDX</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$0.1079</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:35</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #ef4444;"
+             data-symbol="CRV" data-score="1" 
+             data-info="eyJSU0kiOiA1Mi4yLCAiTUZJIjogNTEuOSwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJDQVVUSU9OOiBXZWFrIHRlY2huaWNhbHMuIFdhaXQgZm9yIHZvbHVtZSBjb25maXJtYXRpb24uIn0=" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">CRV</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$0.2545</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">1/5 Criteria</span>
+                <span>18:51:35</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="WOO" data-score="3" 
+             data-info="eyJSU0kiOiA1NS4xLCAiTUZJIjogMzUuMCwgIlByaWNlX3ZzX1NNQSI6ICJBYm92ZSIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIkJVTExJU0g6IFBvc2l0aXZlIGFsaWdubWVudC4gR29vZCBlbnRyeSBwb3RlbnRpYWwuIn0=" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">WOO</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$0.01763</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:35</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="LUNC" data-score="3" 
+             data-info="eyJSU0kiOiA0NC44LCAiTUZJIjogMjAuNiwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJCVUxMSVNIOiBQb3NpdGl2ZSBhbGlnbm1lbnQuIEdvb2QgZW50cnkgcG90ZW50aWFsLiJ9" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">LUNC</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$3.402e-05</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:36</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="KAVA" data-score="3" 
+             data-info="eyJSU0kiOiA0Ny44LCAiTUZJIjogNTQuNSwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIkJVTExJU0g6IFBvc2l0aXZlIGFsaWdubWVudC4gR29vZCBlbnRyeSBwb3RlbnRpYWwuIn0=" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">KAVA</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$0.05485</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:36</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #fb7185;"
+             data-symbol="IMX" data-score="2" 
+             data-info="eyJSU0kiOiA1MS42LCAiTUZJIjogNDEuMSwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJORVVUUkFMOiBNaXhlZCBzaWduYWxzLiBXYXRjaCBmb3IgYSBicmVha291dC4ifQ==" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">IMX</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$0.169</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">2/5 Criteria</span>
+                <span>18:51:36</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="HBAR" data-score="3" 
+             data-info="eyJSU0kiOiA1Ni45LCAiTUZJIjogNDYuMywgIlByaWNlX3ZzX1NNQSI6ICJBYm92ZSIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIkJVTExJU0g6IFBvc2l0aXZlIGFsaWdubWVudC4gR29vZCBlbnRyeSBwb3RlbnRpYWwuIn0=" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">HBAR</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$0.10184</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:36</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #4ade80;"
+             data-symbol="QNT" data-score="4" 
+             data-info="eyJSU0kiOiA0MS44LCAiTUZJIjogMjUuMSwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIlNUUk9ORyBCVVk6IE11bHRpcGxlIHRlY2huaWNhbCBjb25maXJtYXRpb25zLiBUcmVuZCBpcyB5b3VyIGZyaWVuZC4ifQ==" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">QNT</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$68.64</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">4/5 Criteria</span>
+                <span>18:51:37</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="BTT" data-score="3" 
+             data-info="eyJSU0kiOiA0NC42LCAiTUZJIjogMTMuMSwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJCVUxMSVNIOiBQb3NpdGl2ZSBhbGlnbm1lbnQuIEdvb2QgZW50cnkgcG90ZW50aWFsLiJ9" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">BTT</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$3.418e-07</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:37</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="JASMY" data-score="3" 
+             data-info="eyJSU0kiOiA1My44LCAiTUZJIjogNDkuNiwgIlByaWNlX3ZzX1NNQSI6ICJBYm92ZSIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIkJVTExJU0g6IFBvc2l0aXZlIGFsaWdubWVudC4gR29vZCBlbnRyeSBwb3RlbnRpYWwuIn0=" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">JASMY</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$0.006041</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:37</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="WIF" data-score="3" 
+             data-info="eyJSU0kiOiA1NC4zLCAiTUZJIjogNDUuNCwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIkJVTExJU0g6IFBvc2l0aXZlIGFsaWdubWVudC4gR29vZCBlbnRyeSBwb3RlbnRpYWwuIn0=" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">WIF</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$0.2353</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:37</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="BONK" data-score="3" 
+             data-info="eyJSU0kiOiA1MS4wLCAiTUZJIjogMjcuMCwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIkJVTExJU0g6IFBvc2l0aXZlIGFsaWdubWVudC4gR29vZCBlbnRyeSBwb3RlbnRpYWwuIn0=" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">BONK</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$6.553e-06</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:37</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #fb7185;"
+             data-symbol="PYTH" data-score="2" 
+             data-info="eyJSU0kiOiA2Mi4wLCAiTUZJIjogMzMuNywgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJORVVUUkFMOiBNaXhlZCBzaWduYWxzLiBXYXRjaCBmb3IgYSBicmVha291dC4ifQ==" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">PYTH</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$0.05669</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">2/5 Criteria</span>
+                <span>18:51:38</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #fb7185;"
+             data-symbol="FLOKI" data-score="2" 
+             data-info="eyJSU0kiOiA1MS43LCAiTUZJIjogMzAuMCwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJORVVUUkFMOiBNaXhlZCBzaWduYWxzLiBXYXRjaCBmb3IgYSBicmVha291dC4ifQ==" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">FLOKI</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$3.214e-05</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">2/5 Criteria</span>
+                <span>18:51:38</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="XLM" data-score="3" 
+             data-info="eyJSU0kiOiA1MC42LCAiTUZJIjogMjUuNSwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIkJVTExJU0g6IFBvc2l0aXZlIGFsaWdubWVudC4gR29vZCBlbnRyeSBwb3RlbnRpYWwuIn0=" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">XLM</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$0.168</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:38</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="XMR" data-score="3" 
+             data-info="eyJSU0kiOiA0Ny41LCAiTUZJIjogMzAuNiwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJCVUxMSVNIOiBQb3NpdGl2ZSBhbGlnbm1lbnQuIEdvb2QgZW50cnkgcG90ZW50aWFsLiJ9" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">XMR</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$333.52</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:38</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #fb7185;"
+             data-symbol="PEPE" data-score="2" 
+             data-info="eyJSU0kiOiA1Ni42LCAiTUZJIjogNDMuMywgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJORVVUUkFMOiBNaXhlZCBzaWduYWxzLiBXYXRjaCBmb3IgYSBicmVha291dC4ifQ==" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">PEPE</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$4.447e-06</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">2/5 Criteria</span>
+                <span>18:51:38</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="AR" data-score="3" 
+             data-info="eyJSU0kiOiA1Ni45LCAiTUZJIjogMzkuNSwgIlByaWNlX3ZzX1NNQSI6ICJBYm92ZSIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIkJVTExJU0g6IFBvc2l0aXZlIGFsaWdubWVudC4gR29vZCBlbnRyeSBwb3RlbnRpYWwuIn0=" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">AR</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$2.067</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:39</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="STRK" data-score="3" 
+             data-info="eyJSU0kiOiA0OC4xLCAiTUZJIjogMTkuNSwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJCVUxMSVNIOiBQb3NpdGl2ZSBhbGlnbm1lbnQuIEdvb2QgZW50cnkgcG90ZW50aWFsLiJ9" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">STRK</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$0.04874</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:39</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #ef4444;"
+             data-symbol="LRC" data-score="1" 
+             data-info="eyJSU0kiOiA1MC42LCAiTUZJIjogNTIuNSwgIlByaWNlX3ZzX1NNQSI6ICJBYm92ZSIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJDQVVUSU9OOiBXZWFrIHRlY2huaWNhbHMuIFdhaXQgZm9yIHZvbHVtZSBjb25maXJtYXRpb24uIn0=" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">LRC</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$0.03483</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">1/5 Criteria</span>
+                <span>18:51:39</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #ef4444;"
+             data-symbol="ZEC" data-score="1" 
+             data-info="eyJSU0kiOiA1My4yLCAiTUZJIjogNTUuOCwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJDQVVUSU9OOiBXZWFrIHRlY2huaWNhbHMuIFdhaXQgZm9yIHZvbHVtZSBjb25maXJtYXRpb24uIn0=" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">ZEC</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$289.48</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">1/5 Criteria</span>
+                <span>18:51:39</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #fb7185;"
+             data-symbol="BSV" data-score="2" 
+             data-info="eyJSU0kiOiA1My4wLCAiTUZJIjogMzkuMywgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJORVVUUkFMOiBNaXhlZCBzaWduYWxzLiBXYXRjaCBmb3IgYSBicmVha291dC4ifQ==" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">BSV</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$16.93</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">2/5 Criteria</span>
+                <span>18:51:40</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #fb7185;"
+             data-symbol="PENDLE" data-score="2" 
+             data-info="eyJSU0kiOiA1MS4yLCAiTUZJIjogMTguMywgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJORVVUUkFMOiBNaXhlZCBzaWduYWxzLiBXYXRjaCBmb3IgYSBicmVha291dC4ifQ==" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">PENDLE</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$1.234</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">2/5 Criteria</span>
+                <span>18:51:40</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="FET" data-score="3" 
+             data-info="eyJSU0kiOiA1NS4yLCAiTUZJIjogMjEuMywgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIlN0cm9uZyIsICJBSV9FdmFsIjogIkJVTExJU0g6IFBvc2l0aXZlIGFsaWdubWVudC4gR29vZCBlbnRyeSBwb3RlbnRpYWwuIn0=" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">FET</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$0.1732</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:40</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #fb7185;"
+             data-symbol="JUP" data-score="2" 
+             data-info="eyJSU0kiOiA1Ny4zLCAiTUZJIjogMjQuNywgIlByaWNlX3ZzX1NNQSI6ICJBYm92ZSIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJORVVUUkFMOiBNaXhlZCBzaWduYWxzLiBXYXRjaCBmb3IgYSBicmVha291dC4ifQ==" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">JUP</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$0.1663</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">2/5 Criteria</span>
+                <span>18:51:40</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="METIS" data-score="3" 
+             data-info="eyJSU0kiOiA0OS4zLCAiTUZJIjogMzQuMCwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJCVUxMSVNIOiBQb3NpdGl2ZSBhbGlnbm1lbnQuIEdvb2QgZW50cnkgcG90ZW50aWFsLiJ9" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">METIS</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$3.634</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:41</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #ef4444;"
+             data-symbol="XAI" data-score="1" 
+             data-info="eyJSU0kiOiA1Mi4zLCAiTUZJIjogNjYuMSwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJDQVVUSU9OOiBXZWFrIHRlY2huaWNhbHMuIFdhaXQgZm9yIHZvbHVtZSBjb25maXJtYXRpb24uIn0=" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">XAI</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$0.01065</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">1/5 Criteria</span>
+                <span>18:51:41</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #ef4444;"
+             data-symbol="MANTA" data-score="1" 
+             data-info="eyJSU0kiOiA1Ni4wLCAiTUZJIjogNzAuNywgIlByaWNlX3ZzX1NNQSI6ICJBYm92ZSIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJDQVVUSU9OOiBXZWFrIHRlY2huaWNhbHMuIFdhaXQgZm9yIHZvbHVtZSBjb25maXJtYXRpb24uIn0=" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">MANTA</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$0.08094</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">1/5 Criteria</span>
+                <span>18:51:41</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #94a3b8;"
+             data-symbol="RON" data-score="3" 
+             data-info="eyJSU0kiOiA0NS41LCAiTUZJIjogMzcuNCwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJCVUxMSVNIOiBQb3NpdGl2ZSBhbGlnbm1lbnQuIEdvb2QgZW50cnkgcG90ZW50aWFsLiJ9" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">RON</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$0.09977</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">3/5 Criteria</span>
+                <span>18:51:41</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #fb7185;"
+             data-symbol="ENS" data-score="2" 
+             data-info="eyJSU0kiOiA1Ni4zLCAiTUZJIjogMzkuOSwgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJORVVUUkFMOiBNaXhlZCBzaWduYWxzLiBXYXRjaCBmb3IgYSBicmVha291dC4ifQ==" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">ENS</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$6.741</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">2/5 Criteria</span>
+                <span>18:51:41</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #ef4444;"
+             data-symbol="ANKR" data-score="1" 
+             data-info="eyJSU0kiOiA1Ny4wLCAiTUZJIjogNzAuOCwgIlByaWNlX3ZzX1NNQSI6ICJBYm92ZSIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJDQVVUSU9OOiBXZWFrIHRlY2huaWNhbHMuIFdhaXQgZm9yIHZvbHVtZSBjb25maXJtYXRpb24uIn0=" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">ANKR</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$0.004732</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">1/5 Criteria</span>
+                <span>18:51:42</span>
+            </div>
+        </div>
+        
+        <div class="card p-4 flex flex-col justify-between" 
+             style="border-bottom: 4px solid #fb7185;"
+             data-symbol="MASK" data-score="2" 
+             data-info="eyJSU0kiOiA1MS42LCAiTUZJIjogNDcuNywgIlByaWNlX3ZzX1NNQSI6ICJCZWxvdyIsICJWb2x1bWVfU3RhdHVzIjogIldlYWsiLCAiQUlfRXZhbCI6ICJORVVUUkFMOiBNaXhlZCBzaWduYWxzLiBXYXRjaCBmb3IgYSBicmVha291dC4ifQ==" onclick="showSafeDetails(this)">
+            <div class="font-bold text-lg font-mono mb-2">MASK</div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">$0.4737</div>
+                <div class="flex justify-center gap-1 my-2">
+                    <span class="star-filled text-lg">★</span><span class="star-filled text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span><span class="star-empty text-lg">★</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] opacity-60 font-mono mt-2">
+                <span class="font-bold">2/5 Criteria</span>
+                <span>18:51:42</span>
             </div>
         </div>
         
         </div></div>
+        <div id="modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50" onclick="this.classList.add('hidden')">
+            <div id="modal-content" class="p-8 rounded-2xl max-w-md w-full relative" onclick="event.stopPropagation()">
+                <button onclick="document.getElementById('modal').classList.add('hidden')" class="absolute top-4 right-4 text-2xl opacity-50">&times;</button>
+                <h3 id="m-title" class="text-3xl font-bold mb-6 border-b border-gray-500/20 pb-2"></h3>
+                <div id="m-body" class="space-y-3 font-mono text-sm"></div>
+                <div id="m-ai" class="ai-box italic text-sm"></div>
+            </div>
+        </div>
         <script>
             function toggleTheme() {
                 document.body.classList.toggle('light');
-                localStorage.setItem('theme', document.body.classList.contains('light') ? 'light' : 'dark');
+                const isLight = document.body.classList.contains('light');
+                document.getElementById('theme-toggle').innerText = isLight ? '☀️' : '🌙';
+                localStorage.setItem('theme', isLight ? 'light' : 'dark');
             }
-            window.onload = () => { if(localStorage.getItem('theme')==='light') toggleTheme(); };
+            function showSafeDetails(el) {
+                const sym = el.dataset.symbol;
+                const details = JSON.parse(atob(el.dataset.info)); 
+                document.getElementById('m-title').innerText = sym;
+                let content = "";
+                for (const [k, v] of Object.entries(details)) {
+                    if (k !== 'AI_Eval') content += `<div class="flex justify-between border-b border-gray-500/10 py-3"><span style="opacity:0.6">${k}</span><b>${v}</b></div>`;
+                }
+                document.getElementById('m-body').innerHTML = content;
+                document.getElementById('m-ai').innerHTML = "<b>AI ANALYSIS:</b><br>" + details.AI_Eval;
+                document.getElementById('modal').classList.remove('hidden');
+            }
+            function render() {
+                const term = document.getElementById('search').value.toUpperCase();
+                const sortVal = document.getElementById('sort').value; 
+                let cards = Array.from(document.querySelectorAll('.card'));
+                cards.forEach(c => c.style.display = c.dataset.symbol.includes(term) ? 'flex' : 'none');
+                const grid = document.getElementById('grid');
+                cards.sort((a, b) => sortVal === 'score-desc' ? b.dataset.score - a.dataset.score : a.dataset.score - b.dataset.score);
+                cards.forEach(c => grid.appendChild(c));
+            }
+            document.getElementById('search').addEventListener('input', render);
+            document.getElementById('sort').addEventListener('change', render);
+            window.onload = () => { if(localStorage.getItem('theme')==='light') toggleTheme(); render(); };
         </script>
     </body></html>
     
