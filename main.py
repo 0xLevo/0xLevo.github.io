@@ -293,3 +293,88 @@ def create_html(data):
                     if (favs.includes(symbol)) {{
                         favs = favs.filter(f => f !== symbol);
                         btn.classList.remove('active');
+                    }} else {{
+                        favs.push(symbol);
+                        btn.classList.add('active');
+                    }}
+                    localStorage.setItem('favs', JSON.stringify(favs));
+                    if (showingFavorites) renderGrid();
+                }}
+
+                // Search & Filter & Sort
+                function renderGrid() {{
+                    const term = searchInput.value.toUpperCase();
+                    const favs = JSON.parse(localStorage.getItem('favs') || '[]');
+                    const sortOrder = sortSelect.value;
+                    
+                    let cards = Array.from(document.querySelectorAll('.card'));
+                    
+                    // Filter
+                    cards.forEach(card => {{
+                        const symbol = card.dataset.symbol;
+                        const matchesSearch = symbol.includes(term);
+                        const matchesFav = favs.includes(symbol);
+                        card.style.display = (showingFavorites ? (matchesSearch && matchesFav) : matchesSearch) ? 'flex' : 'none';
+                    }});
+                    
+                    // Sort (Re-ordered logic)
+                    cards.sort((a, b) => {{
+                        const scoreA = parseFloat(a.dataset.score);
+                        const scoreB = parseFloat(b.dataset.score);
+                        return sortOrder === 'score-desc' ? scoreB - scoreA : scoreA - scoreB;
+                    }});
+                    
+                    // Detach, re-append in new order, and filter
+                    cards.forEach(card => {{
+                        if (card.style.display !== 'none') {{
+                            grid.appendChild(card);
+                        }}
+                    }});
+                }}
+
+                searchInput.addEventListener('input', renderGrid);
+                sortSelect.addEventListener('change', renderGrid);
+
+                // Toggle View (All / Favorites)
+                function toggleView() {{
+                    showingFavorites = !showingFavorites;
+                    viewToggle.innerHTML = showingFavorites ? '🌐 All Assets' : '⭐ My Watchlist';
+                    viewToggle.classList.toggle('bg-blue-600');
+                    renderGrid();
+                }}
+                
+                // Modal Functions
+                function showDetails(symbol) {{
+                    const details = data[symbol];
+                    document.getElementById('modal-title').innerText = symbol + ' Score Details';
+                    let content = '';
+                    for (const [key, value] of Object.entries(details)) {{
+                        const color = value > 0 ? 'text-green-400' : (value < 0 ? 'text-red-400' : 'text-slate-400');
+                        content += `<div class='flex justify-between'><span>${{key}}</span><span class='${{color}} font-bold'>${{value}}</span></div>`;
+                    }}
+                    document.getElementById('modal-content').innerHTML = content;
+                    document.getElementById('details-modal').classList.remove('hidden');
+                }}
+                
+                function closeDetails(event) {{
+                    // If event is provided, check if click was on backdrop, not modal content
+                    if (event && event.target.id !== 'details-modal') return;
+                    document.getElementById('details-modal').classList.add('hidden');
+                }}
+            </script>
+            
+            <footer class="mt-20 p-8 text-slate-600 text-sm text-center">
+                <p class="text-xs uppercase tracking-widest">© 2026 BASED VECTOR ALPHA TERMINAL</p>
+            </footer>
+        </div>
+    </body>
+    </html>
+    """
+    
+    final_html = html_header + html_content + html_footer
+    with open("index.html", "w", encoding="utf-8") as f:
+        f.write(final_html)
+
+if __name__ == "__main__":
+    market_data = analyze_market()
+    create_html(market_data)
