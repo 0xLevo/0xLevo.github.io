@@ -8,12 +8,29 @@
         <script src="https://cdn.tailwindcss.com"></script>
         <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
         <style>
-            body { background-color: #000000; color: #f1f5f9; font-family: 'Space Grotesk', sans-serif; }
-            .card { transition: all 0.3s; border-radius: 16px; cursor: pointer; backdrop-filter: blur(10px); }
+            :root {
+                --bg-body: #000000;
+                --bg-card: #0a0a0a;
+                --text-main: #f1f5f9;
+                --border-card: #161616;
+            }
+            .light {
+                --bg-body: #f8fafc;
+                --bg-card: #ffffff;
+                --text-main: #0f172a;
+                --border-card: #e2e8f0;
+            }
+            body { background-color: var(--bg-body); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; transition: background 0.3s, color 0.3s; }
+            .card { background: var(--bg-card); border: 1px solid var(--border-card); transition: all 0.3s; border-radius: 16px; cursor: pointer; backdrop-filter: blur(10px); }
             .card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(255, 255, 255, 0.05); }
-            .star-btn { font-size: 1.2rem; cursor: pointer; color: rgba(255,255,255,0.3); z-index: 10; position: relative;}
+            .light .card:hover { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+            .star-btn { font-size: 1.2rem; cursor: pointer; color: rgba(100,116,139,0.3); z-index: 10; position: relative;}
+            .light .star-btn { color: rgba(100,116,139,0.5); }
             .star-btn.active { color: #eab308; }
-            .modal { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px); }
+            
+            /* Modal Backdrop */
+            .modal-backdrop { background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(4px); }
+            .light .modal-backdrop { background: rgba(0, 0, 0, 0.5); }
             
             /* Score Bar Styles */
             .score-bar-container {
@@ -25,6 +42,8 @@
                 margin-top: 8px;
                 overflow: hidden;
             }
+            .light .score-bar-container { background-color: #e2e8f0; }
+            
             .score-bar-fill {
                 height: 100%;
                 border-radius: 4px;
@@ -53,11 +72,15 @@
             <header class="mb-10 pb-6 border-b border-slate-900">
                 <div class="flex justify-between items-center mb-6">
                     <h1 class="text-4xl font-bold tracking-tighter text-white">
-                        <span class="text-blue-500">Based</span>Vector <span class="text-xs font-mono bg-blue-950 text-blue-300 px-2 py-0.5 rounded">ALPHA</span>
+                        <span style="color: #ef4444;">Based</span>Vector 
+                        <span class="text-xs font-mono bg-blue-950 text-blue-300 px-2 py-0.5 rounded">ALPHA</span>
                     </h1>
-                    <div class="text-right text-sm">
-                        <p class="text-slate-400">Data Source: MEXC Global</p>
-                        <p class="font-mono text-blue-400">2026-02-16 23:50 UTC</p>
+                    <div class="flex items-center gap-3">
+                        <div class="text-right text-sm">
+                            <p class="text-slate-400">Data Source: MEXC Global</p>
+                            <p class="font-mono text-blue-400">2026-02-17 00:05 UTC</p>
+                        </div>
+                        <button onclick="toggleTheme()" id="theme-toggle" class="p-2 rounded-full bg-slate-900 text-white">🌙</button>
                     </div>
                 </div>
                 
@@ -77,7 +100,8 @@
     
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(185, 28, 28, 0.25); border: 1px solid rgba(185, 28, 28, 0.6);"
-             data-symbol="BTC" data-score="-2.3">
+             data-symbol="BTC" data-score="-2.3"
+             onclick="showDetails('BTC')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'BTC')" class="star-btn">★</button>
@@ -85,8 +109,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('BTC')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$68880</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$68841</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -102,7 +126,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(51, 65, 85, 0.2); border: 1px solid rgba(51, 65, 85, 0.5);"
-             data-symbol="ETH" data-score="0.0">
+             data-symbol="ETH" data-score="0.0"
+             onclick="showDetails('ETH')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'ETH')" class="star-btn">★</button>
@@ -110,58 +135,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('ETH')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1998.1</p>
-                
-                <div class="score-bar-container">
-                    <div class="score-bar-center"></div>
-                    <div class="score-bar-fill" style="width: 0.0%; left: 50%; background-color: #64748b;"></div>
-                </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
-                    <span>-3</span>
-                    <span class="font-bold text-white">0.0</span>
-                    <span>+3</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="card p-5 flex flex-col justify-between" 
-             style="background-color: rgba(51, 65, 85, 0.2); border: 1px solid rgba(51, 65, 85, 0.5);"
-             data-symbol="BNB" data-score="0.0">
-            <div class="flex justify-between items-center mb-3">
-                <div class="flex items-center gap-2">
-                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'BNB')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">BNB</span>
-                </div>
-            </div>
-            
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('BNB')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$626.71</p>
-                
-                <div class="score-bar-container">
-                    <div class="score-bar-center"></div>
-                    <div class="score-bar-fill" style="width: 0.0%; left: 50%; background-color: #64748b;"></div>
-                </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
-                    <span>-3</span>
-                    <span class="font-bold text-white">0.0</span>
-                    <span>+3</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="card p-5 flex flex-col justify-between" 
-             style="background-color: rgba(51, 65, 85, 0.2); border: 1px solid rgba(51, 65, 85, 0.5);"
-             data-symbol="SOL" data-score="0.0">
-            <div class="flex justify-between items-center mb-3">
-                <div class="flex items-center gap-2">
-                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'SOL')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">SOL</span>
-                </div>
-            </div>
-            
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('SOL')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$86.41</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1996.3</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -177,7 +152,60 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="XRP" data-score="0.3">
+             data-symbol="BNB" data-score="1.3"
+             onclick="showDetails('BNB')">
+            <div class="flex justify-between items-center mb-3">
+                <div class="flex items-center gap-2">
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'BNB')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">BNB</span>
+                </div>
+            </div>
+            
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$626.67</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 21.666666666666668%; left: 50%; background-color: #22c55e;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">1.3</span>
+                    <span>+3</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card p-5 flex flex-col justify-between" 
+             style="background-color: rgba(51, 65, 85, 0.2); border: 1px solid rgba(51, 65, 85, 0.5);"
+             data-symbol="SOL" data-score="0.0"
+             onclick="showDetails('SOL')">
+            <div class="flex justify-between items-center mb-3">
+                <div class="flex items-center gap-2">
+                    <button onclick="event.stopPropagation(); toggleFavorite(this, 'SOL')" class="star-btn">★</button>
+                    <span class="font-bold text-lg text-white font-mono">SOL</span>
+                </div>
+            </div>
+            
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$86.36</p>
+                
+                <div class="score-bar-container">
+                    <div class="score-bar-center"></div>
+                    <div class="score-bar-fill" style="width: 0.0%; left: 50%; background-color: #64748b;"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                    <span>-3</span>
+                    <span class="font-bold text-white">0.0</span>
+                    <span>+3</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card p-5 flex flex-col justify-between" 
+             style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
+             data-symbol="XRP" data-score="0.3"
+             onclick="showDetails('XRP')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'XRP')" class="star-btn">★</button>
@@ -185,8 +213,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('XRP')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.4876</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.4849</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -202,7 +230,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="USDC" data-score="1.3">
+             data-symbol="USDC" data-score="1.3"
+             onclick="showDetails('USDC')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'USDC')" class="star-btn">★</button>
@@ -210,7 +239,7 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('USDC')">
+            <div class="text-center my-2">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.0004</p>
                 
                 <div class="score-bar-container">
@@ -227,7 +256,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="ADA" data-score="0.3">
+             data-symbol="ADA" data-score="0.3"
+             onclick="showDetails('ADA')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'ADA')" class="star-btn">★</button>
@@ -235,8 +265,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('ADA')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2858</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2856</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -252,7 +282,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="AVAX" data-score="0.3">
+             data-symbol="AVAX" data-score="0.3"
+             onclick="showDetails('AVAX')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'AVAX')" class="star-btn">★</button>
@@ -260,7 +291,7 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('AVAX')">
+            <div class="text-center my-2">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">$9.26</p>
                 
                 <div class="score-bar-container">
@@ -277,7 +308,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="DOGE" data-score="0.7">
+             data-symbol="DOGE" data-score="0.7"
+             onclick="showDetails('DOGE')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'DOGE')" class="star-btn">★</button>
@@ -285,8 +317,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('DOGE')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.10105</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.10087</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -302,7 +334,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="DOT" data-score="0.3">
+             data-symbol="DOT" data-score="0.3"
+             onclick="showDetails('DOT')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'DOT')" class="star-btn">★</button>
@@ -310,8 +343,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('DOT')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.377</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.375</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -327,7 +360,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="TRX" data-score="0.7">
+             data-symbol="TRX" data-score="0.7"
+             onclick="showDetails('TRX')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'TRX')" class="star-btn">★</button>
@@ -335,8 +369,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('TRX')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2846</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2847</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -352,7 +386,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="LINK" data-score="0.3">
+             data-symbol="LINK" data-score="0.3"
+             onclick="showDetails('LINK')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'LINK')" class="star-btn">★</button>
@@ -360,8 +395,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('LINK')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$8.93</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$8.94</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -377,7 +412,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="TON" data-score="0.3">
+             data-symbol="TON" data-score="0.3"
+             onclick="showDetails('TON')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'TON')" class="star-btn">★</button>
@@ -385,8 +421,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('TON')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.45</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.447</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -402,7 +438,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="SHIB" data-score="0.3">
+             data-symbol="SHIB" data-score="0.3"
+             onclick="showDetails('SHIB')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'SHIB')" class="star-btn">★</button>
@@ -410,8 +447,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('SHIB')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$6.582e-06</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$6.557e-06</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -427,7 +464,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(51, 65, 85, 0.2); border: 1px solid rgba(51, 65, 85, 0.5);"
-             data-symbol="LTC" data-score="0.0">
+             data-symbol="LTC" data-score="0.0"
+             onclick="showDetails('LTC')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'LTC')" class="star-btn">★</button>
@@ -435,8 +473,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('LTC')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$55</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$55.04</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -452,7 +490,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="DAI" data-score="0.7">
+             data-symbol="DAI" data-score="0.7"
+             onclick="showDetails('DAI')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'DAI')" class="star-btn">★</button>
@@ -460,7 +499,7 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('DAI')">
+            <div class="text-center my-2">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.0002</p>
                 
                 <div class="score-bar-container">
@@ -477,7 +516,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4);"
-             data-symbol="BCH" data-score="-0.7">
+             data-symbol="BCH" data-score="-0.3"
+             onclick="showDetails('BCH')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'BCH')" class="star-btn">★</button>
@@ -485,16 +525,16 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('BCH')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$569.2</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$569.3</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
-                    <div class="score-bar-fill" style="width: 11.666666666666666%; left: 38.333333333333336%; background-color: #ef4444;"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 45.0%; background-color: #ef4444;"></div>
                 </div>
                 <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">-0.7</span>
+                    <span class="font-bold text-white">-0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -502,7 +542,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="ATOM" data-score="0.3">
+             data-symbol="ATOM" data-score="0.3"
+             onclick="showDetails('ATOM')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'ATOM')" class="star-btn">★</button>
@@ -510,8 +551,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('ATOM')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$2.291</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$2.29</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -527,7 +568,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="UNI" data-score="0.3">
+             data-symbol="UNI" data-score="1.0"
+             onclick="showDetails('UNI')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'UNI')" class="star-btn">★</button>
@@ -535,16 +577,16 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('UNI')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.608</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.601</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
-                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
+                    <div class="score-bar-fill" style="width: 16.666666666666664%; left: 50%; background-color: #22c55e;"></div>
                 </div>
                 <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white">1.0</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -552,7 +594,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="NEAR" data-score="0.3">
+             data-symbol="NEAR" data-score="0.3"
+             onclick="showDetails('NEAR')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'NEAR')" class="star-btn">★</button>
@@ -560,8 +603,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('NEAR')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.058</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.0576</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -577,7 +620,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(51, 65, 85, 0.2); border: 1px solid rgba(51, 65, 85, 0.5);"
-             data-symbol="OKB" data-score="0.0">
+             data-symbol="OKB" data-score="0.0"
+             onclick="showDetails('OKB')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'OKB')" class="star-btn">★</button>
@@ -585,8 +629,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('OKB')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$79.742</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$79.867</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -602,7 +646,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="INJ" data-score="0.3">
+             data-symbol="INJ" data-score="0.3"
+             onclick="showDetails('INJ')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'INJ')" class="star-btn">★</button>
@@ -610,8 +655,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('INJ')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.163</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.162</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -627,7 +672,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="OP" data-score="0.3">
+             data-symbol="OP" data-score="0.3"
+             onclick="showDetails('OP')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'OP')" class="star-btn">★</button>
@@ -635,8 +681,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('OP')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1901</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1902</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -652,7 +698,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="ICP" data-score="0.7">
+             data-symbol="ICP" data-score="0.7"
+             onclick="showDetails('ICP')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'ICP')" class="star-btn">★</button>
@@ -660,8 +707,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('ICP')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$2.415</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$2.414</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -677,7 +724,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="FIL" data-score="0.3">
+             data-symbol="FIL" data-score="0.3"
+             onclick="showDetails('FIL')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'FIL')" class="star-btn">★</button>
@@ -685,7 +733,7 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('FIL')">
+            <div class="text-center my-2">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.977</p>
                 
                 <div class="score-bar-container">
@@ -702,7 +750,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="LDO" data-score="0.3">
+             data-symbol="LDO" data-score="0.3"
+             onclick="showDetails('LDO')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'LDO')" class="star-btn">★</button>
@@ -710,8 +759,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('LDO')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.3458</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.3459</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -727,7 +776,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="TIA" data-score="0.3">
+             data-symbol="TIA" data-score="0.3"
+             onclick="showDetails('TIA')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'TIA')" class="star-btn">★</button>
@@ -735,8 +785,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('TIA')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.345</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.3455</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -752,7 +802,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="STX" data-score="0.7">
+             data-symbol="STX" data-score="0.7"
+             onclick="showDetails('STX')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'STX')" class="star-btn">★</button>
@@ -760,8 +811,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('STX')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2674</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2673</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -777,7 +828,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="APT" data-score="0.7">
+             data-symbol="APT" data-score="0.7"
+             onclick="showDetails('APT')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'APT')" class="star-btn">★</button>
@@ -785,8 +837,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('APT')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.929</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.926</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -802,7 +854,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="ARB" data-score="0.3">
+             data-symbol="ARB" data-score="0.3"
+             onclick="showDetails('ARB')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'ARB')" class="star-btn">★</button>
@@ -810,8 +863,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('ARB')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1151</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1152</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -827,7 +880,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="VET" data-score="0.3">
+             data-symbol="VET" data-score="0.3"
+             onclick="showDetails('VET')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'VET')" class="star-btn">★</button>
@@ -835,8 +889,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('VET')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.008317</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.008308</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -852,7 +906,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="KAS" data-score="0.3">
+             data-symbol="KAS" data-score="0.3"
+             onclick="showDetails('KAS')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'KAS')" class="star-btn">★</button>
@@ -860,8 +915,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('KAS')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.0322</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.032369</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -877,7 +932,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="ETC" data-score="0.3">
+             data-symbol="ETC" data-score="0.3"
+             onclick="showDetails('ETC')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'ETC')" class="star-btn">★</button>
@@ -885,8 +941,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('ETC')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$8.84</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$8.83</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -902,7 +958,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="MNT" data-score="0.3">
+             data-symbol="MNT" data-score="0.3"
+             onclick="showDetails('MNT')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'MNT')" class="star-btn">★</button>
@@ -910,8 +967,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('MNT')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.6448</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.6454</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -927,7 +984,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="CRO" data-score="0.3">
+             data-symbol="CRO" data-score="0.3"
+             onclick="showDetails('CRO')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'CRO')" class="star-btn">★</button>
@@ -935,8 +993,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('CRO')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.08063</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.08041</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -952,7 +1010,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="ALGO" data-score="0.7">
+             data-symbol="ALGO" data-score="0.7"
+             onclick="showDetails('ALGO')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'ALGO')" class="star-btn">★</button>
@@ -960,8 +1019,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('ALGO')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.0946</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.09451</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -977,7 +1036,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="RUNE" data-score="0.7">
+             data-symbol="RUNE" data-score="0.7"
+             onclick="showDetails('RUNE')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'RUNE')" class="star-btn">★</button>
@@ -985,8 +1045,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('RUNE')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.4066</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.4061</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1002,7 +1062,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="EGLD" data-score="0.7">
+             data-symbol="EGLD" data-score="0.7"
+             onclick="showDetails('EGLD')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'EGLD')" class="star-btn">★</button>
@@ -1010,8 +1071,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('EGLD')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$4.837</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$4.824</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1027,7 +1088,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="SEI" data-score="0.3">
+             data-symbol="SEI" data-score="0.3"
+             onclick="showDetails('SEI')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'SEI')" class="star-btn">★</button>
@@ -1035,8 +1097,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('SEI')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.07621</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.07628</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1052,7 +1114,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="SUI" data-score="0.3">
+             data-symbol="SUI" data-score="0.3"
+             onclick="showDetails('SUI')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'SUI')" class="star-btn">★</button>
@@ -1060,8 +1123,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('SUI')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.9907</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.9906</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1077,7 +1140,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4);"
-             data-symbol="AAVE" data-score="-0.3">
+             data-symbol="AAVE" data-score="-0.3"
+             onclick="showDetails('AAVE')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'AAVE')" class="star-btn">★</button>
@@ -1085,8 +1149,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('AAVE')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$127.02</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$127.13</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1102,7 +1166,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="ORDI" data-score="0.7">
+             data-symbol="ORDI" data-score="0.7"
+             onclick="showDetails('ORDI')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'ORDI')" class="star-btn">★</button>
@@ -1110,8 +1175,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('ORDI')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$2.818</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$2.817</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1127,7 +1192,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="BEAM" data-score="0.7">
+             data-symbol="BEAM" data-score="0.7"
+             onclick="showDetails('BEAM')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'BEAM')" class="star-btn">★</button>
@@ -1135,8 +1201,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('BEAM')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.02419</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.02416</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1152,7 +1218,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="FLOW" data-score="1.0">
+             data-symbol="FLOW" data-score="1.0"
+             onclick="showDetails('FLOW')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'FLOW')" class="star-btn">★</button>
@@ -1160,8 +1227,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('FLOW')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.04048</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.04033</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1177,7 +1244,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="MINA" data-score="0.7">
+             data-symbol="MINA" data-score="0.7"
+             onclick="showDetails('MINA')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'MINA')" class="star-btn">★</button>
@@ -1185,8 +1253,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('MINA')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.06654</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.06659</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1202,7 +1270,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="SAND" data-score="0.3">
+             data-symbol="SAND" data-score="0.3"
+             onclick="showDetails('SAND')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'SAND')" class="star-btn">★</button>
@@ -1210,8 +1279,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('SAND')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.0881</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.08811</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1227,7 +1296,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="MANA" data-score="0.3">
+             data-symbol="MANA" data-score="0.3"
+             onclick="showDetails('MANA')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'MANA')" class="star-btn">★</button>
@@ -1235,8 +1305,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('MANA')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.10282</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.10279</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1252,7 +1322,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="AXS" data-score="0.7">
+             data-symbol="AXS" data-score="0.7"
+             onclick="showDetails('AXS')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'AXS')" class="star-btn">★</button>
@@ -1260,8 +1331,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('AXS')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.3732</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.3723</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1277,7 +1348,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="CHZ" data-score="0.3">
+             data-symbol="CHZ" data-score="0.3"
+             onclick="showDetails('CHZ')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'CHZ')" class="star-btn">★</button>
@@ -1285,8 +1357,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('CHZ')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.04168</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.04164</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1302,7 +1374,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="GALA" data-score="0.3">
+             data-symbol="GALA" data-score="0.3"
+             onclick="showDetails('GALA')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'GALA')" class="star-btn">★</button>
@@ -1310,8 +1383,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('GALA')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.004137</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.004144</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1327,7 +1400,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="IOTA" data-score="0.3">
+             data-symbol="IOTA" data-score="0.3"
+             onclick="showDetails('IOTA')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'IOTA')" class="star-btn">★</button>
@@ -1335,8 +1409,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('IOTA')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.0706</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.07075</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1352,7 +1426,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="KCS" data-score="0.3">
+             data-symbol="KCS" data-score="0.3"
+             onclick="showDetails('KCS')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'KCS')" class="star-btn">★</button>
@@ -1360,8 +1435,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('KCS')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$8.4877</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$8.4934</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1377,7 +1452,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="GRT" data-score="0.3">
+             data-symbol="GRT" data-score="0.3"
+             onclick="showDetails('GRT')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'GRT')" class="star-btn">★</button>
@@ -1385,8 +1461,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('GRT')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.02818</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.02814</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1402,7 +1478,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="NEO" data-score="0.3">
+             data-symbol="NEO" data-score="0.3"
+             onclick="showDetails('NEO')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'NEO')" class="star-btn">★</button>
@@ -1410,8 +1487,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('NEO')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$2.853</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$2.845</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1427,7 +1504,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="SNX" data-score="0.3">
+             data-symbol="SNX" data-score="0.3"
+             onclick="showDetails('SNX')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'SNX')" class="star-btn">★</button>
@@ -1435,8 +1513,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('SNX')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2969</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.297</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1452,7 +1530,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="DYDX" data-score="0.3">
+             data-symbol="DYDX" data-score="0.3"
+             onclick="showDetails('DYDX')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'DYDX')" class="star-btn">★</button>
@@ -1460,8 +1539,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('DYDX')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1094</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1089</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1477,7 +1556,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="CRV" data-score="0.3">
+             data-symbol="CRV" data-score="0.3"
+             onclick="showDetails('CRV')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'CRV')" class="star-btn">★</button>
@@ -1485,8 +1565,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('CRV')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2547</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2546</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1502,7 +1582,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="WOO" data-score="0.3">
+             data-symbol="WOO" data-score="0.3"
+             onclick="showDetails('WOO')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'WOO')" class="star-btn">★</button>
@@ -1510,8 +1591,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('WOO')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.01749</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.01741</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1527,7 +1608,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="LUNC" data-score="1.0">
+             data-symbol="LUNC" data-score="1.0"
+             onclick="showDetails('LUNC')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'LUNC')" class="star-btn">★</button>
@@ -1535,8 +1617,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('LUNC')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.513e-05</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.497e-05</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1552,7 +1634,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="KAVA" data-score="0.7">
+             data-symbol="KAVA" data-score="0.7"
+             onclick="showDetails('KAVA')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'KAVA')" class="star-btn">★</button>
@@ -1560,8 +1643,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('KAVA')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.05487</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.05467</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1577,7 +1660,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="IMX" data-score="0.3">
+             data-symbol="IMX" data-score="0.3"
+             onclick="showDetails('IMX')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'IMX')" class="star-btn">★</button>
@@ -1585,8 +1669,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('IMX')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1709</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1704</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1602,7 +1686,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="HBAR" data-score="0.3">
+             data-symbol="HBAR" data-score="0.3"
+             onclick="showDetails('HBAR')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'HBAR')" class="star-btn">★</button>
@@ -1610,8 +1695,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('HBAR')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.10187</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.10164</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1627,7 +1712,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="QNT" data-score="0.3">
+             data-symbol="QNT" data-score="0.3"
+             onclick="showDetails('QNT')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'QNT')" class="star-btn">★</button>
@@ -1635,8 +1721,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('QNT')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$69.72</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$69.77</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1652,7 +1738,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="BTT" data-score="0.7">
+             data-symbol="BTT" data-score="0.7"
+             onclick="showDetails('BTT')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'BTT')" class="star-btn">★</button>
@@ -1660,8 +1747,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('BTT')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.452e-07</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.449e-07</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1677,7 +1764,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="JASMY" data-score="0.3">
+             data-symbol="JASMY" data-score="0.3"
+             onclick="showDetails('JASMY')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'JASMY')" class="star-btn">★</button>
@@ -1685,8 +1773,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('JASMY')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.005999</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.005973</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1702,7 +1790,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="WIF" data-score="0.3">
+             data-symbol="WIF" data-score="0.3"
+             onclick="showDetails('WIF')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'WIF')" class="star-btn">★</button>
@@ -1710,8 +1799,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('WIF')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2363</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2361</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1727,7 +1816,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="BONK" data-score="0.3">
+             data-symbol="BONK" data-score="0.3"
+             onclick="showDetails('BONK')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'BONK')" class="star-btn">★</button>
@@ -1735,8 +1825,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('BONK')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$6.585e-06</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$6.563e-06</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1752,7 +1842,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(51, 65, 85, 0.2); border: 1px solid rgba(51, 65, 85, 0.5);"
-             data-symbol="PYTH" data-score="0.0">
+             data-symbol="PYTH" data-score="0.0"
+             onclick="showDetails('PYTH')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'PYTH')" class="star-btn">★</button>
@@ -1760,8 +1851,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('PYTH')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.05702</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.05681</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1777,7 +1868,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="FLOKI" data-score="0.3">
+             data-symbol="FLOKI" data-score="0.3"
+             onclick="showDetails('FLOKI')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'FLOKI')" class="star-btn">★</button>
@@ -1785,8 +1877,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('FLOKI')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.226e-05</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.218e-05</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1802,7 +1894,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="XLM" data-score="0.3">
+             data-symbol="XLM" data-score="0.3"
+             onclick="showDetails('XLM')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'XLM')" class="star-btn">★</button>
@@ -1810,8 +1903,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('XLM')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1699</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1694</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1827,7 +1920,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(51, 65, 85, 0.2); border: 1px solid rgba(51, 65, 85, 0.5);"
-             data-symbol="XMR" data-score="0.0">
+             data-symbol="XMR" data-score="0.0"
+             onclick="showDetails('XMR')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'XMR')" class="star-btn">★</button>
@@ -1835,8 +1929,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('XMR')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$325.88</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$328.47</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1852,7 +1946,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="PEPE" data-score="0.3">
+             data-symbol="PEPE" data-score="0.3"
+             onclick="showDetails('PEPE')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'PEPE')" class="star-btn">★</button>
@@ -1860,8 +1955,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('PEPE')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$4.487e-06</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$4.467e-06</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1877,7 +1972,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="AR" data-score="0.3">
+             data-symbol="AR" data-score="0.3"
+             onclick="showDetails('AR')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'AR')" class="star-btn">★</button>
@@ -1885,8 +1981,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('AR')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$2.039</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$2.034</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1902,7 +1998,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="STRK" data-score="0.3">
+             data-symbol="STRK" data-score="0.3"
+             onclick="showDetails('STRK')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'STRK')" class="star-btn">★</button>
@@ -1910,8 +2007,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('STRK')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.04932</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.04926</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1927,7 +2024,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="LRC" data-score="1.3">
+             data-symbol="LRC" data-score="1.3"
+             onclick="showDetails('LRC')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'LRC')" class="star-btn">★</button>
@@ -1935,8 +2033,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('LRC')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.03424</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.03432</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1952,7 +2050,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4);"
-             data-symbol="ZEC" data-score="-0.3">
+             data-symbol="ZEC" data-score="-0.3"
+             onclick="showDetails('ZEC')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'ZEC')" class="star-btn">★</button>
@@ -1960,8 +2059,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('ZEC')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$293.47</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$292.81</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -1976,8 +2075,9 @@
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
-             style="background-color: rgba(51, 65, 85, 0.2); border: 1px solid rgba(51, 65, 85, 0.5);"
-             data-symbol="BSV" data-score="0.0">
+             style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
+             data-symbol="BSV" data-score="0.3"
+             onclick="showDetails('BSV')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'BSV')" class="star-btn">★</button>
@@ -1985,16 +2085,16 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('BSV')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$17.34</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$17.3</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
-                    <div class="score-bar-fill" style="width: 0.0%; left: 50%; background-color: #64748b;"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
                 <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.0</span>
+                    <span class="font-bold text-white">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -2002,7 +2102,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="PENDLE" data-score="0.3">
+             data-symbol="PENDLE" data-score="0.3"
+             onclick="showDetails('PENDLE')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'PENDLE')" class="star-btn">★</button>
@@ -2010,7 +2111,7 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('PENDLE')">
+            <div class="text-center my-2">
                 <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.246</p>
                 
                 <div class="score-bar-container">
@@ -2027,7 +2128,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="FET" data-score="0.3">
+             data-symbol="FET" data-score="0.3"
+             onclick="showDetails('FET')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'FET')" class="star-btn">★</button>
@@ -2035,8 +2137,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('FET')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1732</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1725</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -2052,7 +2154,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="JUP" data-score="0.3">
+             data-symbol="JUP" data-score="0.3"
+             onclick="showDetails('JUP')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'JUP')" class="star-btn">★</button>
@@ -2060,8 +2163,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('JUP')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1629</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1644</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -2077,7 +2180,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="METIS" data-score="0.3">
+             data-symbol="METIS" data-score="0.3"
+             onclick="showDetails('METIS')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'METIS')" class="star-btn">★</button>
@@ -2085,8 +2189,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('METIS')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.656</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.657</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -2102,7 +2206,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="XAI" data-score="0.3">
+             data-symbol="XAI" data-score="0.3"
+             onclick="showDetails('XAI')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'XAI')" class="star-btn">★</button>
@@ -2110,8 +2215,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('XAI')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.01068</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.01066</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -2127,7 +2232,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="MANTA" data-score="0.3">
+             data-symbol="MANTA" data-score="0.3"
+             onclick="showDetails('MANTA')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'MANTA')" class="star-btn">★</button>
@@ -2135,8 +2241,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('MANTA')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.08024</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.0802</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -2152,7 +2258,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="RON" data-score="0.7">
+             data-symbol="RON" data-score="0.7"
+             onclick="showDetails('RON')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'RON')" class="star-btn">★</button>
@@ -2160,8 +2267,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('RON')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.10044</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.10027</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -2177,7 +2284,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(51, 65, 85, 0.2); border: 1px solid rgba(51, 65, 85, 0.5);"
-             data-symbol="ENS" data-score="0.0">
+             data-symbol="ENS" data-score="0.0"
+             onclick="showDetails('ENS')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'ENS')" class="star-btn">★</button>
@@ -2185,8 +2293,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('ENS')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$6.832</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$6.81</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -2202,7 +2310,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="ANKR" data-score="0.3">
+             data-symbol="ANKR" data-score="0.3"
+             onclick="showDetails('ANKR')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'ANKR')" class="star-btn">★</button>
@@ -2210,8 +2319,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('ANKR')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.004672</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.00469</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -2227,7 +2336,8 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="MASK" data-score="0.3">
+             data-symbol="MASK" data-score="0.3"
+             onclick="showDetails('MASK')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'MASK')" class="star-btn">★</button>
@@ -2235,8 +2345,8 @@
                 </div>
             </div>
             
-            <div class="text-center my-2 cursor-pointer" onclick="showDetails('MASK')">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.4739</p>
+            <div class="text-center my-2">
+                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.4728</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
@@ -2252,8 +2362,8 @@
         
             </div>
             
-            <div id="details-modal" class="hidden fixed inset-0 modal z-50 flex items-center justify-center p-4">
-                <div class="card p-6 w-full max-w-sm" style="background: #0a0a0a; border: 1px solid #334155;">
+            <div id="details-modal" class="hidden fixed inset-0 modal-backdrop z-50 flex items-center justify-center p-4" onclick="closeDetails(event)">
+                <div class="card p-6 w-full max-w-sm" onclick="event.stopPropagation()">
                     <div class="flex justify-between items-center mb-4">
                         <h3 id="modal-title" class="text-xl font-bold text-white"></h3>
                         <button onclick="closeDetails()" class="text-slate-500 hover:text-white">✕</button>
@@ -2263,12 +2373,25 @@
             </div>
             
             <script>
-                const data = {"BTC": {"RSI (14)": -1, "MACD": -3, "CCI (20)": -3}, "ETH": {"RSI (14)": 0, "MACD": -3, "CCI (20)": 3}, "BNB": {"RSI (14)": -1, "MACD": -2, "CCI (20)": 3}, "SOL": {"RSI (14)": -1, "MACD": -2, "CCI (20)": 3}, "XRP": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "USDC": {"RSI (14)": 0, "MACD": 1, "CCI (20)": 3}, "ADA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "AVAX": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "DOGE": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "DOT": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "TRX": {"RSI (14)": -2, "MACD": 1, "CCI (20)": 3}, "LINK": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "TON": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "SHIB": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "LTC": {"RSI (14)": -1, "MACD": -2, "CCI (20)": 3}, "DAI": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "BCH": {"RSI (14)": -2, "MACD": -3, "CCI (20)": 3}, "ATOM": {"RSI (14)": -3, "MACD": 1, "CCI (20)": 3}, "UNI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "NEAR": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "OKB": {"RSI (14)": -1, "MACD": -2, "CCI (20)": 3}, "INJ": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "OP": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "ICP": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "FIL": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "LDO": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "TIA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "STX": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "APT": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "ARB": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "VET": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "KAS": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "ETC": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "MNT": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "CRO": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "ALGO": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "RUNE": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "EGLD": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "SEI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "SUI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "AAVE": {"RSI (14)": -1, "MACD": -3, "CCI (20)": 3}, "ORDI": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "BEAM": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "FLOW": {"RSI (14)": 1, "MACD": -1, "CCI (20)": 3}, "MINA": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "SAND": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "MANA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "AXS": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "CHZ": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "GALA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "IOTA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "KCS": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "GRT": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "NEO": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "SNX": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "DYDX": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "CRV": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "WOO": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "LUNC": {"RSI (14)": -1, "MACD": 1, "CCI (20)": 3}, "KAVA": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "IMX": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "HBAR": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "QNT": {"RSI (14)": 0, "MACD": -2, "CCI (20)": 3}, "BTT": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "JASMY": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "WIF": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "BONK": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "PYTH": {"RSI (14)": -2, "MACD": -1, "CCI (20)": 3}, "FLOKI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "XLM": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "XMR": {"RSI (14)": 0, "MACD": -3, "CCI (20)": 3}, "PEPE": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "AR": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "STRK": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "LRC": {"RSI (14)": 0, "MACD": 1, "CCI (20)": 3}, "ZEC": {"RSI (14)": -1, "MACD": -3, "CCI (20)": 3}, "BSV": {"RSI (14)": -2, "MACD": -1, "CCI (20)": 3}, "PENDLE": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "FET": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "JUP": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "METIS": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "XAI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "MANTA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "RON": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "ENS": {"RSI (14)": -2, "MACD": -1, "CCI (20)": 3}, "ANKR": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "MASK": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}};
+                const data = {"BTC": {"RSI (14)": -1, "MACD": -3, "CCI (20)": -3}, "ETH": {"RSI (14)": 0, "MACD": -3, "CCI (20)": 3}, "BNB": {"RSI (14)": -1, "MACD": 2, "CCI (20)": 3}, "SOL": {"RSI (14)": -1, "MACD": -2, "CCI (20)": 3}, "XRP": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "USDC": {"RSI (14)": 0, "MACD": 1, "CCI (20)": 3}, "ADA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "AVAX": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "DOGE": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "DOT": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "TRX": {"RSI (14)": -2, "MACD": 1, "CCI (20)": 3}, "LINK": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "TON": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "SHIB": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "LTC": {"RSI (14)": -1, "MACD": -2, "CCI (20)": 3}, "DAI": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "BCH": {"RSI (14)": -2, "MACD": -2, "CCI (20)": 3}, "ATOM": {"RSI (14)": -3, "MACD": 1, "CCI (20)": 3}, "UNI": {"RSI (14)": -1, "MACD": 1, "CCI (20)": 3}, "NEAR": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "OKB": {"RSI (14)": -1, "MACD": -2, "CCI (20)": 3}, "INJ": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "OP": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "ICP": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "FIL": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "LDO": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "TIA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "STX": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "APT": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "ARB": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "VET": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "KAS": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "ETC": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "MNT": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "CRO": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "ALGO": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "RUNE": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "EGLD": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "SEI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "SUI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "AAVE": {"RSI (14)": -1, "MACD": -3, "CCI (20)": 3}, "ORDI": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "BEAM": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "FLOW": {"RSI (14)": 1, "MACD": -1, "CCI (20)": 3}, "MINA": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "SAND": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "MANA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "AXS": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "CHZ": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "GALA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "IOTA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "KCS": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "GRT": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "NEO": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "SNX": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "DYDX": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "CRV": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "WOO": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "LUNC": {"RSI (14)": -1, "MACD": 1, "CCI (20)": 3}, "KAVA": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "IMX": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "HBAR": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "QNT": {"RSI (14)": 0, "MACD": -2, "CCI (20)": 3}, "BTT": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "JASMY": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "WIF": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "BONK": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "PYTH": {"RSI (14)": -2, "MACD": -1, "CCI (20)": 3}, "FLOKI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "XLM": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "XMR": {"RSI (14)": 0, "MACD": -3, "CCI (20)": 3}, "PEPE": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "AR": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "STRK": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "LRC": {"RSI (14)": 0, "MACD": 1, "CCI (20)": 3}, "ZEC": {"RSI (14)": -1, "MACD": -3, "CCI (20)": 3}, "BSV": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "PENDLE": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "FET": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "JUP": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "METIS": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "XAI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "MANTA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "RON": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "ENS": {"RSI (14)": -2, "MACD": -1, "CCI (20)": 3}, "ANKR": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "MASK": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}};
                 const grid = document.getElementById('coin-grid');
                 const searchInput = document.getElementById('search');
                 const viewToggle = document.getElementById('view-toggle');
                 const sortSelect = document.getElementById('sort');
+                const themeToggle = document.getElementById('theme-toggle');
                 let showingFavorites = false;
+
+                // --- Theme Switcher ---
+                function toggleTheme() {
+                    document.body.classList.toggle('light');
+                    const isLight = document.body.classList.contains('light');
+                    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+                    themeToggle.innerText = isLight ? '☀️' : '🌙';
+                }
+                
+                if (localStorage.getItem('theme') === 'light') {
+                    toggleTheme();
+                }
 
                 // Load favorites and update stars
                 function loadFavorites() {
@@ -2313,14 +2436,19 @@
                         card.style.display = (showingFavorites ? (matchesSearch && matchesFav) : matchesSearch) ? 'flex' : 'none';
                     });
                     
-                    // Sort
+                    // Sort (Re-ordered logic)
                     cards.sort((a, b) => {
                         const scoreA = parseFloat(a.dataset.score);
                         const scoreB = parseFloat(b.dataset.score);
                         return sortOrder === 'score-desc' ? scoreB - scoreA : scoreA - scoreB;
                     });
                     
-                    cards.forEach(card => grid.appendChild(card));
+                    // Detach, re-append in new order, and filter
+                    cards.forEach(card => {
+                        if (card.style.display !== 'none') {
+                            grid.appendChild(card);
+                        }
+                    });
                 }
 
                 searchInput.addEventListener('input', renderGrid);
@@ -2347,8 +2475,9 @@
                     document.getElementById('details-modal').classList.remove('hidden');
                 }
                 
-                function closeDetails() {
-                    document.getElementById('details-modal').classList.hidden = true;
+                function closeDetails(event) {
+                    // If event is provided, check if click was on backdrop, not modal content
+                    if (event && event.target.id !== 'details-modal') return;
                     document.getElementById('details-modal').classList.add('hidden');
                 }
             </script>
