@@ -4,31 +4,35 @@ on:
   push:
     branches: [ main ]
   schedule:
+    # Her 4 saatte bir otomatik çalışır
     - cron: '0 */4 * * *'
+  # Manuel olarak çalıştırmak istersen GitHub Actions sekmesinden tetikleyebilirsin
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    
+    # 403 Forbidden hatasını çözen kritik izin ayarı
     permissions:
       contents: write
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          # --- BU SATIRI EKLEYİN (Geçmişi çekmek için) ---
+          # Geçmişi tam çekiyoruz ki rebase/push hataları yaşanmasın
           fetch-depth: 0 
-          # ----------------------------------------------
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
+          # pandas_ta için gerekli olan güncel sürüm
           python-version: '3.12'
 
       - name: Install Dependencies
         run: |
-          pip install --upgrade pip
+          python -m pip install --upgrade pip
           pip install ccxt pandas pandas_ta numpy
 
       - name: Run Analysis
@@ -38,13 +42,16 @@ jobs:
       - name: Commit and Push Changes
         run: |
           git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config --local user.name "BasedVector Bot"
           
-          # --- BU ADIMLARI GÜNCELLEDİK ---
+          # Dosyayı ekle
           git add index.html
-          # Değişiklik varsa commit yap
+          
+          # Eğer index.html değişmişse commit yap, değişmemişse hata verme
           git commit -m "Update Dashboard: $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes to commit"
-          # Push yapmadan önce remote'daki değişiklikleri çek ve birleştir
+          
+          # Çakışmaları önlemek için remote'daki değişiklikleri çek ve üstüne yaz (Rebase)
           git pull origin main --rebase
+          
+          # Değişiklikleri gönder
           git push origin main
-          # ------------------------------
