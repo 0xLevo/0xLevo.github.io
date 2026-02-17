@@ -12,85 +12,84 @@
                 --bg-body: #000000;
                 --bg-card: #0a0a0a;
                 --text-main: #f1f5f9;
+                --text-muted: #94a3b8;
                 --border-card: #161616;
+                --bg-input: #000000;
+                --border-input: #334155;
             }
             .light {
-                --bg-body: #f8fafc;
+                --bg-body: #f1f5f9;
                 --bg-card: #ffffff;
                 --text-main: #0f172a;
+                --text-muted: #475569;
                 --border-card: #e2e8f0;
+                --bg-input: #ffffff;
+                --border-input: #cbd5e1;
             }
             body { background-color: var(--bg-body); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; transition: background 0.3s, color 0.3s; }
-            .card { background: var(--bg-card); border: 1px solid var(--border-card); transition: all 0.3s; border-radius: 16px; cursor: pointer; backdrop-filter: blur(10px); }
-            .card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(255, 255, 255, 0.05); }
-            .light .card:hover { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+            .card { background: var(--bg-card); border: 1px solid var(--border-card); transition: all 0.3s; border-radius: 16px; cursor: pointer; }
+            .card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+            
             .star-btn { font-size: 1.2rem; cursor: pointer; color: rgba(100,116,139,0.3); z-index: 10; position: relative;}
             .light .star-btn { color: rgba(100,116,139,0.5); }
             .star-btn.active { color: #eab308; }
             
-            /* Modal Backdrop */
             .modal-backdrop { background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(4px); }
-            .light .modal-backdrop { background: rgba(0, 0, 0, 0.5); }
+            .light .modal-backdrop { background: rgba(0, 0, 0, 0.4); }
             
-            /* Score Bar Styles */
-            .score-bar-container {
-                width: 100%;
-                height: 8px;
-                background-color: #1f2937;
-                border-radius: 4px;
-                position: relative;
-                margin-top: 8px;
-                overflow: hidden;
-            }
+            .score-bar-container { width: 100%; height: 8px; background-color: #1f2937; border-radius: 4px; position: relative; margin-top: 8px; overflow: hidden; }
             .light .score-bar-container { background-color: #e2e8f0; }
             
-            .score-bar-fill {
-                height: 100%;
-                border-radius: 4px;
-                transition: width 0.5s ease-out;
-                position: absolute;
-                top: 0;
+            .score-bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease-out; position: absolute; top: 0; }
+            .score-bar-center { position: absolute; top: 0; left: 50%; width: 2px; height: 100%; background-color: #4b5563; transform: translateX(-50%); }
+            .light .score-bar-center { background-color: #cbd5e1; }
+
+            /* BasedVector Special Gradient */
+            .based-gradient {
+                background: linear-gradient(90deg, #ef4444 0%, #f87171 25%, #94a3b8 50%, #4ade80 75%, #10b981 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
             }
-            .score-bar-center {
-                position: absolute;
-                top: 0;
-                left: 50%;
-                width: 2px;
-                height: 100%;
-                background-color: #4b5563;
-                transform: translateX(-50%);
+            
+            /* Input Styles */
+            input, select {
+                background-color: var(--bg-input) !important;
+                color: var(--text-main) !important;
+                border: 1px solid var(--border-input) !important;
             }
+            .light input::placeholder { color: #94a3b8; }
         </style>
     </head>
     <body class="p-4 md:p-8">
         <div class="max-w-7xl mx-auto">
             
-            <div class="bg-blue-950/30 border border-blue-900/50 text-blue-200 text-xs text-center p-2 rounded-lg mb-6 font-medium">
+            <div class="bg-blue-950/30 border border-blue-900/50 text-blue-200 text-xs text-center p-2 rounded-lg mb-6 font-medium light:bg-blue-100 light:border-blue-200 light:text-blue-900">
                 ⚠️ Legal Disclaimer: All information is for educational purposes only. Not financial advice.
             </div>
 
-            <header class="mb-10 pb-6 border-b border-slate-900">
+            <header class="mb-10 pb-6 border-b border-slate-900 light:border-slate-200">
                 <div class="flex justify-between items-center mb-6">
-                    <h1 class="text-4xl font-bold tracking-tighter text-white">
-                        <span style="color: #ef4444;">Based</span>Vector 
-                        <span class="text-xs font-mono bg-blue-950 text-blue-300 px-2 py-0.5 rounded">ALPHA</span>
+                    <h1 class="text-4xl font-bold tracking-tighter text-white light:text-slate-950">
+                        <span class="based-gradient">Based</span>Vector 
+                        <span class="text-xs font-mono bg-blue-950 text-blue-300 px-2 py-0.5 rounded light:bg-blue-100 light:text-blue-700">ALPHA</span>
                     </h1>
                     <div class="flex items-center gap-3">
                         <div class="text-right text-sm">
-                            <p class="text-slate-400">Data Source: MEXC Global</p>
-                            <p class="font-mono text-blue-400">2026-02-17 00:05 UTC</p>
+                            <p class="text-slate-400 light:text-slate-600">Data Source: MEXC Global</p>
+                            <p class="font-mono text-blue-400 light:text-blue-600">2026-02-17 00:11 UTC</p>
                         </div>
-                        <button onclick="toggleTheme()" id="theme-toggle" class="p-2 rounded-full bg-slate-900 text-white">🌙</button>
+                        <button onclick="toggleTheme()" id="theme-toggle" class="p-2 rounded-full bg-slate-900 text-white light:bg-slate-200 light:text-slate-950">🌙</button>
                     </div>
                 </div>
                 
-                <div class="flex flex-col md:flex-row gap-4 glass p-4 rounded-xl bg-slate-950 border border-slate-900">
-                    <input type="text" id="search" placeholder="🔍 Search Assets (e.g. BTC)..." class="bg-black p-3 rounded-lg w-full text-sm border border-slate-800 text-white placeholder-slate-600 focus:border-blue-500 focus:outline-none">
-                    <select id="sort" class="bg-black p-3 rounded-lg text-sm border border-slate-800 text-white focus:border-blue-500">
+                <div class="flex flex-col md:flex-row gap-4 glass p-4 rounded-xl bg-slate-950 border border-slate-900 light:bg-white light:border-slate-200">
+                    <input type="text" id="search" placeholder="🔍 Search Assets (e.g. BTC)..." class="p-3 rounded-lg w-full text-sm focus:border-blue-500 focus:outline-none">
+                    <select id="sort" class="p-3 rounded-lg text-sm focus:border-blue-500">
                         <option value="score-desc">Score: High to Low</option>
                         <option value="score-asc">Score: Low to High</option>
                     </select>
-                    <button onclick="toggleView()" id="view-toggle" class="bg-slate-900 hover:bg-slate-800 text-white px-5 py-3 rounded-lg text-sm font-bold flex items-center gap-2 border border-slate-800 whitespace-nowrap">
+                    <button onclick="toggleView()" id="view-toggle" class="bg-slate-900 hover:bg-slate-800 text-white px-5 py-3 rounded-lg text-sm font-bold flex items-center gap-2 border border-slate-800 whitespace-nowrap light:bg-slate-100 light:text-slate-900 light:border-slate-200 light:hover:bg-slate-200">
                         ⭐ My Watchlist
                     </button>
                 </div>
@@ -105,46 +104,46 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'BTC')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">BTC</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">BTC</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$68841</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$68831</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 38.33333333333333%; left: 11.666666666666671%; background-color: #b91c1c;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">-2.3</span>
+                    <span class="font-bold text-white light:text-slate-950">-2.3</span>
                     <span>+3</span>
                 </div>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
-             style="background-color: rgba(51, 65, 85, 0.2); border: 1px solid rgba(51, 65, 85, 0.5);"
+             style="background-color: rgba(148, 163, 184, 0.1); border: 1px solid rgba(148, 163, 184, 0.3);"
              data-symbol="ETH" data-score="0.0"
              onclick="showDetails('ETH')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'ETH')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">ETH</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">ETH</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1996.3</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$1998.9</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
-                    <div class="score-bar-fill" style="width: 0.0%; left: 50%; background-color: #64748b;"></div>
+                    <div class="score-bar-fill" style="width: 0.0%; left: 50%; background-color: #94a3b8;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.0</span>
+                    <span class="font-bold text-white light:text-slate-950">0.0</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -157,46 +156,46 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'BNB')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">BNB</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">BNB</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$626.67</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$627.1</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 21.666666666666668%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">1.3</span>
+                    <span class="font-bold text-white light:text-slate-950">1.3</span>
                     <span>+3</span>
                 </div>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
-             style="background-color: rgba(51, 65, 85, 0.2); border: 1px solid rgba(51, 65, 85, 0.5);"
+             style="background-color: rgba(148, 163, 184, 0.1); border: 1px solid rgba(148, 163, 184, 0.3);"
              data-symbol="SOL" data-score="0.0"
              onclick="showDetails('SOL')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'SOL')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">SOL</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">SOL</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$86.36</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$86.6</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
-                    <div class="score-bar-fill" style="width: 0.0%; left: 50%; background-color: #64748b;"></div>
+                    <div class="score-bar-fill" style="width: 0.0%; left: 50%; background-color: #94a3b8;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.0</span>
+                    <span class="font-bold text-white light:text-slate-950">0.0</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -209,20 +208,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'XRP')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">XRP</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">XRP</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.4849</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$1.4877</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -230,25 +229,25 @@
         
         <div class="card p-5 flex flex-col justify-between" 
              style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
-             data-symbol="USDC" data-score="1.3"
+             data-symbol="USDC" data-score="1.0"
              onclick="showDetails('USDC')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'USDC')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">USDC</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">USDC</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.0004</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$1.0005</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
-                    <div class="score-bar-fill" style="width: 21.666666666666668%; left: 50%; background-color: #22c55e;"></div>
+                    <div class="score-bar-fill" style="width: 16.666666666666664%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">1.3</span>
+                    <span class="font-bold text-white light:text-slate-950">1.0</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -261,20 +260,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'ADA')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">ADA</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">ADA</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2856</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.2854</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -287,20 +286,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'AVAX')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">AVAX</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">AVAX</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$9.26</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$9.26</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -313,20 +312,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'DOGE')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">DOGE</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">DOGE</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.10087</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.10079</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 11.666666666666666%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.7</span>
+                    <span class="font-bold text-white light:text-slate-950">0.7</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -339,20 +338,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'DOT')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">DOT</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">DOT</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.375</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$1.377</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -365,20 +364,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'TRX')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">TRX</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">TRX</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2847</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.2849</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 11.666666666666666%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.7</span>
+                    <span class="font-bold text-white light:text-slate-950">0.7</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -391,20 +390,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'LINK')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">LINK</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">LINK</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$8.94</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$8.94</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -417,20 +416,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'TON')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">TON</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">TON</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.447</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$1.448</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -443,46 +442,46 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'SHIB')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">SHIB</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">SHIB</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$6.557e-06</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$6.557e-06</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
-             style="background-color: rgba(51, 65, 85, 0.2); border: 1px solid rgba(51, 65, 85, 0.5);"
+             style="background-color: rgba(148, 163, 184, 0.1); border: 1px solid rgba(148, 163, 184, 0.3);"
              data-symbol="LTC" data-score="0.0"
              onclick="showDetails('LTC')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'LTC')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">LTC</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">LTC</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$55.04</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$55.06</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
-                    <div class="score-bar-fill" style="width: 0.0%; left: 50%; background-color: #64748b;"></div>
+                    <div class="score-bar-fill" style="width: 0.0%; left: 50%; background-color: #94a3b8;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.0</span>
+                    <span class="font-bold text-white light:text-slate-950">0.0</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -495,20 +494,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'DAI')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">DAI</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">DAI</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.0002</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$1.0002</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 11.666666666666666%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.7</span>
+                    <span class="font-bold text-white light:text-slate-950">0.7</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -521,20 +520,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'BCH')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">BCH</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">BCH</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$569.3</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$570.1</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 45.0%; background-color: #ef4444;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">-0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">-0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -547,20 +546,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'ATOM')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">ATOM</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">ATOM</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$2.29</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$2.295</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -573,20 +572,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'UNI')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">UNI</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">UNI</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.601</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$3.609</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 16.666666666666664%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">1.0</span>
+                    <span class="font-bold text-white light:text-slate-950">1.0</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -599,46 +598,46 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'NEAR')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">NEAR</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">NEAR</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.0576</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$1.0567</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
-             style="background-color: rgba(51, 65, 85, 0.2); border: 1px solid rgba(51, 65, 85, 0.5);"
+             style="background-color: rgba(148, 163, 184, 0.1); border: 1px solid rgba(148, 163, 184, 0.3);"
              data-symbol="OKB" data-score="0.0"
              onclick="showDetails('OKB')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'OKB')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">OKB</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">OKB</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$79.867</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$79.952</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
-                    <div class="score-bar-fill" style="width: 0.0%; left: 50%; background-color: #64748b;"></div>
+                    <div class="score-bar-fill" style="width: 0.0%; left: 50%; background-color: #94a3b8;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.0</span>
+                    <span class="font-bold text-white light:text-slate-950">0.0</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -651,20 +650,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'INJ')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">INJ</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">INJ</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.162</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$3.16</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -677,20 +676,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'OP')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">OP</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">OP</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1902</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.19</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -703,20 +702,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'ICP')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">ICP</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">ICP</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$2.414</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$2.412</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 11.666666666666666%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.7</span>
+                    <span class="font-bold text-white light:text-slate-950">0.7</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -729,20 +728,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'FIL')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">FIL</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">FIL</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.977</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.976</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -755,20 +754,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'LDO')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">LDO</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">LDO</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.3459</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.3456</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -781,20 +780,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'TIA')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">TIA</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">TIA</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.3455</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.3449</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -807,20 +806,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'STX')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">STX</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">STX</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2673</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.2673</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 11.666666666666666%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.7</span>
+                    <span class="font-bold text-white light:text-slate-950">0.7</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -833,20 +832,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'APT')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">APT</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">APT</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.926</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.9265</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 11.666666666666666%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.7</span>
+                    <span class="font-bold text-white light:text-slate-950">0.7</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -859,20 +858,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'ARB')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">ARB</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">ARB</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1152</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.1152</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -885,20 +884,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'VET')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">VET</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">VET</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.008308</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.008314</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -911,20 +910,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'KAS')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">KAS</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">KAS</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.032369</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.03244</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -937,20 +936,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'ETC')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">ETC</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">ETC</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$8.83</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$8.83</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -963,20 +962,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'MNT')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">MNT</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">MNT</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.6454</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.6447</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -989,20 +988,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'CRO')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">CRO</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">CRO</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.08041</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.08018</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1015,20 +1014,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'ALGO')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">ALGO</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">ALGO</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.09451</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.0945</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 11.666666666666666%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.7</span>
+                    <span class="font-bold text-white light:text-slate-950">0.7</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1041,20 +1040,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'RUNE')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">RUNE</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">RUNE</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.4061</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.4058</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 11.666666666666666%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.7</span>
+                    <span class="font-bold text-white light:text-slate-950">0.7</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1067,20 +1066,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'EGLD')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">EGLD</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">EGLD</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$4.824</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$4.827</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 11.666666666666666%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.7</span>
+                    <span class="font-bold text-white light:text-slate-950">0.7</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1093,20 +1092,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'SEI')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">SEI</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">SEI</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.07628</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.07614</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1119,20 +1118,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'SUI')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">SUI</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">SUI</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.9906</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.9906</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1145,20 +1144,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'AAVE')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">AAVE</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">AAVE</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$127.13</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$126.99</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 45.0%; background-color: #ef4444;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">-0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">-0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1171,20 +1170,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'ORDI')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">ORDI</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">ORDI</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$2.817</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$2.814</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 11.666666666666666%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.7</span>
+                    <span class="font-bold text-white light:text-slate-950">0.7</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1197,20 +1196,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'BEAM')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">BEAM</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">BEAM</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.02416</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.02419</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 11.666666666666666%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.7</span>
+                    <span class="font-bold text-white light:text-slate-950">0.7</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1223,20 +1222,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'FLOW')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">FLOW</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">FLOW</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.04033</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.04041</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 16.666666666666664%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">1.0</span>
+                    <span class="font-bold text-white light:text-slate-950">1.0</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1249,20 +1248,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'MINA')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">MINA</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">MINA</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.06659</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.0665</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 11.666666666666666%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.7</span>
+                    <span class="font-bold text-white light:text-slate-950">0.7</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1275,20 +1274,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'SAND')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">SAND</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">SAND</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.08811</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.08823</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1301,20 +1300,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'MANA')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">MANA</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">MANA</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.10279</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.10294</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1327,20 +1326,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'AXS')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">AXS</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">AXS</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.3723</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$1.3998</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 11.666666666666666%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.7</span>
+                    <span class="font-bold text-white light:text-slate-950">0.7</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1353,20 +1352,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'CHZ')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">CHZ</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">CHZ</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.04164</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.04173</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1379,20 +1378,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'GALA')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">GALA</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">GALA</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.004144</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.004137</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1405,20 +1404,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'IOTA')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">IOTA</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">IOTA</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.07075</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.07074</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1431,20 +1430,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'KCS')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">KCS</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">KCS</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$8.4934</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$8.5091</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1457,20 +1456,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'GRT')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">GRT</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">GRT</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.02814</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.02816</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1483,20 +1482,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'NEO')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">NEO</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">NEO</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$2.845</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$2.842</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1509,20 +1508,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'SNX')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">SNX</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">SNX</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.297</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.2961</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1535,20 +1534,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'DYDX')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">DYDX</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">DYDX</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1089</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.1091</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1561,20 +1560,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'CRV')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">CRV</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">CRV</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2546</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.255</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1587,20 +1586,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'WOO')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">WOO</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">WOO</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.01741</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.01742</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1613,20 +1612,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'LUNC')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">LUNC</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">LUNC</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.497e-05</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$3.485e-05</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 16.666666666666664%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">1.0</span>
+                    <span class="font-bold text-white light:text-slate-950">1.0</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1639,20 +1638,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'KAVA')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">KAVA</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">KAVA</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.05467</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.05461</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 11.666666666666666%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.7</span>
+                    <span class="font-bold text-white light:text-slate-950">0.7</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1665,20 +1664,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'IMX')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">IMX</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">IMX</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1704</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.1706</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1691,20 +1690,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'HBAR')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">HBAR</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">HBAR</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.10164</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.10167</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1717,20 +1716,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'QNT')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">QNT</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">QNT</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$69.77</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$69.63</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1743,20 +1742,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'BTT')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">BTT</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">BTT</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.449e-07</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$3.453e-07</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 11.666666666666666%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.7</span>
+                    <span class="font-bold text-white light:text-slate-950">0.7</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1769,20 +1768,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'JASMY')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">JASMY</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">JASMY</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.005973</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.005965</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1795,20 +1794,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'WIF')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">WIF</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">WIF</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.2361</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.2357</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1821,46 +1820,46 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'BONK')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">BONK</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">BONK</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$6.563e-06</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$6.562e-06</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
-             style="background-color: rgba(51, 65, 85, 0.2); border: 1px solid rgba(51, 65, 85, 0.5);"
+             style="background-color: rgba(148, 163, 184, 0.1); border: 1px solid rgba(148, 163, 184, 0.3);"
              data-symbol="PYTH" data-score="0.0"
              onclick="showDetails('PYTH')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'PYTH')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">PYTH</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">PYTH</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.05681</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.05667</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
-                    <div class="score-bar-fill" style="width: 0.0%; left: 50%; background-color: #64748b;"></div>
+                    <div class="score-bar-fill" style="width: 0.0%; left: 50%; background-color: #94a3b8;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.0</span>
+                    <span class="font-bold text-white light:text-slate-950">0.0</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1873,20 +1872,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'FLOKI')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">FLOKI</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">FLOKI</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.218e-05</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$3.216e-05</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1899,46 +1898,46 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'XLM')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">XLM</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">XLM</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1694</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.1696</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
-             style="background-color: rgba(51, 65, 85, 0.2); border: 1px solid rgba(51, 65, 85, 0.5);"
+             style="background-color: rgba(148, 163, 184, 0.1); border: 1px solid rgba(148, 163, 184, 0.3);"
              data-symbol="XMR" data-score="0.0"
              onclick="showDetails('XMR')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'XMR')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">XMR</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">XMR</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$328.47</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$328.62</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
-                    <div class="score-bar-fill" style="width: 0.0%; left: 50%; background-color: #64748b;"></div>
+                    <div class="score-bar-fill" style="width: 0.0%; left: 50%; background-color: #94a3b8;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.0</span>
+                    <span class="font-bold text-white light:text-slate-950">0.0</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1951,20 +1950,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'PEPE')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">PEPE</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">PEPE</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$4.467e-06</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$4.463e-06</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -1977,20 +1976,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'AR')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">AR</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">AR</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$2.034</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$2.032</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -2003,20 +2002,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'STRK')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">STRK</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">STRK</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.04926</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.04928</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -2029,20 +2028,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'LRC')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">LRC</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">LRC</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.03432</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.03412</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 21.666666666666668%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">1.3</span>
+                    <span class="font-bold text-white light:text-slate-950">1.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -2055,20 +2054,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'ZEC')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">ZEC</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">ZEC</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$292.81</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$291.04</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 45.0%; background-color: #ef4444;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">-0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">-0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -2081,20 +2080,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'BSV')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">BSV</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">BSV</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$17.3</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$17.27</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -2107,20 +2106,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'PENDLE')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">PENDLE</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">PENDLE</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$1.246</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$1.243</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -2133,20 +2132,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'FET')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">FET</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">FET</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1725</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.1727</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -2159,20 +2158,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'JUP')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">JUP</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">JUP</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.1644</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.1635</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -2185,20 +2184,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'METIS')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">METIS</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">METIS</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$3.657</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$3.657</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -2211,20 +2210,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'XAI')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">XAI</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">XAI</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.01066</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.01065</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -2237,20 +2236,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'MANTA')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">MANTA</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">MANTA</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.0802</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.08013</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -2263,46 +2262,46 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'RON')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">RON</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">RON</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.10027</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.10063</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 11.666666666666666%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.7</span>
+                    <span class="font-bold text-white light:text-slate-950">0.7</span>
                     <span>+3</span>
                 </div>
             </div>
         </div>
         
         <div class="card p-5 flex flex-col justify-between" 
-             style="background-color: rgba(51, 65, 85, 0.2); border: 1px solid rgba(51, 65, 85, 0.5);"
-             data-symbol="ENS" data-score="0.0"
+             style="background-color: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4);"
+             data-symbol="ENS" data-score="0.3"
              onclick="showDetails('ENS')">
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'ENS')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">ENS</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">ENS</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$6.81</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$6.79</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
-                    <div class="score-bar-fill" style="width: 0.0%; left: 50%; background-color: #64748b;"></div>
+                    <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.0</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -2315,20 +2314,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'ANKR')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">ANKR</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">ANKR</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.00469</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.004688</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -2341,20 +2340,20 @@
             <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <button onclick="event.stopPropagation(); toggleFavorite(this, 'MASK')" class="star-btn">★</button>
-                    <span class="font-bold text-lg text-white font-mono">MASK</span>
+                    <span class="font-bold text-lg text-white light:text-slate-950 font-mono">MASK</span>
                 </div>
             </div>
             
             <div class="text-center my-2">
-                <p class="text-2xl font-bold text-white font-mono mb-0.5">$0.4728</p>
+                <p class="text-2xl font-bold text-white light:text-slate-950 font-mono mb-0.5">$0.4721</p>
                 
                 <div class="score-bar-container">
                     <div class="score-bar-center"></div>
                     <div class="score-bar-fill" style="width: 5.0%; left: 50%; background-color: #22c55e;"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <div class="flex justify-between text-[10px] text-slate-400 light:text-slate-600 font-mono mt-1">
                     <span>-3</span>
-                    <span class="font-bold text-white">0.3</span>
+                    <span class="font-bold text-white light:text-slate-950">0.3</span>
                     <span>+3</span>
                 </div>
             </div>
@@ -2363,17 +2362,17 @@
             </div>
             
             <div id="details-modal" class="hidden fixed inset-0 modal-backdrop z-50 flex items-center justify-center p-4" onclick="closeDetails(event)">
-                <div class="card p-6 w-full max-w-sm" onclick="event.stopPropagation()">
+                <div class="card p-6 w-full max-w-sm" style="background: var(--bg-card);" onclick="event.stopPropagation()">
                     <div class="flex justify-between items-center mb-4">
-                        <h3 id="modal-title" class="text-xl font-bold text-white"></h3>
-                        <button onclick="closeDetails()" class="text-slate-500 hover:text-white">✕</button>
+                        <h3 id="modal-title" class="text-xl font-bold text-white light:text-slate-950"></h3>
+                        <button onclick="closeDetails()" class="text-slate-500 hover:text-white light:text-slate-600">✕</button>
                     </div>
-                    <div id="modal-content" class="space-y-2 text-sm text-slate-300 font-mono"></div>
+                    <div id="modal-content" class="space-y-2 text-sm text-slate-300 light:text-slate-700 font-mono"></div>
                 </div>
             </div>
             
             <script>
-                const data = {"BTC": {"RSI (14)": -1, "MACD": -3, "CCI (20)": -3}, "ETH": {"RSI (14)": 0, "MACD": -3, "CCI (20)": 3}, "BNB": {"RSI (14)": -1, "MACD": 2, "CCI (20)": 3}, "SOL": {"RSI (14)": -1, "MACD": -2, "CCI (20)": 3}, "XRP": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "USDC": {"RSI (14)": 0, "MACD": 1, "CCI (20)": 3}, "ADA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "AVAX": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "DOGE": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "DOT": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "TRX": {"RSI (14)": -2, "MACD": 1, "CCI (20)": 3}, "LINK": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "TON": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "SHIB": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "LTC": {"RSI (14)": -1, "MACD": -2, "CCI (20)": 3}, "DAI": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "BCH": {"RSI (14)": -2, "MACD": -2, "CCI (20)": 3}, "ATOM": {"RSI (14)": -3, "MACD": 1, "CCI (20)": 3}, "UNI": {"RSI (14)": -1, "MACD": 1, "CCI (20)": 3}, "NEAR": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "OKB": {"RSI (14)": -1, "MACD": -2, "CCI (20)": 3}, "INJ": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "OP": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "ICP": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "FIL": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "LDO": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "TIA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "STX": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "APT": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "ARB": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "VET": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "KAS": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "ETC": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "MNT": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "CRO": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "ALGO": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "RUNE": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "EGLD": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "SEI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "SUI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "AAVE": {"RSI (14)": -1, "MACD": -3, "CCI (20)": 3}, "ORDI": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "BEAM": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "FLOW": {"RSI (14)": 1, "MACD": -1, "CCI (20)": 3}, "MINA": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "SAND": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "MANA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "AXS": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "CHZ": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "GALA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "IOTA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "KCS": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "GRT": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "NEO": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "SNX": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "DYDX": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "CRV": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "WOO": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "LUNC": {"RSI (14)": -1, "MACD": 1, "CCI (20)": 3}, "KAVA": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "IMX": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "HBAR": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "QNT": {"RSI (14)": 0, "MACD": -2, "CCI (20)": 3}, "BTT": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "JASMY": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "WIF": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "BONK": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "PYTH": {"RSI (14)": -2, "MACD": -1, "CCI (20)": 3}, "FLOKI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "XLM": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "XMR": {"RSI (14)": 0, "MACD": -3, "CCI (20)": 3}, "PEPE": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "AR": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "STRK": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "LRC": {"RSI (14)": 0, "MACD": 1, "CCI (20)": 3}, "ZEC": {"RSI (14)": -1, "MACD": -3, "CCI (20)": 3}, "BSV": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "PENDLE": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "FET": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "JUP": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "METIS": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "XAI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "MANTA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "RON": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "ENS": {"RSI (14)": -2, "MACD": -1, "CCI (20)": 3}, "ANKR": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "MASK": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}};
+                const data = {"BTC": {"RSI (14)": -1, "MACD": -3, "CCI (20)": -3}, "ETH": {"RSI (14)": 0, "MACD": -3, "CCI (20)": 3}, "BNB": {"RSI (14)": -1, "MACD": 2, "CCI (20)": 3}, "SOL": {"RSI (14)": -1, "MACD": -2, "CCI (20)": 3}, "XRP": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "USDC": {"RSI (14)": -1, "MACD": 1, "CCI (20)": 3}, "ADA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "AVAX": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "DOGE": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "DOT": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "TRX": {"RSI (14)": -2, "MACD": 1, "CCI (20)": 3}, "LINK": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "TON": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "SHIB": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "LTC": {"RSI (14)": -1, "MACD": -2, "CCI (20)": 3}, "DAI": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "BCH": {"RSI (14)": -2, "MACD": -2, "CCI (20)": 3}, "ATOM": {"RSI (14)": -3, "MACD": 1, "CCI (20)": 3}, "UNI": {"RSI (14)": -1, "MACD": 1, "CCI (20)": 3}, "NEAR": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "OKB": {"RSI (14)": -1, "MACD": -2, "CCI (20)": 3}, "INJ": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "OP": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "ICP": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "FIL": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "LDO": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "TIA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "STX": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "APT": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "ARB": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "VET": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "KAS": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "ETC": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "MNT": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "CRO": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "ALGO": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "RUNE": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "EGLD": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "SEI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "SUI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "AAVE": {"RSI (14)": -1, "MACD": -3, "CCI (20)": 3}, "ORDI": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "BEAM": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "FLOW": {"RSI (14)": 1, "MACD": -1, "CCI (20)": 3}, "MINA": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "SAND": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "MANA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "AXS": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "CHZ": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "GALA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "IOTA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "KCS": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "GRT": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "NEO": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "SNX": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "DYDX": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "CRV": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "WOO": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "LUNC": {"RSI (14)": -1, "MACD": 1, "CCI (20)": 3}, "KAVA": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "IMX": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "HBAR": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "QNT": {"RSI (14)": 0, "MACD": -2, "CCI (20)": 3}, "BTT": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "JASMY": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "WIF": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "BONK": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "PYTH": {"RSI (14)": -2, "MACD": -1, "CCI (20)": 3}, "FLOKI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "XLM": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "XMR": {"RSI (14)": 0, "MACD": -3, "CCI (20)": 3}, "PEPE": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "AR": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "STRK": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "LRC": {"RSI (14)": 0, "MACD": 1, "CCI (20)": 3}, "ZEC": {"RSI (14)": -1, "MACD": -3, "CCI (20)": 3}, "BSV": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "PENDLE": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "FET": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "JUP": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "METIS": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "XAI": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "MANTA": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "RON": {"RSI (14)": 0, "MACD": -1, "CCI (20)": 3}, "ENS": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "ANKR": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}, "MASK": {"RSI (14)": -1, "MACD": -1, "CCI (20)": 3}};
                 const grid = document.getElementById('coin-grid');
                 const searchInput = document.getElementById('search');
                 const viewToggle = document.getElementById('view-toggle');
@@ -2381,7 +2380,6 @@
                 const themeToggle = document.getElementById('theme-toggle');
                 let showingFavorites = false;
 
-                // --- Theme Switcher ---
                 function toggleTheme() {
                     document.body.classList.toggle('light');
                     const isLight = document.body.classList.contains('light');
@@ -2393,7 +2391,6 @@
                     toggleTheme();
                 }
 
-                // Load favorites and update stars
                 function loadFavorites() {
                     const favs = JSON.parse(localStorage.getItem('favs') || '[]');
                     document.querySelectorAll('.card').forEach(card => {
@@ -2406,7 +2403,6 @@
                 }
                 loadFavorites();
 
-                // Toggle Favorite
                 function toggleFavorite(btn, symbol) {
                     let favs = JSON.parse(localStorage.getItem('favs') || '[]');
                     if (favs.includes(symbol)) {
@@ -2420,7 +2416,6 @@
                     if (showingFavorites) renderGrid();
                 }
 
-                // Search & Filter & Sort
                 function renderGrid() {
                     const term = searchInput.value.toUpperCase();
                     const favs = JSON.parse(localStorage.getItem('favs') || '[]');
@@ -2428,7 +2423,6 @@
                     
                     let cards = Array.from(document.querySelectorAll('.card'));
                     
-                    // Filter
                     cards.forEach(card => {
                         const symbol = card.dataset.symbol;
                         const matchesSearch = symbol.includes(term);
@@ -2436,14 +2430,12 @@
                         card.style.display = (showingFavorites ? (matchesSearch && matchesFav) : matchesSearch) ? 'flex' : 'none';
                     });
                     
-                    // Sort (Re-ordered logic)
                     cards.sort((a, b) => {
                         const scoreA = parseFloat(a.dataset.score);
                         const scoreB = parseFloat(b.dataset.score);
                         return sortOrder === 'score-desc' ? scoreB - scoreA : scoreA - scoreB;
                     });
                     
-                    // Detach, re-append in new order, and filter
                     cards.forEach(card => {
                         if (card.style.display !== 'none') {
                             grid.appendChild(card);
@@ -2454,21 +2446,18 @@
                 searchInput.addEventListener('input', renderGrid);
                 sortSelect.addEventListener('change', renderGrid);
 
-                // Toggle View (All / Favorites)
                 function toggleView() {
                     showingFavorites = !showingFavorites;
                     viewToggle.innerHTML = showingFavorites ? '🌐 All Assets' : '⭐ My Watchlist';
-                    viewToggle.classList.toggle('bg-blue-600');
                     renderGrid();
                 }
                 
-                // Modal Functions
                 function showDetails(symbol) {
                     const details = data[symbol];
                     document.getElementById('modal-title').innerText = symbol + ' Score Details';
                     let content = '';
                     for (const [key, value] of Object.entries(details)) {
-                        const color = value > 0 ? 'text-green-400' : (value < 0 ? 'text-red-400' : 'text-slate-400');
+                        const color = value > 0 ? 'text-green-500' : (value < 0 ? 'text-red-500' : 'text-slate-500');
                         content += `<div class='flex justify-between'><span>${key}</span><span class='${color} font-bold'>${value}</span></div>`;
                     }
                     document.getElementById('modal-content').innerHTML = content;
@@ -2476,13 +2465,12 @@
                 }
                 
                 function closeDetails(event) {
-                    // If event is provided, check if click was on backdrop, not modal content
                     if (event && event.target.id !== 'details-modal') return;
                     document.getElementById('details-modal').classList.add('hidden');
                 }
             </script>
             
-            <footer class="mt-20 p-8 text-slate-600 text-sm text-center">
+            <footer class="mt-20 p-8 text-slate-600 text-sm text-center light:text-slate-500">
                 <p class="text-xs uppercase tracking-widest">© 2026 BASED VECTOR ALPHA TERMINAL</p>
             </footer>
         </div>
