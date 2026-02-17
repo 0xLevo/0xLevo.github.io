@@ -162,7 +162,7 @@ def create_html(data):
             --bg: #f1f5f9; --card: #ffffff; --text: #0f172a; --border: #cbd5e1; 
             --modal-bg: #fff; --modal-text: #0f172a; 
         }}
-        body {{ background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; padding-top: 120px; transition: 0.3s; }}
+        body {{ background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; padding-top: 140px; transition: 0.3s; }}
         
         .brand-logo {{
             background: linear-gradient(90deg, #8b0000, #ff0000, #808080, #008000, #006400);
@@ -170,14 +170,18 @@ def create_html(data):
         }}
         
         .legal-top {{ background: #1f2937; color: #e5e7eb; text-align: center; padding: 10px; font-size: 11px; position: fixed; top: 0; width: 100%; z-index: 100; border-bottom: 2px solid #dc2626; }}
-        .card {{ border-radius: 16px; border: 1px solid var(--border); cursor: pointer; transition: 0.2s; overflow: hidden; }}
+        .card {{ border-radius: 16px; border: 1px solid var(--border); transition: 0.2s; overflow: hidden; }}
         .card:hover {{ transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }}
         
-        .action-badge {{ font-size: 9px; padding: 2px 8px; border-radius: 99px; font-weight: bold; color: #fff; }}
+        .action-badge {{ font-size: 10px; padding: 4px 10px; border-radius: 99px; font-weight: bold; color: #fff; text-transform: uppercase; }}
         
-        /* Yıldız Renkleri - Yeşil ve Kırmızı */
+        /* Yıldız Renkleri */
         .star-filled {{ color: #22c55e; text-shadow: 0 0 5px rgba(34, 197, 94, 0.5); }}
         .star-empty {{ color: #ef4444; opacity: 0.6; }}
+        
+        /* Favori Yıldızı */
+        .fav-star {{ cursor: pointer; color: #d1d5db; font-size: 20px; transition: 0.2s; }}
+        .fav-star.active {{ color: #eab308; text-shadow: 0 0 10px rgba(234, 179, 8, 0.5); }}
         
         #modal-content {{ background: var(--modal-bg); color: var(--modal-text); border: 1px solid var(--border); }}
         .ai-box {{ background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 8px; padding: 12px; margin-top: 15px; }}
@@ -201,12 +205,13 @@ def create_html(data):
                 <div class="grid grid-cols-5 md:grid-cols-10 gap-2">{corr_html}</div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
                 <input type="text" id="search" placeholder="Search Assets..." class="bg-transparent border border-gray-500 p-3 rounded-xl w-full text-current outline-none focus:border-blue-500">
                 <select id="sort" class="bg-transparent border border-gray-500 p-3 rounded-xl cursor-pointer w-full text-current">
                     <option value="score-desc">🔥 Best Technicals (Stars)</option>
                     <option value="score-asc">❄️ Weak Technicals</option>
                 </select>
+                <button onclick="toggleFavs()" id="fav-btn" class="bg-gray-800 text-white p-3 rounded-xl font-bold hover:bg-gray-700">★ Show Favorites</button>
             </div>
 
             <div id="grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
@@ -220,18 +225,23 @@ def create_html(data):
         html += f"""
         <div class="card p-5 flex flex-col justify-between" 
              style="border: 2px solid {i['card_color']}; background: {i['card_color']}20;"
-             data-symbol="{i['symbol']}" data-score="{i['score']}" 
-             data-info="{encoded_info}" onclick="showDetails(this)">
+             data-symbol="{i['symbol']}" data-score="{i['score']}">
             <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-xl font-mono">{i['symbol']}</span>
+                <div class="flex items-center gap-2">
+                    <span class="fav-star" onclick="toggleFav(this, '{i['symbol']}')">★</span>
+                    <span class="font-bold text-xl font-mono">{i['symbol']}</span>
+                </div>
                 <span class="action-badge" style="background:{i['card_color']}">{i['action_text']}</span>
             </div>
-            <div class="text-center my-2">
+            
+            <div class="text-center my-2 cursor-pointer" 
+                 data-info="{encoded_info}" onclick="showDetails(this)">
                 <div class="text-2xl font-black mb-1">${i['price']}</div>
                 <div class="flex justify-center gap-1">
                     {stars}
                 </div>
             </div>
+            
             <div class="flex justify-between items-center text-[10px] opacity-50 mt-4 border-t border-gray-500/10 pt-2">
                 <span>{i['score']}/5 Score</span>
                 <span>{i['update_time']}</span>
@@ -250,15 +260,37 @@ def create_html(data):
             </div>
         </div>
         <script>
+            let showOnlyFavs = false;
+            let favorites = JSON.parse(localStorage.getItem('favs') || '[]');
+
             function toggleTheme() {
                 document.body.classList.toggle('light');
                 const isLight = document.body.classList.contains('light');
                 document.getElementById('theme-toggle').innerText = isLight ? '☀️' : '🌙';
                 localStorage.setItem('theme', isLight ? 'light' : 'dark');
             }
+            
+            function toggleFav(el, symbol) {
+                el.classList.toggle('active');
+                if (favorites.includes(symbol)) {
+                    favorites = favorites.filter(s => s !== symbol);
+                } else {
+                    favorites.push(symbol);
+                }
+                localStorage.setItem('favs', JSON.stringify(favorites));
+                render();
+            }
+
+            function toggleFavs() {
+                showOnlyFavs = !showOnlyFavs;
+                document.getElementById('fav-btn').innerText = showOnlyFavs ? '☆ Show All' : '★ Show Favorites';
+                render();
+            }
+
             function showDetails(el) {
-                const details = JSON.parse(atob(el.dataset.info)); 
-                document.getElementById('m-title').innerText = el.dataset.symbol;
+                const details = JSON.parse(atob(el.dataset.info));
+                const card = el.closest('.card');
+                document.getElementById('m-title').innerText = card.dataset.symbol;
                 let content = "";
                 for (const [k, v] of Object.entries(details)) {
                     if (k !== 'AI_Eval') content += `<div class="flex justify-between border-b border-gray-500/10 py-3"><span class="opacity-60">${k}</span><b>${v}</b></div>`;
@@ -267,18 +299,37 @@ def create_html(data):
                 document.getElementById('m-ai').innerHTML = "<b>AI INSIGHT:</b><br>" + details.AI_Eval;
                 document.getElementById('modal').classList.remove('hidden');
             }
+            
             function render() {
                 const term = document.getElementById('search').value.toUpperCase();
                 const sortVal = document.getElementById('sort').value; 
                 let cards = Array.from(document.querySelectorAll('.card'));
-                cards.forEach(c => c.style.display = c.dataset.symbol.includes(term) ? 'flex' : 'none');
+                
+                cards.forEach(c => {
+                    const symbol = c.dataset.symbol;
+                    const isFav = favorites.includes(symbol);
+                    
+                    // Fav yıldızını güncelle
+                    const star = c.querySelector('.fav-star');
+                    if (isFav) star.classList.add('active'); else star.classList.remove('active');
+                    
+                    // Filtreleme
+                    const matchesSearch = symbol.includes(term);
+                    const matchesFav = showOnlyFavs ? isFav : true;
+                    c.style.display = (matchesSearch && matchesFav) ? 'flex' : 'none';
+                });
+                
                 const grid = document.getElementById('grid');
                 cards.sort((a, b) => sortVal === 'score-desc' ? b.dataset.score - a.dataset.score : a.dataset.score - b.dataset.score);
                 cards.forEach(c => grid.appendChild(c));
             }
+            
             document.getElementById('search').addEventListener('input', render);
             document.getElementById('sort').addEventListener('change', render);
-            window.onload = () => { if(localStorage.getItem('theme')==='light') toggleTheme(); render(); };
+            window.onload = () => { 
+                if(localStorage.getItem('theme')==='light') toggleTheme(); 
+                render(); 
+            };
         </script>
     </body></html>
     """
