@@ -132,8 +132,8 @@ def create_html(data):
             """
 
     css = """
-        :root { --bg: #050505; --card: #0a0a0a; --text: #f8fafc; --input-bg: #111; }
-        .light { --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --input-bg: #fff; }
+        :root { --bg: #050505; --card: #0a0a0a; --text: #f8fafc; --input-bg: #111; --border: #333; --modal-bg: #0a0a0a; }
+        .light { --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --input-bg: #fff; --border: #ddd; --modal-bg: #fff; }
         body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; transition: 0.2s; padding-top: 50px; }
         .legal-top { background: #dc2626; color: white; text-align: center; padding: 8px; font-weight: bold; font-size: 11px; position: fixed; top: 0; width: 100%; z-index: 100; }
         .card { border-radius: 12px; border: 1px solid; cursor: pointer; transition: 0.2s; }
@@ -141,14 +141,15 @@ def create_html(data):
         .based-gradient { background: linear-gradient(90deg, #ef4444, #94a3b8, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; }
         .star-btn { font-size: 1.5rem; color: #334155; }
         .star-btn.active { color: #eab308 !important; }
-        .custom-input { background: var(--input-bg); border: 1px solid #ddd; color: var(--text); }
-        .light .custom-input { border-color: #e2e8f0; }
+        .custom-input { background: var(--input-bg); border: 1px solid var(--border); color: var(--text); }
         .update-tag { font-size: 10px; opacity: 0.5; font-weight: bold; font-family: monospace; }
         .news-pos { color: #10b981; }
         .news-neg { color: #ef4444; }
         .star { font-size: 12px; }
         .star-filled { color: #f59e0b; }
         .star-empty { color: #475569; }
+        .modal-card { background: var(--modal-bg); color: var(--text); border: 1px solid var(--border); }
+        .modal-border { border-color: var(--border); }
     """
 
     html = f"""
@@ -197,7 +198,6 @@ def create_html(data):
             else:
                 stars += '<span class="star star-empty">★</span>'
         
-        # --- ÖNEMLİ: Details verisini JS'e güvenli şekilde aktar ---
         details_json = json.dumps(i['details']).replace('"', '\\"')
         
         html += f"""
@@ -225,9 +225,9 @@ def create_html(data):
     html += f"""
         </div></div>
         <div id="modal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50" onclick="this.classList.add('hidden')">
-            <div class="bg-white dark:bg-gray-900 p-8 rounded-2xl max-w-sm w-full" onclick="event.stopPropagation()">
+            <div class="modal-card p-8 rounded-2xl max-w-sm w-full" onclick="event.stopPropagation()">
                 <h3 id="m-title" class="text-2xl font-bold mb-6 text-center"></h3>
-                <div id="m-body" class="space-y-4 font-mono"></div>
+                <div id="m-body" class="space-y-4 font-mono text-sm"></div>
             </div>
         </div>
         <script>
@@ -270,7 +270,6 @@ def create_html(data):
                 render();
             }}
             
-            // --- DÜZELTİLMİŞ showDetails FONKSİYONU ---
             function showDetails(sym, detailsString) {{
                 const details = JSON.parse(detailsString);
                 document.getElementById('m-title').innerText = sym;
@@ -280,13 +279,13 @@ def create_html(data):
                     stars += s < details.Confidence ? '<span class="star star-filled">★</span>' : '<span class="star star-empty">★</span>';
                 }}
                 
-                let modalContent = `<div class="flex justify-between pb-2"><span>Confidence</span><div class="flex gap-0.5">${{stars}}</div></div>`;
+                let modalContent = `<div class="flex justify-between pb-2 modal-border border-b"><span>Confidence</span><div class="flex gap-0.5">${{stars}}</div></div>`;
                 
                 for (const [key, value] of Object.entries(details)) {{
                     if (key !== 'Confidence') {{
                         modalContent += `
-                            <div class="flex justify-between border-b border-gray-100 dark:border-gray-800 pb-2">
-                                <span>${{key}}</span><span class="font-bold">${{value}}</span>
+                            <div class="flex justify-between border-b modal-border pb-2">
+                                <span class="opacity-70">${{key}}</span><span class="font-bold">${{value}}</span>
                             </div>`;
                     }}
                 }}
