@@ -61,21 +61,26 @@ def analyze_market():
             s3 = get_cci_score(cci)
             avg_score = (s1 + s2 + s3) / 3
             
-            # Colors
+            # Colors based on explicit logic (Background tint + Border)
             if avg_score == 0:
-                bg_color = "rgba(148, 163, 184, 0.1)"; border_color = "rgba(148, 163, 184, 0.3)"
+                bg_color = "rgba(148, 163, 184, 0.15)"
+                border_color = "rgba(148, 163, 184, 0.4)"
                 bar_color = "#94a3b8"
             elif -1.5 <= avg_score < 0:
-                bg_color = "rgba(239, 68, 68, 0.15)"; border_color = "rgba(239, 68, 68, 0.4)"
+                bg_color = "rgba(239, 68, 68, 0.15)"
+                border_color = "rgba(239, 68, 68, 0.4)"
                 bar_color = "#ef4444"
             elif avg_score < -1.5:
-                bg_color = "rgba(185, 28, 28, 0.25)"; border_color = "rgba(185, 28, 28, 0.6)"
-                bar_color = "#b91c1c"
+                bg_color = "rgba(127, 29, 29, 0.35)" 
+                border_color = "rgba(185, 28, 28, 0.8)"
+                bar_color = "#dc2626"
             elif 0 < avg_score <= 1.5:
-                bg_color = "rgba(34, 197, 94, 0.15)"; border_color = "rgba(34, 197, 94, 0.4)"
+                bg_color = "rgba(34, 197, 94, 0.15)"
+                border_color = "rgba(34, 197, 94, 0.4)"
                 bar_color = "#22c55e"
             else: # 1.5 < avg_score <= 3
-                bg_color = "rgba(16, 185, 129, 0.25)"; border_color = "rgba(16, 185, 129, 0.6)"
+                bg_color = "rgba(6, 78, 59, 0.35)" 
+                border_color = "rgba(5, 150, 105, 0.8)"
                 bar_color = "#10b981"
 
             results.append({
@@ -99,34 +104,28 @@ def create_html(data):
     now = datetime.now().strftime('%Y-%m-%d %H:%M')
     data_json = json.dumps({item['symbol']: item['details'] for item in data})
     
-    # 1. BÖLÜM: CSS ve HEAD (Python değişkeni yok, düz string)
+    # CSS: Style definitions
     css_style = """
         :root {
-            /* Dark Mode Variables */
             --bg-body: #050505;
-            --bg-card: #0a0a0a;
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
-            --border-card: #171717;
             --bg-panel: #0a0a0a;
             --border-panel: #171717;
             --input-bg: #000000;
             --input-border: #262626;
-            --star-idle: #334155;
+            --star-idle: #475569;
             --modal-bg: #0a0a0a;
             --modal-border: #262626;
         }
         
         .light {
-            /* Light Mode Variables */
             --bg-body: #f1f5f9;
-            --bg-card: #ffffff;
             --text-primary: #0f172a; 
             --text-secondary: #475569;
-            --border-card: #cbd5e1;
             --bg-panel: #ffffff;
             --border-panel: #cbd5e1;
-            --input-bg: #f8fafc;
+            --input-bg: #ffffff;
             --input-border: #cbd5e1;
             --star-idle: #94a3b8;
             --modal-bg: #ffffff;
@@ -141,23 +140,22 @@ def create_html(data):
         }
         
         .card { 
-            background: var(--bg-card); 
-            border: 1px solid var(--border-card); 
             transition: all 0.2s ease; 
             border-radius: 12px; 
             cursor: pointer; 
             position: relative;
             overflow: hidden;
+            border-width: 1px;
+            border-style: solid;
         }
         .card:hover { 
             transform: translateY(-2px); 
-            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1); 
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.15); 
         }
         
         .glass-panel {
             background-color: var(--bg-panel);
             border: 1px solid var(--border-panel);
-            transition: background-color 0.3s, border-color 0.3s;
         }
         
         .based-gradient {
@@ -175,32 +173,47 @@ def create_html(data):
         }
 
         .star-btn { 
-            font-size: 1.25rem; 
+            font-size: 1.4rem;
             cursor: pointer; 
             color: var(--star-idle); 
-            transition: color 0.2s;
+            transition: all 0.2s;
             z-index: 20;
+            padding: 4px;
         }
-        .star-btn:hover { color: #eab308; opacity: 0.8; }
-        .star-btn.active { color: #eab308; opacity: 1; }
+        .star-btn:hover { color: #eab308; transform: scale(1.1); }
+        .star-btn.active { color: #eab308; opacity: 1; text-shadow: 0 0 10px rgba(234, 179, 8, 0.3); }
         
         .custom-input {
             background-color: var(--input-bg);
             color: var(--text-primary);
             border: 1px solid var(--input-border);
         }
-        .custom-input::placeholder { color: var(--text-secondary); opacity: 0.7; }
         
         .score-bar-bg { background-color: #1f2937; }
         .light .score-bar-bg { background-color: #e2e8f0; }
-        .score-center-line { background-color: #4b5563; }
-        .light .score-center-line { background-color: #94a3b8; }
         
         .modal-backdrop { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); }
         .light .modal-backdrop { background: rgba(0, 0, 0, 0.3); }
+        
+        /* Legal Banner */
+        .legal-banner {
+            background: linear-gradient(90deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            font-size: 0.75rem;
+            padding: 8px;
+            text-align: center;
+            font-weight: bold;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        body { padding-top: 40px; } /* Space for banner */
     """
 
-    # 2. BÖLÜM: Header HTML (f-string ile zamanı ekliyoruz)
+    # HTML Header
     html_header = f"""
     <!DOCTYPE html>
     <html lang="en">
@@ -213,6 +226,9 @@ def create_html(data):
         <style>{css_style}</style>
     </head>
     <body class="p-4 md:p-8">
+        <div class="legal-banner">
+            ⚠️ YASAL UYARI: Bu platformdaki analizler yatırım tavsiyesi değildir. Kripto varlıklar yüksek risk içerir.
+        </div>
         <div class="max-w-7xl mx-auto">
             <header class="mb-8">
                 <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
@@ -245,7 +261,7 @@ def create_html(data):
             <div id="coin-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
     """
     
-    # 3. BÖLÜM: Grid İçeriği
+    # HTML Content Loop
     html_content = ""
     for item in data:
         intensity = abs(item['score']) / 3 * 50 
@@ -257,7 +273,7 @@ def create_html(data):
             
         html_content += f"""
         <div class="card p-4 flex flex-col justify-between" 
-             style="border-color: {item['border_color']};"
+             style="background-color: {item['bg_color']}; border-color: {item['border_color']};"
              data-symbol="{item['symbol']}" data-score="{item['score']}"
              onclick="showDetails('{item['symbol']}')">
              
@@ -269,7 +285,7 @@ def create_html(data):
             <div class="text-center mt-1">
                 <p class="text-2xl font-bold font-mono mb-2" style="color: var(--text-primary)">${item['price']}</p>
                 <div class="score-bar-bg h-2 rounded-full relative overflow-hidden w-full">
-                    <div class="score-center-line absolute top-0 left-1/2 w-0.5 h-full transform -translate-x-1/2 z-10"></div>
+                    <div class="score-center-line absolute top-0 left-1/2 w-0.5 h-full transform -translate-x-1/2 z-10" style="background-color: var(--text-secondary); opacity:0.3"></div>
                     <div class="absolute top-0 h-full rounded-full transition-all duration-500" style="{bar_style}"></div>
                 </div>
                 <div class="flex justify-between text-[10px] font-mono mt-1" style="color: var(--text-secondary)">
@@ -281,7 +297,7 @@ def create_html(data):
         </div>
         """
     
-    # 4. BÖLÜM: Javascript ve Footer (Dikkat: JS süslü parantezleri çiftlenmiştir {{ }})
+    # HTML Footer & JS (FIXED SORT LOGIC)
     html_footer = f"""
             </div>
             
@@ -330,6 +346,7 @@ def create_html(data):
 
                 function toggleFavorite(btn, symbol) {{
                     let favs = JSON.parse(localStorage.getItem('favs') || '[]');
+                    
                     if (favs.includes(symbol)) {{
                         favs = favs.filter(f => f !== symbol);
                         btn.classList.remove('active');
@@ -337,10 +354,12 @@ def create_html(data):
                         favs.push(symbol);
                         btn.classList.add('active');
                     }}
+                    
                     localStorage.setItem('favs', JSON.stringify(favs));
                     if (showingFavorites) renderGrid();
                 }}
 
+                // --- FIXED SORTING & FILTERING LOGIC ---
                 function renderGrid() {{
                     const term = searchInput.value.toUpperCase();
                     const favs = JSON.parse(localStorage.getItem('favs') || '[]');
@@ -348,19 +367,27 @@ def create_html(data):
                     
                     let cards = Array.from(document.querySelectorAll('.card'));
                     
+                    // Filter
                     cards.forEach(card => {{
                         const symbol = card.dataset.symbol;
                         const matchesSearch = symbol.includes(term);
                         const matchesFav = favs.includes(symbol);
-                        card.style.display = (showingFavorites ? (matchesSearch && matchesFav) : matchesSearch) ? 'flex' : 'none';
+                        
+                        let isVisible = matchesSearch;
+                        if (showingFavorites) {{
+                            isVisible = matchesSearch && matchesFav;
+                        }}
+                        card.style.display = isVisible ? 'flex' : 'none';
                     }});
                     
+                    // Sort
                     cards.sort((a, b) => {{
                         const scoreA = parseFloat(a.dataset.score);
                         const scoreB = parseFloat(b.dataset.score);
                         return sortOrder === 'score-desc' ? scoreB - scoreA : scoreA - scoreB;
                     }});
                     
+                    // Re-append to grid in sorted order
                     cards.forEach(card => {{
                         if (card.style.display !== 'none') grid.appendChild(card);
                     }});
@@ -400,22 +427,10 @@ def create_html(data):
                     if (event && event.target.id !== 'details-modal') return;
                     document.getElementById('details-modal').classList.add('hidden');
                 }}
+                
+                // Initial Sort
+                renderGrid();
             </script>
             
             <footer class="mt-16 mb-8 text-center">
-                <p class="text-xs font-bold opacity-50 tracking-widest" style="color: var(--text-secondary)">
-                    ENGINEERED BY BASED VECTOR | {now}
-                </p>
-            </footer>
-        </div>
-    </body>
-    </html>
-    """
-    
-    final_html = html_header + html_content + html_footer
-    with open("index.html", "w", encoding="utf-8") as f:
-        f.write(final_html)
-
-if __name__ == "__main__":
-    market_data = analyze_market()
-    create_html(market_data)
+                <p class="text-xs font-bold opacity-50 tracking-widest" style="color: var(-
