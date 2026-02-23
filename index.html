@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MEB Uyumlu Klasik Yazılı Oluşturucu</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="container">
+      <h1>MEB Uyumlu Klasik Yazılı Oluşturucu</h1>
+      <p>
+        5, 6, 7 ve 8. sınıflar için güncel yıllık plandaki kazanımlara göre dönemlik
+        <strong>2 adet</strong> klasik yazılı hazırlayın.
+      </p>
+    </header>
+
+    <main class="container grid">
+      <section class="card controls">
+        <h2>Yazılı Ayarları</h2>
+
+        <label for="grade">Sınıf</label>
+        <select id="grade"></select>
+
+        <label for="course">Ders</label>
+        <select id="course"></select>
+
+        <label for="term">Dönem</label>
+        <select id="term">
+          <option value="1">1. Dönem</option>
+          <option value="2">2. Dönem</option>
+        </select>
+
+        <label for="examNo">Yazılı No</label>
+        <select id="examNo">
+          <option value="1">1. Yazılı</option>
+          <option value="2">2. Yazılı</option>
+        </select>
+
+        <label for="questionCount">Soru Sayısı</label>
+        <input id="questionCount" type="number" min="3" max="20" value="8" />
+
+        <div class="kazanım-header">
+          <span>Kazanım Seçimi</span>
+          <button id="toggleAll" type="button" class="secondary">Tümünü Seç / Kaldır</button>
+        </div>
+        <div id="kazanımlar" class="kazanımlar"></div>
+
+        <button id="createExam" type="button">Yazılı Oluştur</button>
+      </section>
+
+      <section class="card output">
+        <div id="emptyState">
+          <h2>Henüz yazılı oluşturulmadı</h2>
+          <p>Sınıf, ders, dönem, yazılı no ve kazanımları seçerek yazılı oluşturun.</p>
+        </div>
+
+        <article id="examPaper" class="hidden"></article>
+
+        <div id="actions" class="hidden actions">
+          <button id="printBtn" type="button">Yazdır</button>
+          <button id="downloadBtn" type="button" class="secondary">.txt İndir</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="container">
+      <small>
+        Not: Kazanım kodları/ifadeleri örnek veri setiyle sunulmuştur. Okulunuzun güncel MEB
+        planına göre soru havuzunu genişletebilirsiniz.
+      </small>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
